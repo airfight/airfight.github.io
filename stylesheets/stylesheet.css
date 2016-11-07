@@ -115,6 +115,29 @@ a {
   .project-tagline {
     font-size: 1rem; } }
 
+.right-box{
+  height: 25px;
+  border-bottom: 2px solid #55a532;
+}
+
+.right-box li {
+  float: right;
+  height: 25px;
+}
+
+.right-box a{
+
+  height: 25px;
+  display: inline-block;
+  padding: 0 16px;
+  line-height: 25px;
+  color: #0086b3;
+}
+.right-box a:hover {
+  background-color: #ed6a43;
+  color: white;
+}
+
 .main-content :first-child {
   margin-top: 0; }
 .main-content img {

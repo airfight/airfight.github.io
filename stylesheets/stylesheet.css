@@ -123,13 +123,20 @@ a {
 .right-box li {
   float: right;
   height: 25px;
+  text-decoration: none;
+
+}
+
+.right-box ul {
+  list-style: none;
+  text-decoration: none;
 }
 
 .right-box a{
 
   height: 25px;
   display: inline-block;
-  padding: 0 16px;
+  padding: 0 30px;
   line-height: 25px;
   color: #0086b3;
 }

@@ -1,0 +1,534 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Sqlite | airfight</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="GiantForJade">
+    
+
+    
+    <meta name="description" content="本章记录sqlite3的相关操作步骤与使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sqlite">
+<meta property="og:url" content="http://yoursite.com/2015/06/02/Sqlit3/index.html">
+<meta property="og:site_name" content="airfight">
+<meta property="og:description" content="本章记录sqlite3的相关操作步骤与使用。">
+<meta property="og:updated_time" content="2016-12-24T13:45:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Sqlite">
+<meta name="twitter:description" content="本章记录sqlite3的相关操作步骤与使用。">
+
+    
+    <link rel="alternative" href="/atom.xml" title="airfight" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="airfight" title="airfight"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="airfight">airfight</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/About">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/02/Sqlit3/" title="Sqlite" itemprop="url">Sqlite</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="GiantForJade" target="_blank" itemprop="author">GiantForJade</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-02T07:30:16.000Z" itemprop="datePublished"> 发表于 2015-06-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据持久化"><span class="toc-number">1.</span> <span class="toc-text">数据持久化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#常用接口"><span class="toc-number">1.1.</span> <span class="toc-text">常用接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sqlite3操作步骤"><span class="toc-number">1.2.</span> <span class="toc-text">Sqlite3操作步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#导入库"><span class="toc-number">1.3.</span> <span class="toc-text">导入库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SQLite数据库执行SQL语句的过程"><span class="toc-number">1.3.1.</span> <span class="toc-text">SQLite数据库执行SQL语句的过程</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="数据持久化"><a href="#数据持久化" class="headerlink" title="数据持久化"></a>数据持久化</h1><h2 id="常用接口"><a href="#常用接口" class="headerlink" title="常用接口"></a>常用接口</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">sqlite3               *pdb, 数据库句柄，跟文件句柄 FILE 很类似</div><div class="line">sqlite3_stmt      *stmt, 这个相当于 ODBC 的 Command 对象，用于保存编译好的 SQL 语句</div><div class="line"></div><div class="line">sqlite3_open(),   打开数据库</div><div class="line">sqlite3_exec(),   执行非查询的 sql 语句</div><div class="line">sqlite3_prepare(), 准备 sql 语句，执行 select 语句或者要使用 parameter bind 时（封装了 sqlite3_exec ） .</div><div class="line">Sqlite3_step(), 在调用 sqlite3_prepare 后，使用这个函数在记录集中移动。</div><div class="line">Sqlite3_close(), 关闭数据库文件</div><div class="line"></div><div class="line">还有一系列的函数，用于从记录集字段中获取数据，如</div><div class="line">sqlite3_column_text(), 取 text 类型的数据。</div><div class="line">sqlite3_column_blob （），取 blob 类型的数据</div><div class="line"></div><div class="line">sqlite3_column_int(), 取 int 类型的数据</div></pre></td></tr></table></figure>
+<h2 id="Sqlite3操作步骤"><a href="#Sqlite3操作步骤" class="headerlink" title="Sqlite3操作步骤"></a>Sqlite3操作步骤</h2><p>1 首先获取iPhone上Sqlite 3的数据库文件的地址<br>2 打开Sqlite 3的数据库文件<br>3 定义SQL文<br>4 邦定执行SQL所需要的参数<br>5 执行SQL文，并获取结果<br>6 释放资源<br>7 关闭Sqlite 3数据库。</p>
+<h2 id="导入库"><a href="#导入库" class="headerlink" title="导入库"></a>导入库</h2><p>在工程中的Frameworks中导入相应的<code>libsqlite3.dylib</code>文件，也许在相应的目录下存在多个以libsqlite3开头的文件，务必选择<code>libsqlite3.dylib</code>，它始终指向最新版的SQLite3库的别名。</p>
+<h3 id="SQLite数据库执行SQL语句的过程"><a href="#SQLite数据库执行SQL语句的过程" class="headerlink" title="SQLite数据库执行SQL语句的过程"></a><em>SQLite数据库执行SQL语句的过程</em></h3><ol>
+<li>调用sqlite3_prepare()将SQL语句编译为sqlite内部一个结构体(sqlite3_stmt).该结构体中包含了将要执行的的SQL语句的信息. </li>
+<li>如果需要传入参数,在SQL语句中用’?’作为占位符,再调用sqlite3_bind_XXX()函数将对应的参数传入.</li>
+<li>调用sqlite3_step(),这时候SQL语句才真正执行.注意该函数的返回值,SQLITE_DONE和SQLITE_ROW都是表示执行成功, 不同的是SQLITE_DONE表示没有查询结果,象UPDATE,INSERT这些SQL语句都是返回SQLITE_DONE,SELECT查询语句在 查询结果不为空的时候返回SQLITE_ROW,在查询结果为空的时候返回SQLITE_DONE. </li>
+<li>每次调用sqlite3_step()的时候,只返回一行数据,使用sqlite3_column_XXX()函数来取出这些数据.要取出全部的数据需要 反复调用sqlite3_step(). (注意, 在bind参数的时候,参数列表的index从1开始,而取出数据的时候,列的index是从0开始). </li>
+<li>在SQL语句使用完了之后要调用sqlite3_finalize()来释放stmt占用的内存.该内存是在sqlite3_prepare()时分配的. </li>
+<li>如果SQL语句要重复使用,可以调用sqlite3_reset()来清楚已经绑定的参数</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div></pre></td><td class="code"><pre><div class="line">#import &quot;HMTSqlDBManager.h&quot;</div><div class="line">#import &lt;sqlite3.h&gt;          //--------记得导入libsqlite3.0.dylib库</div><div class="line">@implementation HMTSqlDBManager</div><div class="line"></div><div class="line">static  HMTSqlDBManager * _dbManager = nil;</div><div class="line"></div><div class="line">+ (HMTSqlDBManager *)shareInstance&#123;</div><div class="line"></div><div class="line">    @synchronized(self)&#123;</div><div class="line">        if (!_dbManager) &#123;</div><div class="line"></div><div class="line">            _dbManager = [[HMTSqlDBManager alloc]init];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return _dbManager;</div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 获取沙盒下Documents路径</div><div class="line">- (NSString *)documentsPath&#123;</div><div class="line"></div><div class="line">    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)lastObject];</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 先声明一个数据库类型的变量</div><div class="line">static sqlite3 * dbSqlite = nil;</div><div class="line"></div><div class="line">#pragma mark - 打开数据库操作</div><div class="line">- (void)openDB&#123;</div><div class="line"></div><div class="line">    // (3)如果数据库存在并且已经打开,直接返回</div><div class="line">    if (dbSqlite) &#123;</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 拼接出数据库全路径</div><div class="line">    NSString * filePath = [[self documentsPath] stringByAppendingPathComponent:@&quot;Lanou.sqlite&quot;];</div><div class="line"></div><div class="line">    // 创建一个文件管理器</div><div class="line">    NSFileManager * fileManager = [NSFileManager defaultManager];</div><div class="line"></div><div class="line">    // (1)判断是否存在数据库文件</div><div class="line">    if (![fileManager fileExistsAtPath:filePath]) &#123;</div><div class="line"></div><div class="line">        // 打开数据库(这里已经会创建data.sqlite数据库了,但是,里面为空)</div><div class="line">        int result = sqlite3_open([filePath UTF8String], &amp;dbSqlite);</div><div class="line">        if (result == SQLITE_OK) &#123;</div><div class="line"></div><div class="line">            // 设置创建表语句CREATE</div><div class="line">            NSString * sql = @&quot;CREATE TABLE Student (number INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , name TEXT DEFAULT 18, age INTEGER NOT NULL  DEFAULT 18,sex TEXT DEFAULT 不男不女,icon BLOB);&quot;;</div><div class="line"></div><div class="line">            // 执行</div><div class="line">            sqlite3_exec(dbSqlite, [sql UTF8String], NULL, NULL, NULL);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // (2)打开数据库</div><div class="line">    sqlite3_open([filePath UTF8String], &amp;dbSqlite);</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 关闭数据库操作</div><div class="line">- (void)closeDB&#123;</div><div class="line"></div><div class="line">    int result = sqlite3_close(dbSqlite);</div><div class="line">    if (result == SQLITE_OK) &#123;</div><div class="line">        dbSqlite = nil;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - **********增-----删-----改-----查 数据,最好封装成对象,直接对对象进行操作**********</div><div class="line"></div><div class="line">#pragma mark - 插入数据操作</div><div class="line">- (void)insertDataWithNumber:(int)number Name:(NSString *)name Sex:(NSString *)sex Age:(int)age Image:(UIImage *)image&#123;</div><div class="line"></div><div class="line">    // 1.打开数据库</div><div class="line">    [self openDB];</div><div class="line"></div><div class="line">    // 2.跟随指针,记录数据库的每步操作</div><div class="line">    sqlite3_stmt * stmt = nil;</div><div class="line"></div><div class="line">    // 3.绑定数据,执行sql语句(插入列表,用&quot;?&quot;占位符表示)</div><div class="line">    NSString * sql = @&quot;INSERT INTO Student(number,name,sex,age,icon) VALUES(?,?,?,?,?)&quot;;</div><div class="line"></div><div class="line">    // 4.编译,验证SQL语句是否正确</div><div class="line">    int result = sqlite3_prepare_v2(dbSqlite, [sql UTF8String], -1, &amp;stmt, NULL);</div><div class="line">    if (result == SQLITE_OK) &#123;</div><div class="line"></div><div class="line">        // 5.绑定sql语句中得值(替换&quot;?&quot;)----图像存入数据库,自断类型为blob,将图像转为二进制数据NSData存入</div><div class="line">        sqlite3_bind_int(stmt, 1, number);</div><div class="line">        sqlite3_bind_text(stmt, 2, [name UTF8String], -1, NULL);</div><div class="line">        sqlite3_bind_text(stmt, 3, [sex UTF8String], -1, NULL);</div><div class="line">        sqlite3_bind_int(stmt, 4, age);</div><div class="line">        sqlite3_bind_blob(stmt, 5, [UIImagePNGRepresentation(image) bytes], (int)[UIImagePNGRepresentation(image) length], NULL);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 6.执行</div><div class="line">    sqlite3_step(stmt);</div><div class="line"></div><div class="line">    // 7.释放</div><div class="line">    sqlite3_finalize(stmt);</div><div class="line"></div><div class="line">    // 8.关闭数据库</div><div class="line">    [self closeDB];</div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 修改数据操作</div><div class="line">- (void)updateNumber:(int)number Name:(NSString *)name&#123;</div><div class="line"></div><div class="line">    // 1.</div><div class="line">    [self openDB];</div><div class="line"></div><div class="line">    // 2.</div><div class="line">    sqlite3_stmt * stmt= nil;</div><div class="line"></div><div class="line">    // 3.</div><div class="line">    NSString * sql = @&quot;UPDATE Student SET name = ? WHERE number = ?&quot;;</div><div class="line"></div><div class="line">    // 4.</div><div class="line">    int result = sqlite3_prepare_v2(dbSqlite, [sql UTF8String], -1, &amp;stmt, NULL);</div><div class="line">    if (result == SQLITE_OK) &#123;</div><div class="line"></div><div class="line">        // 5.</div><div class="line">        sqlite3_bind_text(stmt, 1, [name UTF8String], -1, NULL);</div><div class="line">        sqlite3_bind_int(stmt, 2, number);</div><div class="line"></div><div class="line">        // 6.</div><div class="line">        sqlite3_step(stmt);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 7.</div><div class="line">    sqlite3_finalize(stmt);</div><div class="line"></div><div class="line">    // 8.</div><div class="line">    [self closeDB];</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 删除数据操作</div><div class="line">- (void)deleteNumber:(int)number&#123;</div><div class="line"></div><div class="line">    // 1.</div><div class="line">    [self openDB];</div><div class="line"></div><div class="line">    // 2.stmt跟随指针(数据库句柄)</div><div class="line">    sqlite3_stmt * stmt= nil;</div><div class="line"></div><div class="line">    // 3.</div><div class="line">    NSString * sql = @&quot;DELETE FROM Student WHERE number = ?&quot;;</div><div class="line"></div><div class="line">    // 4.</div><div class="line">    int result = sqlite3_prepare_v2(dbSqlite, [sql UTF8String], -1, &amp;stmt, NULL);</div><div class="line">    if (result == SQLITE_OK) &#123;</div><div class="line"></div><div class="line">        // 5.</div><div class="line">        sqlite3_bind_int(stmt,1, number);</div><div class="line"></div><div class="line">        // 6.</div><div class="line">        sqlite3_step(stmt);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 7.</div><div class="line">    sqlite3_finalize(stmt);</div><div class="line"></div><div class="line">    // 8.</div><div class="line">    [self closeDB];</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 查询数据操作</div><div class="line">- (NSArray *)selectAllData&#123;</div><div class="line"></div><div class="line">    NSMutableArray * allDataArray = [NSMutableArray array];</div><div class="line"></div><div class="line">    // 1.</div><div class="line">    dbSqlite = [self openDB];</div><div class="line"></div><div class="line">    // 2.类似JAVA句柄?</div><div class="line">    sqlite3_stmt * stmt = nil;</div><div class="line"></div><div class="line">    // 3.设置查询数据语句SELECT</div><div class="line">    NSString * sql = @&quot;SELECT name FROM Student&quot;;</div><div class="line"></div><div class="line">    // 4.编译</div><div class="line">    int result = sqlite3_prepare_v2(dbSqlite, [sql UTF8String], -1, &amp;stmt, NULL);</div><div class="line">    if (result == SQLITE_OK) &#123;</div><div class="line"></div><div class="line">        // 5.查询数据</div><div class="line">        while (sqlite3_step(stmt) == SQLITE_ROW) &#123;</div><div class="line"></div><div class="line">            // 6.查询的索引下标从0开始(每一次循环后,下标+1)</div><div class="line">            const unsigned char * name = sqlite3_column_text(stmt, 0);</div><div class="line">            //NSString * nameString = [NSString stringWithUTF8String:(const char *)name];</div><div class="line">            NSString * nameString = [NSString stringWithCString:(const char *)name encoding:NSUTF8StringEncoding];</div><div class="line">            [allDataArray addObject:nameString];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // 8.关闭数据库句柄</div><div class="line">        sqlite3_finalize(stmt);</div><div class="line"></div><div class="line">        // 9.</div><div class="line">        [self closeDB];</div><div class="line"></div><div class="line">        return allDataArray;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return nil;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (NSMutableDictionary *)selectOneDataWithNumber:(int)number&#123;</div><div class="line"></div><div class="line">    sqlite3 * _dbSqlite = [self openDB];</div><div class="line"></div><div class="line">    sqlite3_stmt * stmt = nil;</div><div class="line"></div><div class="line">    NSString * sql = @&quot;SELECT * FROM Student WHERE number = ?&quot;;</div><div class="line"></div><div class="line">    int result = sqlite3_prepare_v2(_dbSqlite, [sql UTF8String], -1, &amp;stmt, NULL);</div><div class="line"></div><div class="line">    if (result == SQLITE_OK) &#123;</div><div class="line"></div><div class="line">        sqlite3_bind_int(stmt, 1, number);</div><div class="line">        while (sqlite3_step(stmt) == SQLITE_ROW) &#123;</div><div class="line"></div><div class="line">            int number = sqlite3_column_int(stmt, 0);</div><div class="line">            NSString * name = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 1)];</div><div class="line">            int age = sqlite3_column_int(stmt, 2);</div><div class="line">            NSString * sex = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 3)];</div><div class="line">            UIImage * image = [UIImage imageWithData:[NSData dataWithBytes:sqlite3_column_blob(stmt, 4) length:sqlite3_column_bytes(stmt, 4)]];</div><div class="line"></div><div class="line">            NSMutableDictionary * dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:number],@&quot;number&quot;,name,@&quot;name&quot;,[NSNumber numberWithInt:age],@&quot;age&quot;,sex,@&quot;sex&quot;,image,@&quot;image&quot;, nil];</div><div class="line"></div><div class="line">            // 关闭数据库句柄</div><div class="line">            sqlite3_finalize(stmt);</div><div class="line">            return dic;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return nil;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line"></div><div class="line">@SQLite支持哪些数据类型些？</div><div class="line">NULL 值为NULL</div><div class="line">INTEGER 值为带符号的整型，根据类别用1，2，3，4，6，8字节存储</div><div class="line">REAL 值为浮点型，8字节存储</div><div class="line">TEXT 值为text字符串，使用数据库编码(UTF-8, UTF-16BE or UTF-16-LE)存储</div><div class="line">BLOB 值为二进制数据，具体看实际输入</div><div class="line">---------但实际上，sqlite3也接受如下的数据类型：</div><div class="line">smallint  16 位元的整数</div><div class="line">interger  32 位元的整数</div><div class="line">decimal(p,s)  p 精确值和 s 大小的十进位整数，精确值p是指全部有几个数(digits)大小值 ，s是指小数点後有几位数。如果没有特别指定，则系统会设为 p=5; s=0 。</div><div class="line">float   32位元的实数。</div><div class="line">double   64位元的实数。</div><div class="line">char(n)   n 长度的字串，n不能超过 254。</div><div class="line">varchar(n)  长度不固定且其最大长度为 n 的字串，n不能超过 4000。</div><div class="line">graphic(n)  和 char(n) 一样，不过其单位是两个字元 double-bytes， n不能超过127。 这个形态是为了支援两个字元长度的字体，例如中文字。</div><div class="line">vargraphic(n)  可变长度且其最大长度为 n 的双字元字串，n不能超过 2000。</div><div class="line">date   包含了 年份、月份、日期。</div><div class="line">time   包含了 小时、分钟、秒。</div><div class="line">timestamp  包含了 年、月、日、时、分、秒、千分之一秒。</div><div class="line"></div><div class="line">@如果将某个字段设置为INTEGER PRIMARY KEY属性，有什么特性？</div><div class="line">如果将声明表的一列设置为 INTEGER PRIMARY KEY，则具有：</div><div class="line">1．每当你在该列上插入一NULL值时， NULL自动被转换为一个比该列中最大值大1的一个整数；</div><div class="line">2．如果表是空的， 将会是1；</div><div class="line">---------注意该整数会比表中该列上的插入之前的最大值大1。 该键值在当前的表中是唯一的。但有可能与已从表中删除的值重叠。要</div><div class="line">想建立在整个表的生命周期中唯一的键值，需要在 INTEGER PRIMARY KEY 上增加AUTOINCREMENT声明。那么，新的键值将会比该表中曾能存在过的最大值大1。</div><div class="line"></div><div class="line">@字段声明中有AUTOINCREMENT属性，有什么与众不同的含义？</div><div class="line">要想建立在整个表的生命周期中唯一的键值，需要在 INTEGER PRIMARY KEY 上增加AUTOINCREMENT声明。那么，新的键值将会比该表中曾能存在过的最大值大1。</div><div class="line"></div><div class="line"></div><div class="line">@SQL常用命令使用方法：</div><div class="line"></div><div class="line">(1) 数据记录筛选：</div><div class="line"></div><div class="line">sql=&quot;select * from 数据表 where 字段名=字段值 order by 字段名 [desc]&quot;</div><div class="line"></div><div class="line">sql=&quot;select * from 数据表 where 字段名 like %字段值% order by 字段名 [desc]&quot;</div><div class="line"></div><div class="line">sql=&quot;select top 10 * from 数据表 where 字段名 order by 字段名 [desc]&quot;</div><div class="line"></div><div class="line">sql=&quot;select * from 数据表 where 字段名 in (值1,值2,值3)&quot;</div><div class="line"></div><div class="line">sql=&quot;select * from 数据表 where 字段名 between 值1 and 值2&quot;</div><div class="line"></div><div class="line">(2) 更新数据记录：</div><div class="line"></div><div class="line">sql=&quot;update 数据表 set 字段名=字段值 where 条件表达式&quot;</div><div class="line"></div><div class="line">sql=&quot;update 数据表 set 字段1=值1,字段2=值2 …… 字段n=值n where 条件表达式&quot;</div><div class="line"></div><div class="line">(3) 删除数据记录：</div><div class="line"></div><div class="line">sql=&quot;delete from 数据表 where 条件表达式&quot;</div><div class="line"></div><div class="line">sql=&quot;delete from 数据表&quot; (将数据表所有记录删除)</div><div class="line"></div><div class="line">(4) 添加数据记录：</div><div class="line"></div><div class="line">sql=&quot;insert into 数据表 (字段1,字段2,字段3 …) valuess (值1,值2,值3 …)&quot;</div><div class="line"></div><div class="line">sql=&quot;insert into 目标数据表 select * from 源数据表&quot; (把源数据表的记录添加到目标数据表)</div><div class="line"></div><div class="line">(5) 数据记录统计函数：</div><div class="line"></div><div class="line">AVG(字段名) 得出一个表格栏平均值</div><div class="line">COUNT(*|字段名) 对数据行数的统计或对某一栏有值的数据行数统计</div><div class="line">MAX(字段名) 取得一个表格栏最大的值</div><div class="line">MIN(字段名) 取得一个表格栏最小的值</div><div class="line">SUM(字段名) 把数据栏的值相加</div><div class="line"></div><div class="line">引用以上函数的方法：</div><div class="line"></div><div class="line">sql=&quot;select sum(字段名) as 别名 from 数据表 where 条件表达式&quot;</div><div class="line">set rs=conn.excute(sql)</div><div class="line"></div><div class="line">用 rs(&quot;别名&quot;) 获取统的计值，其它函数运用同上。</div><div class="line"></div><div class="line">(6) 数据表的建立和删除：</div><div class="line"></div><div class="line">CREATE TABLE 数据表名称(字段1 类型1(长度),字段2 类型2(长度) …… )</div><div class="line"></div><div class="line">例：CREATE TABLE tab01(name varchar(50),datetime default now())</div><div class="line"></div><div class="line">DROP TABLE 数据表名称 (永久性删除一个数据表)</div><div class="line"></div><div class="line">@sqlite中用LIMIT返回前2行，语句如下： </div><div class="line">select * from aa order by ids desc LIMIT 2</div></pre></td></tr></table></figure>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/OC/">OC</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/数据库/">数据库</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2015/06/02/Sqlit3/" data-title="Sqlite | airfight" data-tsina="5824989117" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/08/02/FMDB/" title="FMDB">
+  <strong>上一篇：</strong><br/>
+  <span>
+  FMDB</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2013/12/02/123/"  title="SDWebImage">
+ <strong>下一篇：</strong><br/> 
+ <span>SDWebImage
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/06/02/Sqlit3/" data-title="Sqlite" data-url="http://yoursite.com/2015/06/02/Sqlit3/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据持久化"><span class="toc-number">1.</span> <span class="toc-text">数据持久化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#常用接口"><span class="toc-number">1.1.</span> <span class="toc-text">常用接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sqlite3操作步骤"><span class="toc-number">1.2.</span> <span class="toc-text">Sqlite3操作步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#导入库"><span class="toc-number">1.3.</span> <span class="toc-text">导入库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SQLite数据库执行SQL语句的过程"><span class="toc-number">1.3.1.</span> <span class="toc-text">SQLite数据库执行SQL语句的过程</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="airfight" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/OC/" title="OC">OC<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/example/" title="example">example<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/tag1/" title="tag1">tag1<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/tag2/" title="tag2">tag2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/tag3/" title="tag3">tag3<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="/github" target="_blank" title="iOS备忘录">iOS备忘录</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5824989117&verifier=a4cc1066&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Efforts to do my best <br/>
+			Real developers ship.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5824989117" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/airfight" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:GiantForJade@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="GiantForJade">GiantForJade</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"wang"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

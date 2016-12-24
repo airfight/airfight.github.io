@@ -1,0 +1,528 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>FMDB | airfight</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="GiantForJade">
+    
+
+    
+    <meta name="description" content="SQLite是一种小型的轻量级的关系型数据库，在移动设备上使用是非常好的选择，无论是Android还是IOS，都内置了SQLite数据库，现在的版本都是SQLite3。在IOS中使用SQLite如果使用SDK提供的方法，感觉使用很不方便，今天就讲讲一个针对IOS的SQlite API封装的第三方库FMDB，FMDB对SDK中的API做了一层封装，使之使用OC来访问，使用方便而且更熟悉。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FMDB">
+<meta property="og:url" content="http://yoursite.com/2015/08/02/FMDB/index.html">
+<meta property="og:site_name" content="airfight">
+<meta property="og:description" content="SQLite是一种小型的轻量级的关系型数据库，在移动设备上使用是非常好的选择，无论是Android还是IOS，都内置了SQLite数据库，现在的版本都是SQLite3。在IOS中使用SQLite如果使用SDK提供的方法，感觉使用很不方便，今天就讲讲一个针对IOS的SQlite API封装的第三方库FMDB，FMDB对SDK中的API做了一层封装，使之使用OC来访问，使用方便而且更熟悉。">
+<meta property="og:updated_time" content="2016-12-24T13:56:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="FMDB">
+<meta name="twitter:description" content="SQLite是一种小型的轻量级的关系型数据库，在移动设备上使用是非常好的选择，无论是Android还是IOS，都内置了SQLite数据库，现在的版本都是SQLite3。在IOS中使用SQLite如果使用SDK提供的方法，感觉使用很不方便，今天就讲讲一个针对IOS的SQlite API封装的第三方库FMDB，FMDB对SDK中的API做了一层封装，使之使用OC来访问，使用方便而且更熟悉。">
+
+    
+    <link rel="alternative" href="/atom.xml" title="airfight" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="airfight" title="airfight"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="airfight">airfight</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/About">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/08/02/FMDB/" title="FMDB" itemprop="url">FMDB</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="GiantForJade" target="_blank" itemprop="author">GiantForJade</a>
+		
+  <p class="article-time">
+    <time datetime="2015-08-02T12:30:16.000Z" itemprop="datePublished"> 发表于 2015-08-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据持久化-使用第三方库FMDB"><span class="toc-number">1.</span> <span class="toc-text">数据持久化 使用第三方库FMDB</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#相关代码封装"><span class="toc-number">1.0.1.</span> <span class="toc-text">相关代码封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FMDB提供如下多个方法来获取不同类型的数据"><span class="toc-number">1.0.2.</span> <span class="toc-text">FMDB提供如下多个方法来获取不同类型的数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意事项"><span class="toc-number">1.0.3.</span> <span class="toc-text">注意事项</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="数据持久化-使用第三方库FMDB"><a href="#数据持久化-使用第三方库FMDB" class="headerlink" title="数据持久化 使用第三方库FMDB"></a>数据持久化 使用第三方库FMDB</h1><p><a href="https://github.com/ccgus/fmdb" target="_blank" rel="external">FMDB</a>主要涉及两个类，FMDatabase和FMResultSet 下载完FMDB源码后把文件拖到工程中，并导入SQLite支持        库,libsqlite3.0.dylib</p>
+<h3 id="相关代码封装"><a href="#相关代码封装" class="headerlink" title="相关代码封装"></a>相关代码封装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div></pre></td><td class="code"><pre><div class="line">#import &quot;GYDataBaseHandle.h&quot;</div><div class="line">#import &quot;FMDB.h&quot;</div><div class="line">#import &quot;HMTPerson.h&quot;</div><div class="line"></div><div class="line"></div><div class="line">@implementation GYDataBaseHandle</div><div class="line"></div><div class="line">static GYDataBaseHandle * _dbHandle = nil;</div><div class="line">+ (GYDataBaseHandle *)shareInstance&#123;</div><div class="line"></div><div class="line">    @synchronized(self)&#123;</div><div class="line"></div><div class="line">        if (!_dbHandle) &#123;</div><div class="line"></div><div class="line">            _dbHandle = [[GYDataBaseHandle alloc]init];</div><div class="line"></div><div class="line">            [_dbHandle openDataBase];</div><div class="line"></div><div class="line">            [_dbHandle createTable];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return _dbHandle;</div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 定义一个 FMDatabase 对象</div><div class="line">static FMDatabase * database = nil;</div><div class="line"></div><div class="line">#pragma mark - 获得沙盒文件下Documents路径</div><div class="line">- (NSString *)getDocumentsPath&#123;</div><div class="line"></div><div class="line">    NSString * documents = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];</div><div class="line"></div><div class="line">    return documents;</div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 打开数据库操作------ databaseWithPath   open</div><div class="line">- (void)openDataBase&#123;</div><div class="line"></div><div class="line">    if (database) &#123;</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    NSString * DataBasePath = [[self getDocumentsPath] stringByAppendingPathComponent:@&quot;test.sqlite&quot;];</div><div class="line"></div><div class="line">    database = [FMDatabase databaseWithPath:DataBasePath];</div><div class="line">    if (![database open]) &#123;</div><div class="line"></div><div class="line">        NSLog(@&quot;打开数据库失败&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 为数据库设置缓存,提高查询效率</div><div class="line">    database.shouldCacheStatements = YES;</div><div class="line"></div><div class="line">    NSLog(@&quot;打开数据库成功&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 关闭数据库操作</div><div class="line">- (void)closeDataBase&#123;</div><div class="line"></div><div class="line">    if (![database close]) &#123;</div><div class="line">        NSLog(@&quot;关闭数据库失败&quot;);</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    database = nil;</div><div class="line">    NSLog(@&quot;关闭数据库成功&quot;);</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 管理创建表的操作</div><div class="line">- (void)createTable&#123;</div><div class="line"></div><div class="line">    [self openDataBase];</div><div class="line"></div><div class="line">    // 判断表是否存在,不存在就创建------ tableExists</div><div class="line">    if (![database tableExists:@&quot;Person&quot;]) &#123;</div><div class="line"></div><div class="line">        [database executeUpdate:@&quot;CREATE TABLE Person(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, age INTEGER)&quot;];</div><div class="line"></div><div class="line">        NSLog(@&quot;创建表成功&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    [self closeDataBase];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - 增加数据操作----- executeUpdate</div><div class="line">- (void)insertIntoDataBase:(HMTPerson *)person&#123;</div><div class="line"></div><div class="line">    [self openDataBase];</div><div class="line"></div><div class="line">    [database executeUpdate:@&quot; INSERT INTO Person (id,name,age) VALUES (?,?,?)&quot;,[NSString stringWithFormat:@&quot;%i&quot;,person.personId],person.personName,[NSString stringWithFormat:@&quot;%i&quot;,person.personAge]];</div><div class="line"></div><div class="line">    [self closeDataBase];</div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 删除数据操作----- executeUpdate</div><div class="line">- (void)deleteDataFromDataBase:(HMTPerson *)person&#123;</div><div class="line"></div><div class="line">    [self openDataBase];</div><div class="line"></div><div class="line">    [database executeUpdate:@&quot; DELETE FROM Person WHERE id = ?&quot;,[NSString stringWithFormat:@&quot;%i&quot;,person.personId]];</div><div class="line"></div><div class="line">    [self closeDataBase];</div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 更新数据操作----- executeUpdate</div><div class="line">- (void)updateFromDataBase:(HMTPerson *)person&#123;</div><div class="line"></div><div class="line">    [self openDataBase];</div><div class="line"></div><div class="line">    [database executeUpdate:@&quot; UPDATE Person SET name = ? WHERE id = ?&quot;,person.personName,[NSString stringWithFormat:@&quot;%i&quot;,person.personId]];</div><div class="line"></div><div class="line">    [self closeDataBase];</div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 查询数据操作(与其他的都不一样,查询是调用executeQuery,切记切记!!!!!!)</div><div class="line">- (void)selectAllDataFromDataBase&#123;</div><div class="line"></div><div class="line">    [self openDataBase];</div><div class="line"></div><div class="line">    FMResultSet * resultSet = [database executeQuery:@&quot; SELECT * FROM Person&quot;];</div><div class="line">    while ([resultSet next]) &#123;</div><div class="line"></div><div class="line">        int Id = [resultSet intForColumn:@&quot;id&quot;];</div><div class="line">        NSString * name = [resultSet stringForColumn:@&quot;name&quot;];</div><div class="line">        int age = [resultSet intForColumn:@&quot;age&quot;];</div><div class="line"></div><div class="line">        NSLog(@&quot;personId:%i,personName:%@,personAge:%i&quot;,Id,name,age);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    [self closeDataBase];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<h3 id="FMDB提供如下多个方法来获取不同类型的数据"><a href="#FMDB提供如下多个方法来获取不同类型的数据" class="headerlink" title="FMDB提供如下多个方法来获取不同类型的数据"></a>FMDB提供如下多个方法来获取不同类型的数据</h3><p>1.intForColumn:<br>2.longForColumn:<br>3.longLongIntForColumn:<br>4.boolForColumn:<br>5.doubleForColumn:<br>6.stringForColumn:<br>7.dateForColumn:<br>8.dataForColumn:<br>9.dataNoCopyForColumn:<br>10.UTF8StringForColumnIndex:<br>11.objectForColumn:</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>如果我们的app需要多线程操作数据库，那么就需要使用FMDatabaseQueue来保证线程安全了。切记不能在多个线程中共同一个FMDatabase对象并且在多个线程中同时使用，这个类本身不是线程安全的，这样使用会造成数据混乱等问题。</p>
+<p>使用FMDatabaseQueue很简单，首先用一个数据库文件地址来初使化FMDatabaseQueue，然后就可以将一个闭包(block)传入inDatabase方法中。在闭包中操作数据库，而不直接参与FMDatabase的管理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">-(void)executeDBOperation  </div><div class="line">&#123;  </div><div class="line">    //获取Document文件夹下的数据库文件，没有则创建  </div><div class="line">    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];  </div><div class="line">    NSString *dbPath = [docPath stringByAppendingPathComponent:@&quot;user.db&quot;];  </div><div class="line"></div><div class="line">    FMDatabaseQueue *databaseQueue = [FMDatabaseQueue databaseQueueWithPath:dbPath];  </div><div class="line">    [databaseQueue inDatabase:^(FMDatabase *db)&#123;  </div><div class="line">    [db executeUpdate:@&quot;insert into user values (?,?,?)&quot;,@&quot;Ren&quot;,@&quot;Male&quot;,[NSNumber numberWithInt:20]];  </div><div class="line">    &#125;];  </div><div class="line">    [databaseQueue close];  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/OC/">OC</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/数据库/">数据库</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2015/08/02/FMDB/" data-title="FMDB | airfight" data-tsina="5824989117" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/12/24/hello-world副本/" title="Hello World">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Hello World</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/06/02/Sqlit3/"  title="Sqlite">
+ <strong>下一篇：</strong><br/> 
+ <span>Sqlite
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/08/02/FMDB/" data-title="FMDB" data-url="http://yoursite.com/2015/08/02/FMDB/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据持久化-使用第三方库FMDB"><span class="toc-number">1.</span> <span class="toc-text">数据持久化 使用第三方库FMDB</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#相关代码封装"><span class="toc-number">1.0.1.</span> <span class="toc-text">相关代码封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FMDB提供如下多个方法来获取不同类型的数据"><span class="toc-number">1.0.2.</span> <span class="toc-text">FMDB提供如下多个方法来获取不同类型的数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意事项"><span class="toc-number">1.0.3.</span> <span class="toc-text">注意事项</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="airfight" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/OC/" title="OC">OC<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/example/" title="example">example<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/tag1/" title="tag1">tag1<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/tag2/" title="tag2">tag2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/tag3/" title="tag3">tag3<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="/github" target="_blank" title="iOS备忘录">iOS备忘录</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5824989117&verifier=a4cc1066&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Efforts to do my best <br/>
+			Real developers ship.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5824989117" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/airfight" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:GiantForJade@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="GiantForJade">GiantForJade</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"wang"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

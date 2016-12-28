@@ -4,26 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Hello World | airfight</title>
+    <title>Dispatch once in Swift 3 | airfight</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="GiantForJade">
     
 
     
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+    <meta name="description" content="记录Swift 3.0 中 Dispatch once的修改，这里提供两个类似于此功能的方法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2016/12/24/hello-world/index.html">
+<meta property="og:title" content="Dispatch once in Swift 3">
+<meta property="og:url" content="http://yoursite.com/2016/09/22/Dispatch_once/index.html">
 <meta property="og:site_name" content="airfight">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2016-12-24T05:05:58.000Z">
+<meta property="og:description" content="记录Swift 3.0 中 Dispatch once的修改，这里提供两个类似于此功能的方法">
+<meta property="og:updated_time" content="2016-12-28T11:36:34.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="Dispatch once in Swift 3">
+<meta name="twitter:description" content="记录Swift 3.0 中 Dispatch once的修改，这里提供两个类似于此功能的方法">
 
     
     <link rel="alternative" href="/atom.xml" title="airfight" type="application/atom+xml">
@@ -83,14 +80,14 @@ Quick">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/12/24/hello-world/" title="Hello World" itemprop="url">Hello World</a>
+      <a href="/2016/09/22/Dispatch_once/" title="Dispatch once in Swift 3" itemprop="url">Dispatch once in Swift 3</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="GiantForJade" target="_blank" itemprop="author">GiantForJade</a>
 		
   <p class="article-time">
-    <time datetime="2016-12-24T02:20:17.000Z" itemprop="datePublished"> 发表于 2016-12-24</time>
+    <time datetime="2016-09-22T12:50:16.000Z" itemprop="datePublished"> 发表于 2016-09-22</time>
     
   </p>
 </header>
@@ -99,36 +96,36 @@ Quick">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server-1"><span class="toc-number">1.5.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files-1"><span class="toc-number">1.6.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites-1"><span class="toc-number">1.7.</span> <span class="toc-text">Deploy to remote sites</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server-2"><span class="toc-number">1.8.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files-2"><span class="toc-number">1.9.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites-2"><span class="toc-number">1.10.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Dispatch-once-in-Swift-3"><span class="toc-number">1.</span> <span class="toc-text">Dispatch once in Swift 3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Old-Version"><span class="toc-number">1.1.</span> <span class="toc-text">Old Version</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法一"><span class="toc-number">2.</span> <span class="toc-text">方法一</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#New"><span class="toc-number">2.1.</span> <span class="toc-text">New</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进一步精简化"><span class="toc-number">2.2.</span> <span class="toc-text">进一步精简化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二"><span class="toc-number">2.3.</span> <span class="toc-text">方法二</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-<h3 id="Run-server-1"><a href="#Run-server-1" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files-1"><a href="#Generate-static-files-1" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites-1"><a href="#Deploy-to-remote-sites-1" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-<h3 id="Run-server-2"><a href="#Run-server-2" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files-2"><a href="#Generate-static-files-2" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites-2"><a href="#Deploy-to-remote-sites-2" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+		<h2 id="Dispatch-once-in-Swift-3"><a href="#Dispatch-once-in-Swift-3" class="headerlink" title="Dispatch once in Swift 3"></a>Dispatch once in Swift 3</h2><h3 id="Old-Version"><a href="#Old-Version" class="headerlink" title="Old Version"></a>Old Version</h3><p>在Swift2.3中,为保证一段代码只被执行一次，可以利用dispatch_once<br>如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var onceToken:dispatch_once_t = 0</div><div class="line">func dosomeThing() &#123;</div><div class="line">	dispatch_once(&amp;onceToken)&#123;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>此方法经常用于单利的创建等等,但是在Swift3.0中已被弃用,这里提供两个类似于dispatch_once的功能实现方式</p>
+<h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><h3 id="New"><a href="#New" class="headerlink" title="New"></a>New</h3><p>因为此方法已经被弃用,所以可以利用分类来实现类似于dispatch_once的功能,如下代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">public extension DispatchQueue &#123;</div><div class="line">    </div><div class="line">    public static var _onceTracker = [String]()</div><div class="line">    </div><div class="line">    </div><div class="line">    public class func  once(token: String, block:(Void)-&gt;Void) &#123;</div><div class="line">        </div><div class="line">     objc_sync_enter(self)</div><div class="line">        defer &#123;</div><div class="line">            objc_sync_exit(self)</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        if _onceTracker.contains(token) &#123;</div><div class="line">            return</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        _onceTracker.append(token)</div><div class="line">        block()</div><div class="line">        </div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>此时我们调用此方法只需要</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">DispatchQueue.once(token: &quot;com.gybar.new&quot;) &#123; (_) in</div><div class="line">   //doSomeThing         </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="进一步精简化"><a href="#进一步精简化" class="headerlink" title="进一步精简化"></a>进一步精简化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">public extension DispatchQueue &#123;</div><div class="line">    </div><div class="line">    public static var _onceTracker = [String]()</div><div class="line">    </div><div class="line">    public class func once(file: String = #file, function: String = #function, line: Int = #line, block:(Void)-&gt;Void) &#123;</div><div class="line">        let token = file + &quot;:&quot; + function + &quot;:&quot; + String(line)</div><div class="line">        once(token: token, block: block)</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    public class func  once(token: String, block:(Void)-&gt;Void) &#123;</div><div class="line">        </div><div class="line">     objc_sync_enter(self)</div><div class="line">        defer &#123;</div><div class="line">            objc_sync_exit(self)</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        if _onceTracker.contains(token) &#123;</div><div class="line">            return</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        _onceTracker.append(token)</div><div class="line">        block()</div><div class="line">        </div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>就可以实现类似于dispatch_once的功能</p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">class Object &#123;</div><div class="line">    static let sharedInstance = Object()</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Global constant.</div><div class="line">let constant = Object()</div><div class="line"></div><div class="line">// Global variable.</div><div class="line">var variable: Object = &#123;</div><div class="line">    let variable = Object()</div><div class="line">    variable.doSomething()</div><div class="line">    return variable</div><div class="line">&#125;()</div></pre></td></tr></table></figure>
+<p><a href="https://gist.github.com/marmelroy/15da0fa6f0936ed6b92392e9df07e235" target="_blank" rel="external">参考</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/swift/">swift</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/多线程/">多线程</a>
+  </div>
 
 </div>
 
@@ -136,7 +133,7 @@ Quick">
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/12/24/hello-world/" data-title="Hello World | airfight" data-tsina="5824989117" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/09/22/Dispatch_once/" data-title="Dispatch once in Swift 3 | airfight" data-tsina="5824989117" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -150,18 +147,18 @@ Quick">
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/12/24/123副本/" title="SDWebImage">
+ <a href="/2016/12/24/hello-world/" title="Hello World">
   <strong>上一篇：</strong><br/>
   <span>
-  SDWebImage</span>
+  Hello World</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/09/22/Dispatch_once/"  title="Dispatch once in Swift 3">
+<a href="/2016/04/12/读函数式Swift/"  title="读函数式Swift(一)">
  <strong>下一篇：</strong><br/> 
- <span>Dispatch once in Swift 3
+ <span>读函数式Swift(一)
 </span>
 </a>
 </div>
@@ -170,7 +167,7 @@ Quick">
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/12/24/hello-world/" data-title="Hello World" data-url="http://yoursite.com/2016/12/24/hello-world/"></div>
+	<div class="ds-thread" data-thread-key="2016/09/22/Dispatch_once/" data-title="Dispatch once in Swift 3" data-url="http://yoursite.com/2016/09/22/Dispatch_once/"></div>
 </section>
 
 
@@ -180,7 +177,7 @@ Quick">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server-1"><span class="toc-number">1.5.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files-1"><span class="toc-number">1.6.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites-1"><span class="toc-number">1.7.</span> <span class="toc-text">Deploy to remote sites</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server-2"><span class="toc-number">1.8.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files-2"><span class="toc-number">1.9.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites-2"><span class="toc-number">1.10.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Dispatch-once-in-Swift-3"><span class="toc-number">1.</span> <span class="toc-text">Dispatch once in Swift 3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Old-Version"><span class="toc-number">1.1.</span> <span class="toc-text">Old Version</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法一"><span class="toc-number">2.</span> <span class="toc-text">方法一</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#New"><span class="toc-number">2.1.</span> <span class="toc-text">New</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进一步精简化"><span class="toc-number">2.2.</span> <span class="toc-text">进一步精简化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二"><span class="toc-number">2.3.</span> <span class="toc-text">方法二</span></a></li></ol></li></ol>
  
   </div>
 

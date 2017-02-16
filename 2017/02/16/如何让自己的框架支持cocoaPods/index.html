@@ -1,0 +1,610 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>如何让自己的框架支持cocoaPods | airfight</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="GiantForJade">
+    
+
+    
+    <meta name="description" content="制造轮子，为了方便版本管理，一般会让自己的框架支持cocoaPods进行版本管理，加上描述这样可以一目了解，因为之前生成过cocoaPods，可是没有记录，今天特别记录一下，以及框架在生成支持cocoaPods时候遇到的问题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何让自己的框架支持cocoaPods">
+<meta property="og:url" content="http://yoursite.com/2017/02/16/如何让自己的框架支持cocoaPods/index.html">
+<meta property="og:site_name" content="airfight">
+<meta property="og:description" content="制造轮子，为了方便版本管理，一般会让自己的框架支持cocoaPods进行版本管理，加上描述这样可以一目了解，因为之前生成过cocoaPods，可是没有记录，今天特别记录一下，以及框架在生成支持cocoaPods时候遇到的问题。">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-6a15428e8292325e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-02-16T13:34:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何让自己的框架支持cocoaPods">
+<meta name="twitter:description" content="制造轮子，为了方便版本管理，一般会让自己的框架支持cocoaPods进行版本管理，加上描述这样可以一目了解，因为之前生成过cocoaPods，可是没有记录，今天特别记录一下，以及框架在生成支持cocoaPods时候遇到的问题。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2082481-6a15428e8292325e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+    
+    <link rel="alternative" href="/atom.xml" title="airfight" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="airfight" title="airfight"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="airfight">airfight</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/About">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/02/16/如何让自己的框架支持cocoaPods/" title="如何让自己的框架支持cocoaPods" itemprop="url">如何让自己的框架支持cocoaPods</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="GiantForJade" target="_blank" itemprop="author">GiantForJade</a>
+		
+  <p class="article-time">
+    <time datetime="2017-02-16T13:34:17.000Z" itemprop="datePublished"> 发表于 2017-02-16</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#如何让自己的框架支持cocoaPods"><span class="toc-number">1.</span> <span class="toc-text">如何让自己的框架支持cocoaPods</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建github新仓库"><span class="toc-number">1.1.</span> <span class="toc-text">创建github新仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git-Tag的使用"><span class="toc-number">1.2.</span> <span class="toc-text">Git Tag的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建podspec文件"><span class="toc-number">1.3.</span> <span class="toc-text">创建podspec文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注册cocoapods账号"><span class="toc-number">1.4.</span> <span class="toc-text">注册cocoapods账号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证Podspec"><span class="toc-number">1.5.</span> <span class="toc-text">验证Podspec</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">1.6.</span> <span class="toc-text">参考资料:</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="如何让自己的框架支持cocoaPods"><a href="#如何让自己的框架支持cocoaPods" class="headerlink" title="如何让自己的框架支持cocoaPods"></a>如何让自己的框架支持cocoaPods</h1><h2 id="创建github新仓库"><a href="#创建github新仓库" class="headerlink" title="创建github新仓库"></a>创建github新仓库</h2><p><img src="http://upload-images.jianshu.io/upload_images/2082481-6a15428e8292325e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h2 id="Git-Tag的使用"><a href="#Git-Tag的使用" class="headerlink" title="Git Tag的使用"></a>Git Tag的使用</h2><p>Tag</p>
+<blockquote>
+<p>tag 用于创建一个标签 用于在开发阶段，某个阶段的完成，创建一个版本，在开发中都会使用到, 可以创建一个tag来指向软件开发中的一个关键时期，比如版本号更新的时候可以建一个1.0.0,1.1.1之类的标签，这样在以后回顾的时候会比较方便。tag的使用很简单</p>
+</blockquote>
+<p>基本操作有：查看、创建、验证、共享<code>tag</code>。</p>
+<ol>
+<li><p>查看tag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git tag</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>创建tag</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git tag version 1.0  也可以 git tag 1.0</div></pre></td></tr></table></figure>
+</li>
+<li><p>删除tag</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git tag -d 1.0</div></pre></td></tr></table></figure>
+</li>
+<li><p>共享tag</p>
+<p> 我们在执行 <code>git push</code> 的时候，<code>tag</code>是不会上传到服务器的，比如现在的<code>github</code>，创建 <code>tag</code> 后 <code>git push</code> ，在github网页上是看不到<code>tag</code> 的，为了共享这些tag，你必须这样：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push origin --tags</div></pre></td></tr></table></figure>
+<p> 输出</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">	zgy:GYNetWorkING zhuguangyang$ git push origin --tags 0.0.1</div><div class="line">Total 0 (delta 0), reused 0 (delta 0)</div><div class="line">To https://github.com/GYLibrary/GYNetWorking.git</div><div class="line"> * [new tag]         0.0.1 -&gt; 0.0.1</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="创建podspec文件"><a href="#创建podspec文件" class="headerlink" title="创建podspec文件"></a>创建podspec文件</h2><p>首先你需要打开终端进入自己的工作目录的根目录，输入以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">touch name.podspec(name就是最终确定上传到cocoapods上的命名)</div></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pod spec create name(name就是最终确定上传到cocoapods上的命名)</div></pre></td></tr></table></figure>
+<p>修改对应的部分信息如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">Pod::Spec.new do |s|</div><div class="line"></div><div class="line">  s.name         = &quot;GYNetWorking&quot;</div><div class="line">  s.version      = &quot;0.0.9&quot;</div><div class="line">  s.summary      = &quot;网络请求测试库&quot;</div><div class="line">  s.homepage     = &quot;https://github.com/GYLibrary/GYNetWorking&quot;</div><div class="line">  s.license      = &#123; :type =&gt; &apos;MIT&apos;, :file =&gt; &apos;LICENSE&apos; &#125;</div><div class="line">  s.author       = &#123; &quot;name&quot; =&gt; &quot;XXX@qq.com&quot; &#125;</div><div class="line">  s.platform     = :ios, &quot;8.0&quot;</div><div class="line">  s.source       = &#123; :git =&gt; &apos;https://github.com/GYLibrary/GYNetWorking.git&apos;, :tag =&gt; s.version &#125;</div><div class="line">  s.source_files = &quot;GYNetWorking/NetWork/*.swift&quot;</div><div class="line">  s.requires_arc = true</div><div class="line"></div><div class="line">  s.pod_target_xcconfig = &#123; &apos;SWIFT_VERSION&apos; =&gt; &apos;3.0&apos; &#125;</div><div class="line">  </div><div class="line">end</div></pre></td></tr></table></figure>
+<h2 id="注册cocoapods账号"><a href="#注册cocoapods账号" class="headerlink" title="注册cocoapods账号"></a>注册cocoapods账号</h2><p>打开终端,在终端中输入如下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pod trunk register XXX@qq.com &apos;name&apos; ----description=&apos;描述信息&apos;</div></pre></td></tr></table></figure>
+<p>终端输出:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[!] Please verify the session by clicking the link in the verification email that has been sent to XXX@qq.com</div><div class="line">[请进入邮箱点击验证链接即可]</div></pre></td></tr></table></figure>
+<h2 id="验证Podspec"><a href="#验证Podspec" class="headerlink" title="验证Podspec"></a>验证Podspec</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pod lib lint 或者 pod lib lint --allow-warnings</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pod trunk push [NAME].podspec 或者 pod lib lint --allow-warnings</div></pre></td></tr></table></figure>
+<p>如果有如此类的错误输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[!] The spec did not pass validation, due to 3 warnings (but you can use `--allow-warnings` to ignore them).</div></pre></td></tr></table></figure>
+<p>使用如下命令行即可解决</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pod lib lint --allow-warnings</div></pre></td></tr></table></figure>
+<p>最后成功后控制台输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">🎉  Congrats</div><div class="line"></div><div class="line">🚀  GYNetWorking (0.0.9) successfully published</div><div class="line">📅  February 7th, 00:18</div><div class="line">🌎  https://cocoapods.org/pods/GYNetWorking</div><div class="line">👍  Tell your friends!</div></pre></td></tr></table></figure>
+<p>恭喜 到此时您已成功发布框架到cocoaPods</p>
+<p>您可输入一下命令进行查看您已成功上传到cocoaPods的框架</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pod trunk me</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">- Name:     xxx</div><div class="line">- Email:    xxx@qq.com</div><div class="line">- Since:    September 24th, 2016 17:27</div><div class="line">- Pods:</div><div class="line">  - SwiftDrawEnum</div><div class="line">  - GYNetWorking</div><div class="line">- Sessions:</div><div class="line">  - September 24th, 2016 17:27 - January 31st, 04:56. IP: 192.155.208.125</div><div class="line">  Description: Draw E</div><div class="line">  - February 6th, 23:44        -    June 15th, 00:20. IP:</div><div class="line">  183.195.156.242</div></pre></td></tr></table></figure>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料:"></a>参考资料:</h2><p><a href="http://blog.csdn.net/keleyundou/article/details/49635589" target="_blank" rel="external">http://blog.csdn.net/keleyundou/article/details/49635589</a></p>
+<p><a href="http://www.jianshu.com/p/f332b2c53280" target="_blank" rel="external">http://www.jianshu.com/p/f332b2c53280</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/cocoaPods/">cocoaPods</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2017/02/16/如何让自己的框架支持cocoaPods/" data-title="如何让自己的框架支持cocoaPods | airfight" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/02/16/associatedtype/" title="">
+  <strong>上一篇：</strong><br/>
+  <span>
+  (no title)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/12/30/cocoaPods Abort trap6/"  title="Abort trap:6">
+ <strong>下一篇：</strong><br/> 
+ <span>Abort trap:6
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2017/02/16/如何让自己的框架支持cocoaPods/" data-title="如何让自己的框架支持cocoaPods" data-url="http://yoursite.com/2017/02/16/如何让自己的框架支持cocoaPods/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#如何让自己的框架支持cocoaPods"><span class="toc-number">1.</span> <span class="toc-text">如何让自己的框架支持cocoaPods</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建github新仓库"><span class="toc-number">1.1.</span> <span class="toc-text">创建github新仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git-Tag的使用"><span class="toc-number">1.2.</span> <span class="toc-text">Git Tag的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建podspec文件"><span class="toc-number">1.3.</span> <span class="toc-text">创建podspec文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注册cocoapods账号"><span class="toc-number">1.4.</span> <span class="toc-text">注册cocoapods账号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证Podspec"><span class="toc-number">1.5.</span> <span class="toc-text">验证Podspec</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">1.6.</span> <span class="toc-text">参考资料:</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="airfight" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/OC/" title="OC">OC<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/cocoaPods/" title="cocoaPods">cocoaPods<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/swift/" title="swift">swift<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/书籍/" title="书籍">书籍<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/打包/" title="打包">打包<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/第三方库/" title="第三方库">第三方库<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络/" title="网络">网络<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cocoaPods/" title="cocoaPods">cocoaPods<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Runtime/" title="Runtime">Runtime<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ThirdLibrary/" title="ThirdLibrary">ThirdLibrary<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/安全/" title="安全">安全<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Archive/" title="Archive">Archive<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Swift/" title="Swift">Swift<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="/github" target="_blank" title="iOS备忘录">iOS备忘录</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=a4cc1066&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Efforts to do my best <br/>
+			Real developers ship.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5824989117" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/airfight" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:GiantForJade@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-sa/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-sa.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="GiantForJade">GiantForJade</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"Giant"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

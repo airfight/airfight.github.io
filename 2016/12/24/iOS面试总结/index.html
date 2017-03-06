@@ -4,32 +4,20 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>App安全篇 | airfight</title>
+    <title>airfight</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="GiantForJade">
     
 
     
-    <meta name="description" content="在圣诞节日,某App被入侵宣传公然发放福利,难道只因为老司机。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="App安全篇">
-<meta property="og:url" content="http://yoursite.com/2016/12/25/安全机制/index.html">
+    <meta property="og:type" content="article">
+<meta property="og:title" content="airfight">
+<meta property="og:url" content="http://yoursite.com/2016/12/24/iOS面试总结/index.html">
 <meta property="og:site_name" content="airfight">
-<meta property="og:description" content="在圣诞节日,某App被入侵宣传公然发放福利,难道只因为老司机。">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-525c9ac22152a93a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-ff059afee87b101a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-6582e9a20a3d06e8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-fdb2781338f2b525.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-64d5c30606d3b8f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-d84e057db5de2b16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-2052c2b1c0610cc9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-2a976cf38c6e34f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2016-12-25T08:50:13.000Z">
+<meta property="og:updated_time" content="2017-03-06T14:35:44.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="App安全篇">
-<meta name="twitter:description" content="在圣诞节日,某App被入侵宣传公然发放福利,难道只因为老司机。">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2082481-525c9ac22152a93a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="airfight">
 
     
     <link rel="alternative" href="/atom.xml" title="airfight" type="application/atom+xml">
@@ -89,14 +77,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/12/25/安全机制/" title="App安全篇" itemprop="url">App安全篇</a>
+      <a href="/2016/12/24/iOS面试总结/" title="" itemprop="url"></a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="GiantForJade" target="_blank" itemprop="author">GiantForJade</a>
 		
   <p class="article-time">
-    <time datetime="2016-12-25T08:08:16.000Z" itemprop="datePublished"> 发表于 2016-12-25</time>
+    <time datetime="2016-12-24T10:33:15.000Z" itemprop="datePublished"> 发表于 2016-12-24</time>
     
   </p>
 </header>
@@ -105,49 +93,15 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#等待中"><span class="toc-number">1.1.</span> <span class="toc-text">等待中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why"><span class="toc-number">1.2.</span> <span class="toc-text">Why</span></a></li></ol></li></ol>
+			
 		
 		</div>
 		
-		<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
-<p>今天圣诞节日,对于屌丝男来说与平日周末几乎无差别,由于公司宿舍较为偏僻,几乎周末都是在同一家吃饭,于是乎想着点个锅犒劳一下自己吧.</p>
-</blockquote>
-<h2 id="等待中"><a href="#等待中" class="headerlink" title="等待中"></a>等待中</h2><p>   本着无聊，就打开了一款经常使用的小说类App,圣诞节了,这款App也在搞活动了,启动进入宣传页，无意点击了一下。当我反应过来的时候,吓到了，好似是在播放着传说中的<code>京东热</code>,一脸懵逼,圣诞屌丝福利,送温暖啊,印象中好似应该是抽奖大转盘,如图：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2082481-525c9ac22152a93a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="0494926D703FFCCD90FF67799EB73CCB.png"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2082481-ff059afee87b101a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="
-"></p>
-<h2 id="Why"><a href="#Why" class="headerlink" title="Why"></a>Why</h2><ul>
-<li>此时一脸尴尬的看了下周围,恩还好没有人看到,还好男女猪脚还未入戏，赶紧关掉，重新打开再试一下，然后的然后，福利就没了，变成了如图:</li>
-</ul>
-<p><img src="http://upload-images.jianshu.io/upload_images/2082481-6582e9a20a3d06e8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="BCBFE4507B1D4A7C05D1C9B0BDD4619A.png"></p>
-<ul>
-<li><p>当时第一反应，我靠，苹果不安全啊，待福利过后，神经不是那么紧张了，简单思索下，应该是服务端下发的链接内容被修改导致的,这样想着就想吃完饭,回去抓一下链接看看,果然,大转盘页面一目了然,如图<br><img src="http://upload-images.jianshu.io/upload_images/2082481-fdb2781338f2b525.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7423CE94-5B95-479D-8728-A48BE75860BC.png"></p>
-</li>
-<li><p>此时想着能不能修改一下抽奖请求内容来混淆一下呢，开始着手去做</p>
-</li>
-</ul>
-<p><img src="http://upload-images.jianshu.io/upload_images/2082481-64d5c30606d3b8f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="断点原返回信息.png"><br><img src="http://upload-images.jianshu.io/upload_images/2082481-d84e057db5de2b16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="修改的返回信息.png"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2082481-2052c2b1c0610cc9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="原屌丝用户.png"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2082481-2a976cf38c6e34f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="修改过的请求用户信息.png"><br>此处邪恶了一下，默默的为用户133809抽了一次大转盘并消耗了此用户的酷比,表示歉意。</p>
-<ul>
-<li>现在看来苹果强制https还是有道理的，虽然这样会多出一部分资金消耗，但毕竟https安全性方面还是远高于http的。</li>
-</ul>
-<p>说好的元旦之后2017年就强制https了，可貌似苹果又做出了妥协延迟了期限。</p>
-  
+		  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/网络/">网络</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/安全/">安全</a>
-  </div>
 
 </div>
 
@@ -155,7 +109,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/12/25/安全机制/" data-title="App安全篇 | airfight" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/12/24/iOS面试总结/" data-title="airfight" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -169,18 +123,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/12/28/Swift & the Objective-C Runtime/" title="Swift &amp; the Objective-C Runtime">
+ <a href="/2016/12/25/安全机制/" title="App安全篇">
   <strong>上一篇：</strong><br/>
   <span>
-  Swift &amp; the Objective-C Runtime</span>
+  App安全篇</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/12/24/iOS面试总结/"  title="">
+<a href="/2016/12/15/iOS打包发布问题/"  title="Xcode 8.0+自动打包并发布脚本">
  <strong>下一篇：</strong><br/> 
- <span>(no title)
+ <span>Xcode 8.0+自动打包并发布脚本
 </span>
 </a>
 </div>
@@ -189,7 +143,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/12/25/安全机制/" data-title="App安全篇" data-url="http://yoursite.com/2016/12/25/安全机制/"></div>
+	<div class="ds-thread" data-thread-key="2016/12/24/iOS面试总结/" data-title="" data-url="http://yoursite.com/2016/12/24/iOS面试总结/"></div>
 </section>
 
 
@@ -199,7 +153,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#等待中"><span class="toc-number">1.1.</span> <span class="toc-text">等待中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why"><span class="toc-number">1.2.</span> <span class="toc-text">Why</span></a></li></ol></li></ol>
+ 
  
   </div>
 

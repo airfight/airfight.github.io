@@ -1,0 +1,668 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Java SSH环境搭建 | airfight</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="GiantForJade">
+    
+
+    
+    <meta name="description" content="SSH是 struts+spring+hibernate的一个集成框架，是目前比较流行的一种Web应用程序开源框架。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java SSH环境搭建">
+<meta property="og:url" content="http://yoursite.com/2017/03/23/SSH之Hibernate/index.html">
+<meta property="og:site_name" content="airfight">
+<meta property="og:description" content="SSH是 struts+spring+hibernate的一个集成框架，是目前比较流行的一种Web应用程序开源框架。">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-42bd26c82c007760.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-5b1cf62aeef239df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-1db75d2efcf2a2a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-e760518c587f636c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-7acddc31abade390.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-a8cf5808f5cd6d60.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-73ab2193b7ac5e2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-03-23T11:16:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java SSH环境搭建">
+<meta name="twitter:description" content="SSH是 struts+spring+hibernate的一个集成框架，是目前比较流行的一种Web应用程序开源框架。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2082481-42bd26c82c007760.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+    
+    <link rel="alternative" href="/atom.xml" title="airfight" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="airfight" title="airfight"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="airfight">airfight</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/About">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/03/23/SSH之Hibernate/" title="Java SSH环境搭建" itemprop="url">Java SSH环境搭建</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="GiantForJade" target="_blank" itemprop="author">GiantForJade</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-23T11:16:44.000Z" itemprop="datePublished"> 发表于 2017-03-23</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SSH环境搭建"><span class="toc-number">1.</span> <span class="toc-text">SSH环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#struts环境搭建"><span class="toc-number">1.1.</span> <span class="toc-text">struts环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建项目"><span class="toc-number">1.1.1.</span> <span class="toc-text">创建项目</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring环境搭建-实现查询数据库表以及简单注入"><span class="toc-number">1.2.</span> <span class="toc-text">spring环境搭建(实现查询数据库表以及简单注入)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hibernate-环境搭建"><span class="toc-number">1.3.</span> <span class="toc-text">Hibernate 环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#附"><span class="toc-number">1.4.</span> <span class="toc-text">附</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<!--# Java-->
+<!--## 基本数据类型 
+> boolea 
+char 16位
+byte 8位
+short 16位
+int 32位
+long 64位
+float 32位浮点型
+double 64位浮点型-->
+<h1 id="SSH环境搭建"><a href="#SSH环境搭建" class="headerlink" title="SSH环境搭建"></a>SSH环境搭建</h1><!--## Myql 数据库建立
+
+* mysql -u root -p（打开数据库）
+* show databases; （显示已有数据库）
+* create database estoresystem;(创建数据库estoresystem)
+* use estoresystem; (使用数据库use estoresystem;)
+* source + 路径(直接创建数据库表)-->
+<blockquote>
+<p>struts-2.3.30     <a href="http://struts.apache.org/download.cgi#struts252" target="_blank" rel="external">下载地址</a></p>
+<p>spring-framework-4.3.1 <a href="http://repo.spring.io/release/org/springframework/spring/" target="_blank" rel="external">下载地址</a></p>
+<p>hibernate-release-5.2.2 <a href="http://hibernate.org/orm/downloads/" target="_blank" rel="external">下载地址</a></p>
+</blockquote>
+<h2 id="struts环境搭建"><a href="#struts环境搭建" class="headerlink" title="struts环境搭建"></a>struts环境搭建</h2><h3 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h3><ol>
+<li><p>在eclipse中新建一个web工程,新建工程的时同时勾选web.xml文件如下图:<br><img src="http://upload-images.jianshu.io/upload_images/2082481-42bd26c82c007760.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Snip20170322_6.png"></p>
+</li>
+<li><p>下载好strtus文件包并解压缩,将以下jar包复制进入我们的项目lib包中</p>
+</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/2082481-5b1cf62aeef239df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Snip20170322_7.png"></p>
+<ol>
+<li>找到lib目录下的web.xml文件并配置(struts版本不同过滤器写法会有差异)</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;web-app xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot; xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot; id=&quot;WebApp_ID&quot; version=&quot;3.0&quot;&gt;</div><div class="line">  &lt;display-name&gt;MySqlDemo1_Hibernate&lt;/display-name&gt;</div><div class="line">  &lt;welcome-file-list&gt;</div><div class="line">    &lt;welcome-file&gt;index.html&lt;/welcome-file&gt;</div><div class="line">    &lt;welcome-file&gt;index.htm&lt;/welcome-file&gt;</div><div class="line">    &lt;welcome-file&gt;index.jsp&lt;/welcome-file&gt;</div><div class="line">    &lt;welcome-file&gt;default.html&lt;/welcome-file&gt;</div><div class="line">    &lt;welcome-file&gt;default.htm&lt;/welcome-file&gt;</div><div class="line">    &lt;welcome-file&gt;default.jsp&lt;/welcome-file&gt;</div><div class="line">  &lt;/welcome-file-list&gt;</div><div class="line">  </div><div class="line">  &lt;filter&gt;  </div><div class="line">        &lt;filter-name&gt;struts2&lt;/filter-name&gt;  </div><div class="line">        &lt;filter-class&gt;org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter&lt;/filter-class&gt;  </div><div class="line">    &lt;/filter&gt;  </div><div class="line">  </div><div class="line">    &lt;filter-mapping&gt;  </div><div class="line">        &lt;filter-name&gt;struts2&lt;/filter-name&gt;  </div><div class="line">        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;  </div><div class="line">    &lt;/filter-mapping&gt;  </div><div class="line">&lt;/web-app&gt;</div></pre></td></tr></table></figure>
+<ol>
+<li>此处我们可以创建一个action类,一般继承ActionSupport 执行默认方法execute(),此时返回一个字符串(此字符串用于标识并显示对应的jsp页面)</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">package com.entity;</div><div class="line"></div><div class="line">import com.opensymphony.xwork2.ActionSupport;</div><div class="line"></div><div class="line">public class IndexAction extends ActionSupport &#123;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public String execute() throws Exception &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line">		System.out.println(&quot;你是最帅的&quot;);</div><div class="line">		return &quot;handSomePig&quot;;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol>
+<li>配置struts.xml文件</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</div><div class="line">&lt;!DOCTYPE struts PUBLIC</div><div class="line">    &quot;-//Apache Software Foundation//DTD Struts Configuration 2.0//EN&quot;</div><div class="line">    &quot;http://struts.apache.org/dtds/struts-2.0.dtd&quot;&gt;</div><div class="line"></div><div class="line">    &lt;!-- Add packages here --&gt;</div><div class="line">    &lt;package name=&quot;com.entity&quot;  extends=&quot;struts-default&quot;&gt;</div><div class="line">    	 &lt;action name=&quot;Index&quot; class=&quot;com.entity.IndexAction&quot; method=&quot;execute&quot;&gt;</div><div class="line">            &lt;result name=&quot;handSomePig&quot;&gt;/WEB-INF/jsp/index.jsp&lt;/result&gt;</div><div class="line">       &lt;/action&gt;</div><div class="line">    &lt;/package&gt;</div><div class="line"></div><div class="line">&lt;/struts&gt;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>action</p>
+<p>name: 用作客户端访问时的路径相当于Servlet’s path</p>
+<p>method:与action类的方法所对应不写默认为execute方法</p>
+<p>resultname:result中的name属性为其父标记所对应方法的返回值，不写默认为success</p>
+<p>若返回值与name属性值匹配则完成result标记内指定的路径进行跳转到<code>index.jsp</code></p>
+</blockquote>
+<ol>
+<li>运行项目</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/2082481-1db75d2efcf2a2a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Snip20170322_9.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2082481-e760518c587f636c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Snip20170322_10.png"></p>
+<p>如上图所示已经显示正常</p>
+<h2 id="spring环境搭建-实现查询数据库表以及简单注入"><a href="#spring环境搭建-实现查询数据库表以及简单注入" class="headerlink" title="spring环境搭建(实现查询数据库表以及简单注入)"></a>spring环境搭建(实现查询数据库表以及简单注入)</h2><ol>
+<li>加入spring开发所需的jar包(javadoc.jar/sources非必须,如图)</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/2082481-7acddc31abade390.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Snip20170322_11.png"></p>
+<ul>
+<li><p>此外我们还需要加入commons-logging.jar包,用来记录程序运行时的活动的日志记录,该文件在struts2中的lib下可找到,一个struts2中的插件包(struts2-spring-plugin-2.3.30.jar)</p>
+</li>
+<li><p>mySql数据库因此还需加入数据库驱动包<a href="https://dev.mysql.com/downloads/connector/j/" target="_blank" rel="external">mysql-connector-java-5.1.39-bin.jar</a></p>
+</li>
+</ul>
+<ol>
+<li>配置struts文件、引入spring</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</div><div class="line">&lt;!DOCTYPE struts PUBLIC</div><div class="line">    &quot;-//Apache Software Foundation//DTD Struts Configuration 2.0//EN&quot;</div><div class="line">    &quot;http://struts.apache.org/dtds/struts-2.0.dtd&quot;&gt;</div><div class="line"></div><div class="line">&lt;struts&gt; </div><div class="line">	&lt;!-- 告知Struts2运行时使用Spring来创建对象  --&gt; </div><div class="line">	&lt;constant name=&quot;struts.objectFactory&quot; value=&quot;spring&quot; /&gt;</div><div class="line"></div><div class="line">    &lt;!-- Add packages here --&gt;</div><div class="line">    &lt;package name=&quot;com.entity&quot;  extends=&quot;struts-default&quot;&gt;</div><div class="line">    &lt;!-- 这里的class并没有引用一个具体的类而是取了一个别名，接下来再由spring给它注入 --&gt;</div><div class="line">    	 &lt;action name=&quot;Index&quot; class=&quot;myIndexAction&quot;&gt;</div><div class="line">            &lt;result name=&quot;success&quot;&gt;/WEB-INF/jsp/index.jsp&lt;/result&gt;</div><div class="line">       &lt;/action&gt;</div><div class="line">    &lt;/package&gt;</div><div class="line"></div><div class="line">    &lt;package name=&quot;com.action&quot;  extends=&quot;struts-default&quot;&gt;</div><div class="line">    	 &lt;action name=&quot;Index1&quot; class=&quot;myIndexAction1&quot; method=&quot;FindStudents&quot;&gt;</div><div class="line">            &lt;result name=&quot;success1&quot;&gt;/WEB-INF/jsp/login.jsp&lt;/result&gt;</div><div class="line">       &lt;/action&gt;</div><div class="line">    &lt;/package&gt;</div><div class="line"></div><div class="line">&lt;/struts&gt;</div></pre></td></tr></table></figure>
+<ol>
+<li>配置applicationContext.xml文件</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</div><div class="line">	xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</div><div class="line">	xmlns:p=&quot;http://www.springframework.org/schema/p&quot;</div><div class="line">	xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot;</div><div class="line">	xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;</div><div class="line">	xmlns:context=&quot;http://www.springframework.org/schema/context&quot;</div><div class="line">	xsi:schemaLocation=&quot;http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd</div><div class="line">		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd</div><div class="line">		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd</div><div class="line">		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd&quot;&gt;</div><div class="line"></div><div class="line"></div><div class="line">	&lt;bean id=&quot;myIndexAction&quot; class=&quot;com.entity.IndexAction&quot; scope=&quot;prototype&quot;&gt;</div><div class="line">		&lt;!--&lt;property name=&quot;index&quot; ref=&quot;myService1&quot;&gt;&lt;/property&gt;  --&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line"></div><div class="line">	</div><div class="line">	&lt;bean id=&quot;myService1&quot; class=&quot;com.service.StudentsServiceImpl&quot; scope=&quot;prototype&quot;&gt;</div><div class="line">		&lt;property name=&quot;studentsDao&quot; ref=&quot;myDao1&quot;&gt;&lt;/property&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">		</div><div class="line">	&lt;bean id=&quot;myDao1&quot; class=&quot;com.Dao.StudentsDaoImp&quot; scope=&quot;prototype&quot;&gt;</div><div class="line">	&lt;property name=&quot;c&quot; ref=&quot;myConnection&quot;&gt;&lt;/property&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">	</div><div class="line">	&lt;bean id=&quot;myConnection&quot; class=&quot;com.tools.MyConnection&quot; scope=&quot;prototype&quot;&gt;&lt;/bean&gt;</div><div class="line">	</div><div class="line">	&lt;bean id=&quot;myIndexAction1&quot; class=&quot;com.action.FindStudentsAction&quot; scope=&quot;prototype&quot;&gt;</div><div class="line">		&lt;property name=&quot;studentsService&quot; ref=&quot;myService1&quot;&gt;&lt;/property&gt; </div><div class="line">	&lt;/bean&gt;</div><div class="line">	</div><div class="line">&lt;/beans&gt;</div></pre></td></tr></table></figure>
+<p>spring注入之后耦合度降低</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2082481-a8cf5808f5cd6d60.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Snip20170322_12.png"></p>
+<h2 id="Hibernate-环境搭建"><a href="#Hibernate-环境搭建" class="headerlink" title="Hibernate 环境搭建"></a>Hibernate 环境搭建</h2><ol>
+<li>导入jar包</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/2082481-73ab2193b7ac5e2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Snip20170322_13.png"></p>
+<ol>
+<li>需要在src目录下配置一个实体类映射文件这里以(Students.hbm.xml)为例</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot;?&gt; &lt;!DOCTYPE hibernate-mapping PUBLIC &quot;-//Hibernate/Hibernate Mapping DTD 3.0//EN&quot; &quot;http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd&quot;&gt; &lt;!-- Generated 2016-8-29 15:04:12 by Hibernate Tools 3.4.0.CR1 --&gt;</div><div class="line">&lt;hibernate-mapping&gt;</div><div class="line">	&lt;class name=&quot;com.entity.Students&quot; table=&quot;STUDENTS&quot;&gt;</div><div class="line">		&lt;id name=&quot;sid&quot; type=&quot;int&quot;&gt;</div><div class="line">			&lt;column name=&quot;SID&quot; /&gt;</div><div class="line">			&lt;generator class=&quot;native&quot; /&gt;</div><div class="line">		&lt;/id&gt;</div><div class="line">		&lt;property name=&quot;name&quot; type=&quot;java.lang.String&quot;&gt;</div><div class="line">			&lt;column name=&quot;NAME&quot; /&gt;</div><div class="line">		&lt;/property&gt;</div><div class="line">		&lt;property name=&quot;gender&quot; type=&quot;java.lang.String&quot;&gt;</div><div class="line">			&lt;column name=&quot;GENDER&quot; /&gt;</div><div class="line">		&lt;/property&gt;</div><div class="line">		&lt;property name=&quot;birthday&quot; type=&quot;java.util.Date&quot;&gt;</div><div class="line">			&lt;column name=&quot;BIRTHDAY&quot; /&gt;</div><div class="line">		&lt;/property&gt;</div><div class="line">		&lt;property name=&quot;address&quot; type=&quot;java.lang.String&quot;&gt;</div><div class="line">			&lt;column name=&quot;ADDRESS&quot; /&gt;</div><div class="line">		&lt;/property&gt;</div><div class="line">	&lt;/class&gt;</div><div class="line">&lt;/hibernate-mapping&gt;</div></pre></td></tr></table></figure>
+<ol>
+<li>配置连接数据库相关信息的hibernate.cfg.xml文件</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;?xml version=&apos;1.0&apos; encoding=&apos;UTF-8&apos;?&gt;</div><div class="line">&lt;!DOCTYPE hibernate-configuration PUBLIC</div><div class="line">          &quot;-//Hibernate/Hibernate Configuration DTD 3.0//EN&quot;</div><div class="line">          &quot;http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd&quot;&gt;</div><div class="line">&lt;hibernate-configuration&gt;</div><div class="line"></div><div class="line">&lt;session-factory&gt;</div><div class="line"></div><div class="line">  &lt;property name=&quot;dialect&quot;&gt;org.hibernate.dialect.MySQLDialect&lt;/property&gt; </div><div class="line">  &lt;property name=&quot;show_sql&quot;&gt;true&lt;/property&gt;</div><div class="line">  &lt;property name=&quot;format_sql&quot;&gt;true&lt;/property&gt;</div><div class="line">  &lt;property name=&quot;connection.pool_size&quot;&gt;5&lt;/property&gt;</div><div class="line"></div><div class="line">  &lt;property name=&quot;connection.username&quot;&gt;root&lt;/property&gt; </div><div class="line">  &lt;property name=&quot;connection.password&quot;&gt;zgy666666&lt;/property&gt; </div><div class="line">  &lt;property name=&quot;connection.driver_class&quot;&gt;com.mysql.jdbc.Driver&lt;/property&gt;</div><div class="line">  &lt;property name=&quot;connection.url&quot;&gt;jdbc:mysql://localhost:3306/mysql&lt;/property&gt; </div><div class="line"></div><div class="line">  &lt;mapping resource=&quot;Students.hbm.xml&quot;/&gt; </div><div class="line">  </div><div class="line">  &lt;/session-factory&gt;</div><div class="line">&lt;/hibernate-configuration&gt;</div></pre></td></tr></table></figure>
+<h2 id="附"><a href="#附" class="headerlink" title="附"></a>附</h2><p><a href="http://www.yiibai.com/hibernate/hibernate_query_language.html" target="_blank" rel="external">易百</a></p>
+<p><a href="https://github.com/GYJava/SSHDemo" target="_blank" rel="external">Demo</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java/">Java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/SSH/">SSH</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2017/03/23/SSH之Hibernate/" data-title="Java SSH环境搭建 | airfight" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/03/23/Sqlit3的副本/"  title="Java图书管理系统">
+ <strong>下一篇：</strong><br/> 
+ <span>Java图书管理系统
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2017/03/23/SSH之Hibernate/" data-title="Java SSH环境搭建" data-url="http://yoursite.com/2017/03/23/SSH之Hibernate/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SSH环境搭建"><span class="toc-number">1.</span> <span class="toc-text">SSH环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#struts环境搭建"><span class="toc-number">1.1.</span> <span class="toc-text">struts环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建项目"><span class="toc-number">1.1.1.</span> <span class="toc-text">创建项目</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring环境搭建-实现查询数据库表以及简单注入"><span class="toc-number">1.2.</span> <span class="toc-text">spring环境搭建(实现查询数据库表以及简单注入)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hibernate-环境搭建"><span class="toc-number">1.3.</span> <span class="toc-text">Hibernate 环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#附"><span class="toc-number">1.4.</span> <span class="toc-text">附</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="airfight" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/OC/" title="OC">OC<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/cocoaPods/" title="cocoaPods">cocoaPods<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/swift/" title="swift">swift<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/书籍/" title="书籍">书籍<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/打包/" title="打包">打包<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/第三方库/" title="第三方库">第三方库<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络/" title="网络">网络<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/cocoaPods/" title="cocoaPods">cocoaPods<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Archive/" title="Archive">Archive<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ThirdLibrary/" title="ThirdLibrary">ThirdLibrary<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Runtime/" title="Runtime">Runtime<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/安全/" title="安全">安全<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Swift/" title="Swift">Swift<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="/github" target="_blank" title="iOS备忘录">iOS备忘录</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=a4cc1066&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Efforts to do my best <br/>
+			Real developers ship.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5824989117" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/airfight" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:GiantForJade@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-sa/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-sa.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="GiantForJade">GiantForJade</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"Giant"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

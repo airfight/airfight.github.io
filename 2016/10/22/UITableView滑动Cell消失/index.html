@@ -4,29 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>airfight</title>
+    <title>UITableView滑动 cell消失 | airfight</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="GiantForJade">
     
 
     
-    <meta name="description" content="associatedtype关联类型:代指变量associatedtype 用于protocol中.associatedtype类型是protocol中32代指一个确定类型并要求改类型实现指定方法
-Swift 标准库中有许多 protocols，其中很多看起来貌似很抽象，并且感觉并没有什么卵用，RawRepresentable 就是其中之一，也
-1234567public protocol Raw">
+    <meta name="description" content="UITableView滑动导致cell消失问题,是因为父ViewController未添加子ViewController，只是单纯的添加了子View导致的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="airfight">
-<meta property="og:url" content="http://yoursite.com/2017/02/16/associatedtype/index.html">
+<meta property="og:title" content="UITableView滑动 cell消失">
+<meta property="og:url" content="http://yoursite.com/2016/10/22/UITableView滑动Cell消失/index.html">
 <meta property="og:site_name" content="airfight">
-<meta property="og:description" content="associatedtype关联类型:代指变量associatedtype 用于protocol中.associatedtype类型是protocol中32代指一个确定类型并要求改类型实现指定方法
-Swift 标准库中有许多 protocols，其中很多看起来貌似很抽象，并且感觉并没有什么卵用，RawRepresentable 就是其中之一，也
-1234567public protocol Raw">
-<meta property="og:updated_time" content="2017-02-16T13:34:17.000Z">
+<meta property="og:description" content="UITableView滑动导致cell消失问题,是因为父ViewController未添加子ViewController，只是单纯的添加了子View导致的">
+<meta property="og:updated_time" content="2017-05-20T04:54:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="airfight">
-<meta name="twitter:description" content="associatedtype关联类型:代指变量associatedtype 用于protocol中.associatedtype类型是protocol中32代指一个确定类型并要求改类型实现指定方法
-Swift 标准库中有许多 protocols，其中很多看起来貌似很抽象，并且感觉并没有什么卵用，RawRepresentable 就是其中之一，也
-1234567public protocol Raw">
+<meta name="twitter:title" content="UITableView滑动 cell消失">
+<meta name="twitter:description" content="UITableView滑动导致cell消失问题,是因为父ViewController未添加子ViewController，只是单纯的添加了子View导致的">
 
     
     <link rel="alternative" href="/atom.xml" title="airfight" type="application/atom+xml">
@@ -86,14 +80,14 @@ Swift 标准库中有许多 protocols，其中很多看起来貌似很抽象，�
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/02/16/associatedtype/" title="" itemprop="url"></a>
+      <a href="/2016/10/22/UITableView滑动Cell消失/" title="UITableView滑动 cell消失" itemprop="url">UITableView滑动 cell消失</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="GiantForJade" target="_blank" itemprop="author">GiantForJade</a>
 		
   <p class="article-time">
-    <time datetime="2017-02-16T13:34:17.000Z" itemprop="datePublished"> 发表于 2017-02-16</time>
+    <time datetime="2016-10-22T12:15:16.000Z" itemprop="datePublished"> 发表于 2016-10-22</time>
     
   </p>
 </header>
@@ -102,24 +96,26 @@ Swift 标准库中有许多 protocols，其中很多看起来貌似很抽象，�
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#associatedtype"><span class="toc-number">1.</span> <span class="toc-text">associatedtype</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#UITableView滑动-cell消失"><span class="toc-number">1.</span> <span class="toc-text">UITableView滑动 cell消失</span></a></li></ol>
 		
 		</div>
 		
-		<h3 id="associatedtype"><a href="#associatedtype" class="headerlink" title="associatedtype"></a>associatedtype</h3><p>关联类型:代指变量<br>associatedtype 用于protocol中.<br>associatedtype类型是protoc<br>ol中32代指一个确定类型并要求改类型实现指定方法</p>
-<p>Swift 标准库中有许多 protocols，其中很多看起来貌似很抽象，并且感觉并没有什么卵用，RawRepresentable 就是其中之一，也</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public protocol RawRepresentable &#123;</div><div class="line">    associatedtype RawValue</div><div class="line"></div><div class="line">    public init?(rawValue: Self.RawValue)</div><div class="line"></div><div class="line">    public var rawValue: Self.RawValue &#123; get &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><a href="http://swiftcafe.io/2016/01/15/printable/" target="_blank" rel="external">CustomStringConvertible协议</a></p>
-<p><a href="http://www.devtalking.com/articles/swift-access-control/" target="_blank" rel="external">internal(set)</a><br><a href="https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/AccessControl.html" target="_blank" rel="external">苹果</a><br><a href="http://swifter.tips/property-access/" target="_blank" rel="external">Tips</a></p>
-<p><a href="http://artjing.com/2016/05/20/RUNLOOP/" target="_blank" rel="external">RunLoop</a></p>
-<p>AFNetworking的做法<br>开启一个不死线程(线程保活)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">AFURLConnectionOperation</div><div class="line">+ (NSThread *)networkRequestThread &#123;</div><div class="line">    static NSThread *_networkRequestThread = nil;</div><div class="line">    static dispatch_once_t oncePredicate;</div><div class="line">    dispatch_once(&amp;oncePredicate, ^&#123;</div><div class="line">        _networkRequestThread = [[NSThread alloc] initWithTarget:self selector:@selector(networkRequestThreadEntryPoint:) object:nil];</div><div class="line">        [_networkRequestThread start];</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    return _networkRequestThread;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">+ (void)networkRequestThreadEntryPoint:(id)__unused object &#123;</div><div class="line">    @autoreleasepool &#123;</div><div class="line">        [[NSThread currentThread] setName:@&quot;AFNetworking&quot;];</div><div class="line"></div><div class="line">        NSRunLoop *runLoop = [NSRunLoop currentRunLoop];</div><div class="line">        [runLoop addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];</div><div class="line">        [runLoop run];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+		<h1 id="UITableView滑动-cell消失"><a href="#UITableView滑动-cell消失" class="headerlink" title="UITableView滑动 cell消失"></a>UITableView滑动 cell消失</h1><p>UITableView滑动导致cell消失问题,是因为父ViewController未添加子ViewController，只是单纯的添加了子View导致的</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/iOS/">iOS</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/iOS/">iOS</a>
+  </div>
 
 </div>
 
@@ -127,7 +123,7 @@ Swift 标准库中有许多 protocols，其中很多看起来貌似很抽象，�
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2017/02/16/associatedtype/" data-title="airfight" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/10/22/UITableView滑动Cell消失/" data-title="UITableView滑动 cell消失 | airfight" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -141,18 +137,18 @@ Swift 标准库中有许多 protocols，其中很多看起来貌似很抽象，�
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/02/16/如何让自己的框架支持cocoaPods/" title="如何让自己的框架支持cocoaPods">
+ <a href="/2016/12/15/iOS打包发布问题/" title="Xcode 8.0+自动打包并发布脚本">
   <strong>上一篇：</strong><br/>
   <span>
-  如何让自己的框架支持cocoaPods</span>
+  Xcode 8.0+自动打包并发布脚本</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/12/30/cocoaPods Abort trap6/"  title="Abort trap:6">
+<a href="/2016/09/22/Dispatch_once/"  title="Dispatch once in Swift 3">
  <strong>下一篇：</strong><br/> 
- <span>Abort trap:6
+ <span>Dispatch once in Swift 3
 </span>
 </a>
 </div>
@@ -161,7 +157,7 @@ Swift 标准库中有许多 protocols，其中很多看起来貌似很抽象，�
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/02/16/associatedtype/" data-title="" data-url="http://yoursite.com/2017/02/16/associatedtype/"></div>
+	<div class="ds-thread" data-thread-key="2016/10/22/UITableView滑动Cell消失/" data-title="UITableView滑动 cell消失" data-url="http://yoursite.com/2016/10/22/UITableView滑动Cell消失/"></div>
 </section>
 
 
@@ -171,7 +167,7 @@ Swift 标准库中有许多 protocols，其中很多看起来貌似很抽象，�
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#associatedtype"><span class="toc-number">1.</span> <span class="toc-text">associatedtype</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#UITableView滑动-cell消失"><span class="toc-number">1.</span> <span class="toc-text">UITableView滑动 cell消失</span></a></li></ol>
  
   </div>
 

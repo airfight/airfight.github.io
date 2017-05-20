@@ -4,41 +4,68 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>读函数式Swift(一) | airfight</title>
+    <title>airfight</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="GiantForJade">
     
 
     
-    <meta name="description" content="函数式Swift引言
-Swift是一门有着合适的语言特性来适配函数式编程方法的优秀语言
-Swift函数式程序应有的特质:
+    <meta name="description" content="title: MQTT协议整理date:categories: MQTTtags: [MQTT]description: MQTT是IBM开源的一种通讯协议，专门针对低带宽和不稳定网络环境的物联网应用设计，为方便查阅和有需要的同仁学习，特记录。
+MQTT协议MQTT控制报文的类型
 
-模块化
-对可变状态的谨慎处理: 函数式编程又称“面向值编程”。面向对象编程专注于类和对象的设计，“函数式编程强调基于值编程的重要性，这能使我们免受可变状态或其他一些副作用的困扰。通过避免可变状态，函数式程序比其对应的命令式或者面向对象的程序更容易组合。
-类型:“Swift 有">
+
+类型名称
+类型值
+报文说明
+报文标识符字段
+
+
+
+
+CONNECT
+1
+请求连接服务端(发起连接)
+不需要">
 <meta property="og:type" content="article">
-<meta property="og:title" content="读函数式Swift(一)">
-<meta property="og:url" content="http://yoursite.com/2016/04/12/读函数式Swift/index.html">
+<meta property="og:title" content="airfight">
+<meta property="og:url" content="http://yoursite.com/2017/05/20/MQTT协议整理/index.html">
 <meta property="og:site_name" content="airfight">
-<meta property="og:description" content="函数式Swift引言
-Swift是一门有着合适的语言特性来适配函数式编程方法的优秀语言
-Swift函数式程序应有的特质:
+<meta property="og:description" content="title: MQTT协议整理date:categories: MQTTtags: [MQTT]description: MQTT是IBM开源的一种通讯协议，专门针对低带宽和不稳定网络环境的物联网应用设计，为方便查阅和有需要的同仁学习，特记录。
+MQTT协议MQTT控制报文的类型
 
-模块化
-对可变状态的谨慎处理: 函数式编程又称“面向值编程”。面向对象编程专注于类和对象的设计，“函数式编程强调基于值编程的重要性，这能使我们免受可变状态或其他一些副作用的困扰。通过避免可变状态，函数式程序比其对应的命令式或者面向对象的程序更容易组合。
-类型:“Swift 有">
-<meta property="og:updated_time" content="2016-12-28T11:15:30.000Z">
+
+类型名称
+类型值
+报文说明
+报文标识符字段
+
+
+
+
+CONNECT
+1
+请求连接服务端(发起连接)
+不需要">
+<meta property="og:updated_time" content="2017-05-20T03:09:41.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="读函数式Swift(一)">
-<meta name="twitter:description" content="函数式Swift引言
-Swift是一门有着合适的语言特性来适配函数式编程方法的优秀语言
-Swift函数式程序应有的特质:
+<meta name="twitter:title" content="airfight">
+<meta name="twitter:description" content="title: MQTT协议整理date:categories: MQTTtags: [MQTT]description: MQTT是IBM开源的一种通讯协议，专门针对低带宽和不稳定网络环境的物联网应用设计，为方便查阅和有需要的同仁学习，特记录。
+MQTT协议MQTT控制报文的类型
 
-模块化
-对可变状态的谨慎处理: 函数式编程又称“面向值编程”。面向对象编程专注于类和对象的设计，“函数式编程强调基于值编程的重要性，这能使我们免受可变状态或其他一些副作用的困扰。通过避免可变状态，函数式程序比其对应的命令式或者面向对象的程序更容易组合。
-类型:“Swift 有">
+
+类型名称
+类型值
+报文说明
+报文标识符字段
+
+
+
+
+CONNECT
+1
+请求连接服务端(发起连接)
+不需要">
 
     
     <link rel="alternative" href="/atom.xml" title="airfight" type="application/atom+xml">
@@ -98,14 +125,14 @@ Swift函数式程序应有的特质:
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/12/读函数式Swift/" title="读函数式Swift(一)" itemprop="url">读函数式Swift(一)</a>
+      <a href="/2017/05/20/MQTT协议整理/" title="" itemprop="url"></a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="GiantForJade" target="_blank" itemprop="author">GiantForJade</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-12T11:35:16.000Z" itemprop="datePublished"> 发表于 2016-04-12</time>
+    <time datetime="2017-05-20T03:09:41.000Z" itemprop="datePublished"> 发表于 2017-05-20</time>
     
   </p>
 </header>
@@ -114,63 +141,116 @@ Swift函数式程序应有的特质:
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#函数式Swift"><span class="toc-number">1.</span> <span class="toc-text">函数式Swift</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可选值"><span class="toc-number">1.2.</span> <span class="toc-text">可选值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#不可变性的价值"><span class="toc-number">1.3.</span> <span class="toc-text">不可变性的价值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#值类型与引用类型"><span class="toc-number">1.3.1.</span> <span class="toc-text">值类型与引用类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#枚举"><span class="toc-number">1.4.</span> <span class="toc-text">枚举</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MQTT协议"><span class="toc-number">1.</span> <span class="toc-text">MQTT协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MQTT控制报文的类型"><span class="toc-number">1.1.</span> <span class="toc-text">MQTT控制报文的类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CONNECT-连接服务端"><span class="toc-number">1.1.1.</span> <span class="toc-text">CONNECT - 连接服务端</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
-		<h1 id="函数式Swift"><a href="#函数式Swift" class="headerlink" title="函数式Swift"></a>函数式Swift</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>Swift是一门有着合适的语言特性来适配函数式编程方法的优秀语言</p>
-<p>Swift函数式程序应有的特质:</p>
-<ul>
-<li>模块化</li>
-<li>对可变状态的谨慎处理: 函数式编程又称“面向值编程”。面向对象编程专注于类和对象的设计，“函数式编程强调基于值编程的重要性，这能使我们免受可变状态或其他一些副作用的困扰。通过避免可变状态，函数式程序比其对应的命令式或者面向对象的程序更容易组合。</li>
-<li>类型:“Swift 有一个强大的类型系统，使用得当的话，它能够让你的代码更加安全和健壮。”</li>
-</ul>
-</blockquote>
-<h2 id="可选值"><a href="#可选值" class="headerlink" title="可选值"></a>可选值</h2><ul>
-<li><p>可选值绑定机制(optional binding可避免写!)</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"> if let madridPopulation = cities[&quot;Madrid&quot;] &#123;</div><div class="line">print(&quot;The population of Madrid is \(madridPopulation * 1000)&quot;)</div><div class="line">&#125; else &#123;</div><div class="line">print(&quot;Unknown city: Madrid&quot;)</div><div class="line">&#125;”</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<ul>
-<li><p>nil运算符(??)</p>
-   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//无论是否nil都会计算defalut的值</div><div class="line">value ?? defalut</div></pre></td></tr></table></figure>
-<p>   为防止value不为nil计算defalut导致无畏消耗</p>
-   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"> infix operator ?? &#123; associativity right precedence 	110 &#125;</div><div class="line">func ??&lt;T&gt;(optional: T?, @autoclosure defaultValue: () 	-&gt; T) -&gt; T &#123;</div><div class="line">	if let x = optional &#123;</div><div class="line">	return x</div><div class="line">	&#125; else &#123;</div><div class="line">	return defaultValue()</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>“Swift 的 autoclosure 类型标签来避开创建显式闭包的需求。“它会在所需要的闭包中隐式地将参数封装到 ?? 运算符。 ”</p>
-<ul>
-<li><p>可选值检查</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">extension Optional &#123;</div><div class="line">func flatMap&lt;U&gt;(f: Wrapped -&gt; U?) -&gt; U? &#123;</div><div class="line">guard let x = self else &#123; return nil &#125;</div><div class="line">return f(x)</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>借力于标准flatMap函数检查一个可选值是否为nil</p>
-<ul>
-<li>为什么使用可选值<blockquote>
-<p>因为显示的可选类型更符合Swift增强静态安全的特性，有助于避免因为缺失值导致意外崩溃</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="不可变性的价值"><a href="#不可变性的价值" class="headerlink" title="不可变性的价值"></a>不可变性的价值</h2><h3 id="值类型与引用类型"><a href="#值类型与引用类型" class="headerlink" title="值类型与引用类型"></a>值类型与引用类型</h3><p>Swift类型分为<strong>值类型和引用类型</strong>。典型例子：结构体和类</p>
-<p>定义下述结构体：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">struct PointStruct &#123;</div><div class="line">var x: Int</div><div class="line">var y: Int</div><div class="line">&#125;</div><div class="line"></div><div class="line">var structPoint = PointStruct(x: 1, y: 2)</div><div class="line">var sameStructPoint = structPoint</div><div class="line">sameStructPoint.x = 3”</div></pre></td></tr></table></figure>
-<p>在执行这段代码之后,很明显 sameStructPoint 等于 (x: 3, y: 2)。然而 structPoint 仍然保持原始值。这就是值类型与引用类型之间的关键区别：<strong>当被赋以一个新值或是作为参数传递给函数时，值类型会被复制</strong>。之所以给 sameStructPoint.x 赋值并不更新原来的 structPoint，正是因为先前的 sameStructPoint = structPoint 赋值过程中，发生了<strong>值复制</strong>。<a href="https://objccn.io/issue-16-2/" target="_blank" rel="external">Andy Matuschak</a>对值类型和引用类型之间的区别给出了直观的例子。</p>
-<h2 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h2>  
+		<hr>
+<p>title: MQTT协议整理<br>date:<br>categories: MQTT<br>tags: [MQTT]<br>description: MQTT是IBM开源的一种通讯协议，专门针对低带宽和不稳定网络环境的物联网应用设计，为方便查阅和有需要的同仁学习，特记录。</p>
+<h1 id="MQTT协议"><a href="#MQTT协议" class="headerlink" title="MQTT协议"></a>MQTT协议</h1><h2 id="MQTT控制报文的类型"><a href="#MQTT控制报文的类型" class="headerlink" title="MQTT控制报文的类型"></a>MQTT控制报文的类型</h2><table>
+<thead>
+<tr>
+<th>类型名称</th>
+<th>类型值</th>
+<th>报文说明</th>
+<th>报文标识符字段</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CONNECT</td>
+<td>1</td>
+<td>请求连接服务端(发起连接)</td>
+<td>不需要</td>
+</tr>
+<tr>
+<td>CONNACK</td>
+<td>2</td>
+<td>连接报文确认(连接回执)</td>
+<td>不需要</td>
+</tr>
+<tr>
+<td>PUBLISH</td>
+<td>3</td>
+<td>发布消息</td>
+<td>需要(if Qos&gt;0)</td>
+</tr>
+<tr>
+<td>PUBACK</td>
+<td>4</td>
+<td>发布回执</td>
+<td>需要</td>
+</tr>
+<tr>
+<td>PUBREC</td>
+<td>5</td>
+<td>QoS2消息回执</td>
+<td>需要</td>
+</tr>
+<tr>
+<td>PUBREL</td>
+<td>6</td>
+<td>QoS2消息释放</td>
+<td>需要</td>
+</tr>
+<tr>
+<td>PUBCOMP</td>
+<td>7</td>
+<td>QoS2消息完成</td>
+<td>需要</td>
+</tr>
+<tr>
+<td>SUBSCRIBE</td>
+<td>8</td>
+<td>订阅主题</td>
+<td>需要</td>
+</tr>
+<tr>
+<td>SUBACK</td>
+<td>9</td>
+<td>订阅回执</td>
+<td>需要</td>
+</tr>
+<tr>
+<td>UNSUBSCRIBE</td>
+<td>10</td>
+<td>取消订阅</td>
+<td>需要</td>
+</tr>
+<tr>
+<td>UNSUBACK</td>
+<td>11</td>
+<td>取消订阅回执</td>
+<td>需要</td>
+</tr>
+<tr>
+<td>PINGREQ</td>
+<td>12</td>
+<td>PING请求</td>
+<td>不需要</td>
+</tr>
+<tr>
+<td>PINGRESP</td>
+<td>13</td>
+<td>PING响应</td>
+<td>不需要</td>
+</tr>
+<tr>
+<td>DISCONNECT</td>
+<td>14</td>
+<td>断开连接</td>
+<td>不需要</td>
+</tr>
+</tbody>
+</table>
+<p>客户端和服务端彼此独立地分配报文标识符。因此，客户端服务端组合使用相同的报文标识符可以实现并发的消息交换。</p>
+<h3 id="CONNECT-连接服务端"><a href="#CONNECT-连接服务端" class="headerlink" title="CONNECT - 连接服务端"></a>CONNECT - 连接服务端</h3><pre><code>客户端到服务端的网络建立连接后，客户端发送给服务端的第一个报文必须是CONNECT报文。
+服务端必须把客户端发送的第二个CONNECT报文当做协议违规处理并断开客户端的连接。
+</code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/书籍/">书籍</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Swift/">Swift</a>
-  </div>
 
 </div>
 
@@ -178,7 +258,7 @@ Swift函数式程序应有的特质:
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/04/12/读函数式Swift/" data-title="读函数式Swift(一) | airfight" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2017/05/20/MQTT协议整理/" data-title="airfight" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -192,18 +272,18 @@ Swift函数式程序应有的特质:
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/09/22/Dispatch_once/" title="Dispatch once in Swift 3">
+ <a href="/2017/05/20/UITableView滑动Cell消失/" title="">
   <strong>上一篇：</strong><br/>
   <span>
-  Dispatch once in Swift 3</span>
+  (no title)</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/12/15/iOS命令行自动打包/"  title="iOS自动打包并发布脚本">
+<a href="/2017/05/20/Mac下安装maven添加到eclispe并创建项目/"  title="Mac下安装maven添加到eclispe并创建maven项目">
  <strong>下一篇：</strong><br/> 
- <span>iOS自动打包并发布脚本
+ <span>Mac下安装maven添加到eclispe并创建maven项目
 </span>
 </a>
 </div>
@@ -212,7 +292,7 @@ Swift函数式程序应有的特质:
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/04/12/读函数式Swift/" data-title="读函数式Swift(一)" data-url="http://yoursite.com/2016/04/12/读函数式Swift/"></div>
+	<div class="ds-thread" data-thread-key="2017/05/20/MQTT协议整理/" data-title="" data-url="http://yoursite.com/2017/05/20/MQTT协议整理/"></div>
 </section>
 
 
@@ -222,7 +302,7 @@ Swift函数式程序应有的特质:
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#函数式Swift"><span class="toc-number">1.</span> <span class="toc-text">函数式Swift</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可选值"><span class="toc-number">1.2.</span> <span class="toc-text">可选值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#不可变性的价值"><span class="toc-number">1.3.</span> <span class="toc-text">不可变性的价值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#值类型与引用类型"><span class="toc-number">1.3.1.</span> <span class="toc-text">值类型与引用类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#枚举"><span class="toc-number">1.4.</span> <span class="toc-text">枚举</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MQTT协议"><span class="toc-number">1.</span> <span class="toc-text">MQTT协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MQTT控制报文的类型"><span class="toc-number">1.1.</span> <span class="toc-text">MQTT控制报文的类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CONNECT-连接服务端"><span class="toc-number">1.1.1.</span> <span class="toc-text">CONNECT - 连接服务端</span></a></li></ol></li></ol></li></ol>
  
   </div>
 

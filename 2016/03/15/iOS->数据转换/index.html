@@ -4,28 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Xcode 8.0+自动打包并发布脚本 | airfight</title>
+    <title>iOS - 数据转化 | airfight</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="GiantForJade">
     
 
     
-    <meta name="description" content="使用最新Xcode 8.0 打包发布遇到的问题收集。">
+    <meta name="description" content="iOS相关的数据转换，NSData与Bytes等。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Xcode 8.0+自动打包并发布脚本">
-<meta property="og:url" content="http://yoursite.com/2016/12/15/iOS打包发布问题/index.html">
+<meta property="og:title" content="iOS - 数据转化">
+<meta property="og:url" content="http://yoursite.com/2016/03/15/iOS->数据转换/index.html">
 <meta property="og:site_name" content="airfight">
-<meta property="og:description" content="使用最新Xcode 8.0 打包发布遇到的问题收集。">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-6408e609100223da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-09038c7ef07aabe3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-db27f9533f68e919.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-40dd7940f8f75fad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-03-05T10:59:54.000Z">
+<meta property="og:description" content="iOS相关的数据转换，NSData与Bytes等。">
+<meta property="og:updated_time" content="2017-09-23T09:30:38.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Xcode 8.0+自动打包并发布脚本">
-<meta name="twitter:description" content="使用最新Xcode 8.0 打包发布遇到的问题收集。">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2082481-6408e609100223da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="iOS - 数据转化">
+<meta name="twitter:description" content="iOS相关的数据转换，NSData与Bytes等。">
 
     
     <link rel="alternative" href="/atom.xml" title="airfight" type="application/atom+xml">
@@ -85,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/12/15/iOS打包发布问题/" title="Xcode 8.0+自动打包并发布脚本" itemprop="url">Xcode 8.0+自动打包并发布脚本</a>
+      <a href="/2016/03/15/iOS->数据转换/" title="iOS - 数据转化" itemprop="url">iOS - 数据转化</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="GiantForJade" target="_blank" itemprop="author">GiantForJade</a>
 		
   <p class="article-time">
-    <time datetime="2016-12-15T12:37:16.000Z" itemprop="datePublished"> 发表于 2016-12-15</time>
+    <time datetime="2016-03-14T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-03-15</time>
     
   </p>
 </header>
@@ -101,34 +96,15 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Xcode-8-打包发布问题"><span class="toc-number">1.</span> <span class="toc-text">Xcode 8+ 打包发布问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-问题简介"><span class="toc-number">1.1.</span> <span class="toc-text">1.问题简介</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#This-script-loops-through-the-frameworks-embedded-in-the-application-and"><span class="toc-number">2.</span> <span class="toc-text">This script loops through the frameworks embedded in the application and</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#removes-unused-architectures"><span class="toc-number">3.</span> <span class="toc-text">removes unused architectures.</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-问题简介"><span class="toc-number">3.1.</span> <span class="toc-text">2.问题简介</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS-数据转化"><span class="toc-number">1.</span> <span class="toc-text">iOS 数据转化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#NSData-与-NSString相互转化"><span class="toc-number">1.1.</span> <span class="toc-text">NSData 与 NSString相互转化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NSString-gt-NSData"><span class="toc-number">1.1.1.</span> <span class="toc-text">NSString -> NSData</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSData-gt-NSString"><span class="toc-number">1.1.2.</span> <span class="toc-text">NSData -> NSString</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NSData-与-Byte"><span class="toc-number">1.2.</span> <span class="toc-text">NSData 与 Byte</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Byte数组-gt-16进制数"><span class="toc-number">1.3.</span> <span class="toc-text">Byte数组 -> 16进制数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16进制数-gt-Byte数组"><span class="toc-number">1.4.</span> <span class="toc-text">16进制数 -> Byte数组</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h1 id="Xcode-8-打包发布问题"><a href="#Xcode-8-打包发布问题" class="headerlink" title="Xcode 8+ 打包发布问题"></a>Xcode 8+ 打包发布问题</h1><h2 id="1-问题简介"><a href="#1-问题简介" class="headerlink" title="1.问题简介"></a>1.问题简介</h2><blockquote>
-<p>ERROR ITMS-90209: “Invalid Segment Alignment. The app binary at ‘XXX.app/Frameworks/WebImage.framework/WebImage’ does not have proper segment alignment. Try rebuilding the app with the latest Xcode version.”<br>ERROR ITMS-90209: “Invalid Segment Alignment. The app binary at ‘XXX.app/Frameworks/WebImage.framework/WebImage’ does not have proper segment alignment. Try rebuilding the app with the latest Xcode version.”<br>ERROR ITMS-90125: “The binary is invalid. The encryption info in the LC_ENCRYPTION_INFO load command is either missing or invalid, or the binary is already encrypted. This binary does not seem to have been built with Apple’s linker.”<br>ERROR ITMS-90125: “The binary is invalid. The encryption info in the LC_ENCRYPTION_INFO load command is either missing or invalid, or the binary is already encrypted. This binary does not seem to have been built with Apple’s linker.”</p>
-</blockquote>
-<p>如图：<br><img src="http://upload-images.jianshu.io/upload_images/2082481-6408e609100223da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2082481-09038c7ef07aabe3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
-<blockquote>
-<p>解决方案：<br>项目-&gt;Build Phases-&gt; +New Run Script -&gt; 添加下方脚本</p>
-</blockquote>
-<p>APP_PATH=”${TARGET_BUILD_DIR}/${WRAPPER_NAME}”</p>
-<h1 id="This-script-loops-through-the-frameworks-embedded-in-the-application-and"><a href="#This-script-loops-through-the-frameworks-embedded-in-the-application-and" class="headerlink" title="This script loops through the frameworks embedded in the application and"></a>This script loops through the frameworks embedded in the application and</h1><h1 id="removes-unused-architectures"><a href="#removes-unused-architectures" class="headerlink" title="removes unused architectures."></a>removes unused architectures.</h1><p>find “$APP_PATH” -name ‘*.framework’ -type d | while read -r FRAMEWORK<br>do<br>FRAMEWORK_EXECUTABLE_NAME=$(defaults read “$FRAMEWORK/Info.plist” CFBundleExecutable)<br>FRAMEWORK_EXECUTABLE_PATH=”$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME”<br>echo “Executable is $FRAMEWORK_EXECUTABLE_PATH”</p>
-<p>EXTRACTED_ARCHS=()</p>
-<p>for ARCH in $ARCHS<br>do<br>echo “Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME”<br>lipo -extract “$ARCH” “$FRAMEWORK_EXECUTABLE_PATH” -o “$FRAMEWORK_EXECUTABLE_PATH-$ARCH”<br>EXTRACTED_ARCHS+=(“$FRAMEWORK_EXECUTABLE_PATH-$ARCH”)<br>done</p>
-<p>echo “Merging extracted architectures: ${ARCHS}”<br>lipo -o “$FRAMEWORK_EXECUTABLE_PATH-merged” -create “${EXTRACTED_ARCHS[@]}”<br>rm “${EXTRACTED_ARCHS[@]}”</p>
-<p>echo “Replacing original executable with thinned version”<br>rm “$FRAMEWORK_EXECUTABLE_PATH”<br>mv “$FRAMEWORK_EXECUTABLE_PATH-merged” “$FRAMEWORK_EXECUTABLE_PATH”</p>
-<p>done</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2082481-db27f9533f68e919.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
-<h2 id="2-问题简介"><a href="#2-问题简介" class="headerlink" title="2.问题简介"></a>2.问题简介</h2><blockquote>
-<p>打包上传到iTunes显示Upload Success 之后，邮箱收到一封驳回邮件，大概就是一些原因显示不通过之类的。</p>
-<blockquote>
-<p>Missing Info.plist key - This app attempts to access privacy-sensitive data without a usage description. The app’s Info.plist must contain an NSContactsUsageDescription key with a string value explaining to the user how the app uses this data.<br>Missing Info.plist key - This app attempts to access privacy-sensitive data without a usage description. The app’s Info.plist must contain an NSPhotoLibraryUsageDescription key with a string value explaining to the user how the app uses this data.</p>
-</blockquote>
-</blockquote>
-<p>这是因为Xcode8.0之后要在info.plist中添加一些权限描述,必须有文字描述，而不是只添加字段就可以的。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2082481-40dd7940f8f75fad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"></p>
+		<h1 id="iOS-数据转化"><a href="#iOS-数据转化" class="headerlink" title="iOS 数据转化"></a>iOS 数据转化</h1><h2 id="NSData-与-NSString相互转化"><a href="#NSData-与-NSString相互转化" class="headerlink" title="NSData 与 NSString相互转化"></a>NSData 与 NSString相互转化</h2><h3 id="NSString-gt-NSData"><a href="#NSString-gt-NSData" class="headerlink" title="NSString -&gt; NSData"></a>NSString -&gt; NSData</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NSString *str = @&quot;你最帅&quot;;</div><div class="line">NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];</div></pre></td></tr></table></figure>
+<h3 id="NSData-gt-NSString"><a href="#NSData-gt-NSString" class="headerlink" title="NSData -&gt; NSString"></a>NSData -&gt; NSString</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">NSString *str  = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];</div></pre></td></tr></table></figure>
+<h2 id="NSData-与-Byte"><a href="#NSData-与-Byte" class="headerlink" title="NSData 与 Byte"></a>NSData 与 Byte</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Byte *byte = (Byte *)[data bytes];</div><div class="line">NSData *data = [[NSData alloc] initWithBytes:byte length:10];</div></pre></td></tr></table></figure>
+<h2 id="Byte数组-gt-16进制数"><a href="#Byte数组-gt-16进制数" class="headerlink" title="Byte数组 -&gt; 16进制数"></a>Byte数组 -&gt; 16进制数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Byte byte[] = &#123;0,1,2&#125;;//000102</div><div class="line"></div><div class="line">NSString *hexStr = @&quot;&quot;;</div><div class="line"></div><div class="line">for (int i = 0; i &lt; 3 ; i++) &#123;</div><div class="line">    </div><div class="line">    NSString *newHexStr = [NSString stringWithFormat:@&quot;%x&quot;,byte[i] &amp; 0xff];</div><div class="line">    if ([newHexStr length] == 1)</div><div class="line">        hexStr = [NSString stringWithFormat:@&quot;%@0%@&quot;,hexStr,newHexStr];</div><div class="line">    else</div><div class="line">        hexStr = [NSString stringWithFormat:@&quot;%@%@&quot;,hexStr,newHexStr];</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="16进制数-gt-Byte数组"><a href="#16进制数-gt-Byte数组" class="headerlink" title="16进制数 -&gt; Byte数组"></a>16进制数 -&gt; Byte数组</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">int j=0;</div><div class="line">Byte bytes[hexString.length / 2];  </div><div class="line">for(int i=0;i&lt;[hexStr length];i++)</div><div class="line">&#123;</div><div class="line">    int int_ch;  /// 两位16进制数转化后的10进制数</div><div class="line">    unichar hex_char1 = [hexStr characterAtIndex:i]; ////两位16进制数中的第一位(高位*16)</div><div class="line">    int int_ch1;</div><div class="line">    if(hex_char1 &gt;= &apos;0&apos; &amp;&amp; hex_char1 &lt;=&apos;9&apos;)</div><div class="line">    &#123;</div><div class="line">        int_ch1 = (hex_char1-48)*16;   //// 0 的Ascll - 48</div><div class="line">    &#125;</div><div class="line">    else if(hex_char1 &gt;= &apos;A&apos; &amp;&amp; hex_char1 &lt;=&apos;F&apos;)</div><div class="line">    &#123;</div><div class="line">        int_ch1 = (hex_char1-55)*16; //// A 的Ascll - 65</div><div class="line">    &#125;</div><div class="line">    else</div><div class="line">    &#123;</div><div class="line">        int_ch1 = (hex_char1-87)*16; //// a 的Ascll - 97</div><div class="line">    &#125;</div><div class="line">    i++;</div><div class="line">    unichar hex_char2 = [hexStr characterAtIndex:i]; ///两位16进制数中的第二位(低位)</div><div class="line">    int int_ch2;</div><div class="line">    if(hex_char2 &gt;= &apos;0&apos; &amp;&amp; hex_char2 &lt;=&apos;9&apos;)</div><div class="line">    &#123;</div><div class="line">        int_ch2 = (hex_char2-48); //// 0 的Ascll - 48</div><div class="line">    &#125;</div><div class="line">    else if(hex_char1 &gt;= &apos;A&apos; &amp;&amp; hex_char1 &lt;=&apos;F&apos;)</div><div class="line">    &#123;</div><div class="line">        int_ch2 = hex_char2-55; //// A 的Ascll - 65</div><div class="line">    &#125;</div><div class="line">    else   </div><div class="line">    &#123;</div><div class="line">        int_ch2 = hex_char2-87; //// a 的Ascll - 97  </div><div class="line">    &#125;</div><div class="line">    int_ch = int_ch1+int_ch2;</div><div class="line">    NSLog(@&quot;int_ch=%d&quot;,int_ch);</div><div class="line">    bytes[j] = int_ch;  ///将转化后的数放入Byte数组里</div><div class="line">    j++;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -136,13 +112,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/打包/">打包</a>
+  <a class="article-category-link" href="/categories/iOS/">iOS</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Archive/">Archive</a>
+  <span></span> <a href="/tags/iOS/">iOS</a>
   </div>
 
 </div>
@@ -151,7 +127,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/12/15/iOS打包发布问题/" data-title="Xcode 8.0+自动打包并发布脚本 | airfight" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/03/15/iOS->数据转换/" data-title="iOS - 数据转化 | airfight" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -165,18 +141,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/12/25/安全机制/" title="App安全篇">
+ <a href="/2016/04/12/读函数式Swift/" title="读函数式Swift(一)">
   <strong>上一篇：</strong><br/>
   <span>
-  App安全篇</span>
+  读函数式Swift(一)</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/10/22/UITableView滑动Cell消失/"  title="UITableView滑动 cell消失">
+<a href="/2015/12/15/iOS命令行自动打包/"  title="iOS自动打包并发布脚本">
  <strong>下一篇：</strong><br/> 
- <span>UITableView滑动 cell消失
+ <span>iOS自动打包并发布脚本
 </span>
 </a>
 </div>
@@ -197,7 +173,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Xcode-8-打包发布问题"><span class="toc-number">1.</span> <span class="toc-text">Xcode 8+ 打包发布问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-问题简介"><span class="toc-number">1.1.</span> <span class="toc-text">1.问题简介</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#This-script-loops-through-the-frameworks-embedded-in-the-application-and"><span class="toc-number">2.</span> <span class="toc-text">This script loops through the frameworks embedded in the application and</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#removes-unused-architectures"><span class="toc-number">3.</span> <span class="toc-text">removes unused architectures.</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-问题简介"><span class="toc-number">3.1.</span> <span class="toc-text">2.问题简介</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS-数据转化"><span class="toc-number">1.</span> <span class="toc-text">iOS 数据转化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#NSData-与-NSString相互转化"><span class="toc-number">1.1.</span> <span class="toc-text">NSData 与 NSString相互转化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NSString-gt-NSData"><span class="toc-number">1.1.1.</span> <span class="toc-text">NSString -> NSData</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSData-gt-NSString"><span class="toc-number">1.1.2.</span> <span class="toc-text">NSData -> NSString</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NSData-与-Byte"><span class="toc-number">1.2.</span> <span class="toc-text">NSData 与 Byte</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Byte数组-gt-16进制数"><span class="toc-number">1.3.</span> <span class="toc-text">Byte数组 -> 16进制数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16进制数-gt-Byte数组"><span class="toc-number">1.4.</span> <span class="toc-text">16进制数 -> Byte数组</span></a></li></ol></li></ol>
  
   </div>
 

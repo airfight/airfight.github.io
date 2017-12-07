@@ -1,0 +1,697 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Mac设置开机启动项 | airfight</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="GiantForJade">
+    
+
+    
+    <meta name="description" content="本文记录Mac开机自启动以及定时任务的添加">
+<meta name="keywords" content="Mac终端">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac设置开机启动项">
+<meta property="og:url" content="http://yoursite.com/2017/03/06/Mac设置自启动以及定时任务/index.html">
+<meta property="og:site_name" content="airfight">
+<meta property="og:description" content="本文记录Mac开机自启动以及定时任务的添加">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-12-07T11:36:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mac设置开机启动项">
+<meta name="twitter:description" content="本文记录Mac开机自启动以及定时任务的添加">
+
+    
+    <link rel="alternative" href="/atom.xml" title="airfight" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="airfight" title="airfight"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="airfight">airfight</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/About">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/03/06/Mac设置自启动以及定时任务/" title="Mac设置开机启动项" itemprop="url">Mac设置开机启动项</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="GiantForJade" target="_blank" itemprop="author">GiantForJade</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-06T14:35:44.000Z" itemprop="datePublished"> 发表于 2017-03-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Mac设置开机启动项"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Mac&#x8BBE;&#x7F6E;&#x5F00;&#x673A;&#x542F;&#x52A8;&#x9879;" class="headerlink" title="Mac&#x8BBE;&#x7F6E;&#x5F00;&#x673A;&#x542F;&#x52A8;&#x9879;"></a>Mac&#x8BBE;&#x7F6E;&#x5F00;&#x673A;&#x542F;&#x52A8;&#x9879;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mac-开机自启动以及定时任务设置方式"><span class="toc-number">2.</span> <span class="toc-text"><a href="#Mac-&#x5F00;&#x673A;&#x81EA;&#x542F;&#x52A8;&#x4EE5;&#x53CA;&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;&#x8BBE;&#x7F6E;&#x65B9;&#x5F0F;" class="headerlink" title="Mac &#x5F00;&#x673A;&#x81EA;&#x542F;&#x52A8;&#x4EE5;&#x53CA;&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;&#x8BBE;&#x7F6E;&#x65B9;&#x5F0F;"></a>Mac &#x5F00;&#x673A;&#x81EA;&#x542F;&#x52A8;&#x4EE5;&#x53CA;&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;&#x8BBE;&#x7F6E;&#x65B9;&#x5F0F;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#launchctl加载plist文件"><span class="toc-number">2.1.</span> <span class="toc-text"><a href="#launchctl&#x52A0;&#x8F7D;plist&#x6587;&#x4EF6;" class="headerlink" title="launchctl&#x52A0;&#x8F7D;plist&#x6587;&#x4EF6;"></a>launchctl&#x52A0;&#x8F7D;plist&#x6587;&#x4EF6;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#部分键值说明"><span class="toc-number">2.1.1.</span> <span class="toc-text"><a href="#&#x90E8;&#x5206;&#x952E;&#x503C;&#x8BF4;&#x660E;" class="headerlink" title="&#x90E8;&#x5206;&#x952E;&#x503C;&#x8BF4;&#x660E;"></a>&#x90E8;&#x5206;&#x952E;&#x503C;&#x8BF4;&#x660E;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mac通过launchctl加载plist的相关命令"><span class="toc-number">2.1.2.</span> <span class="toc-text"><a href="#Mac&#x901A;&#x8FC7;launchctl&#x52A0;&#x8F7D;plist&#x7684;&#x76F8;&#x5173;&#x547D;&#x4EE4;" class="headerlink" title="Mac&#x901A;&#x8FC7;launchctl&#x52A0;&#x8F7D;plist&#x7684;&#x76F8;&#x5173;&#x547D;&#x4EE4;"></a>Mac&#x901A;&#x8FC7;launchctl&#x52A0;&#x8F7D;plist&#x7684;&#x76F8;&#x5173;&#x547D;&#x4EE4;</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#crontab执行脚本文件等"><span class="toc-number">2.2.</span> <span class="toc-text"><a href="#crontab&#x6267;&#x884C;&#x811A;&#x672C;&#x6587;&#x4EF6;&#x7B49;" class="headerlink" title="crontab&#x6267;&#x884C;&#x811A;&#x672C;&#x6587;&#x4EF6;&#x7B49;"></a>crontab&#x6267;&#x884C;&#x811A;&#x672C;&#x6587;&#x4EF6;&#x7B49;</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="Mac设置开机启动项"><a href="#Mac设置开机启动项" class="headerlink" title="Mac设置开机启动项"></a>Mac设置开机启动项</h1><blockquote>
+<p> 由于最近使用到开机自启动以及定时任务的开启,在采坑的同事记录一下Mac自启动的以及定时任务开启的正确姿势</p>
+</blockquote>
+<h1 id="Mac-开机自启动以及定时任务设置方式"><a href="#Mac-开机自启动以及定时任务设置方式" class="headerlink" title="Mac 开机自启动以及定时任务设置方式"></a>Mac 开机自启动以及定时任务设置方式</h1><ul>
+<li><ol>
+<li>使用登录项添加可执行的脚本(此处不做介绍，注意添加可执行权限即可(chmod 777 ..sh))</li>
+</ol>
+</li>
+<li><ol>
+<li>launchctl加载plist文件</li>
+</ol>
+</li>
+<li><ol>
+<li>crontab添加可执行文件以及脚本</li>
+</ol>
+</li>
+</ul>
+<h2 id="launchctl加载plist文件"><a href="#launchctl加载plist文件" class="headerlink" title="launchctl加载plist文件"></a>launchctl加载plist文件</h2><p>Mac开机启动大部分会使用<strong>launchctl</strong>加载文件,launchctl 通过 <strong>plist</strong> 属性列表（Property List）配置。</p>
+<p>plist文件位置以及相关权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">~/Library/LaunchAgents 由用户自己定义的任务项</div><div class="line">/Library/LaunchAgents 由管理员为用户定义的任务项</div><div class="line">/Library/LaunchDaemons 由管理员定义的守护进程任务项</div><div class="line">/System/Library/LaunchAgents 由Mac OS X为用户定义的任务项</div><div class="line">/System/Library/LaunchDaemons 由Mac OS X定义的守护进程任务项</div></pre></td></tr></table></figure>
+<p>LaunchDaemons和LaunchAgents的区别？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">LaunchDaemons是用户未登陆前就启动的服务,即开机即可启动</div><div class="line">LaunchAgents使用户登陆后启动的服务</div></pre></td></tr></table></figure>
+<p>具体plist设置<a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man5/launchd.plist.5.html#//apple_ref/doc/man/5/launchd.plist" target="_blank" rel="noopener">苹果官方教材</a>,以下示例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</div><div class="line">&lt;plist version=&quot;1.0&quot;&gt;</div><div class="line">&lt;dict&gt;</div><div class="line">	&lt;key&gt;Label&lt;/key&gt;</div><div class="line">	&lt;string&gt;cn.GY.tasklogout&lt;/string&gt;</div><div class="line">	&lt;key&gt;ProgramArguments&lt;/key&gt;</div><div class="line">	&lt;array&gt;</div><div class="line">		&lt;string&gt;/Applications/ATSign.app/Contents/MacOS/ATSign&lt;/string&gt;</div><div class="line">	&lt;/array&gt;</div><div class="line">	&lt;key&gt;StartCalendarInterval&lt;/key&gt;</div><div class="line">	&lt;dict&gt;</div><div class="line">              &lt;key&gt;Minute&lt;/key&gt;</div><div class="line">              &lt;integer&gt;30&lt;/integer&gt;</div><div class="line">              &lt;key&gt;Hour&lt;/key&gt;</div><div class="line">              &lt;integer&gt;9&lt;/integer&gt;</div><div class="line">              &lt;key&gt;Day&lt;/key&gt;</div><div class="line">            &lt;integer&gt;1&lt;/integer&gt;</div><div class="line">            &lt;key&gt;Month&lt;/key&gt;</div><div class="line">            &lt;integer&gt;5&lt;/integer&gt;</div><div class="line">            &lt;!-- 0和7都指星期天 --&gt;</div><div class="line">            &lt;key&gt;Weekday&lt;/key&gt;</div><div class="line">            &lt;integer&gt;0&lt;/integer&gt;</div><div class="line">		**&lt;key&gt;Minute&lt;/key&gt;</div><div class="line">		&lt;string&gt;01&lt;/string&gt;</div><div class="line">		&lt;key&gt;Hour&lt;/key&gt;</div><div class="line">		&lt;string&gt;18&lt;/string&gt;**</div><div class="line">	&lt;/dict&gt;</div><div class="line">	&lt;key&gt;RunAtLoad&lt;/key&gt;</div><div class="line">	&lt;true/&gt;</div><div class="line">&lt;/dict&gt;</div><div class="line">&lt;/plist&gt;</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注意</strong>: 在<strong>–</strong>区间的设置时间点的plist的key,此处必须为integer,而非string,刚开始使用string会造成app一直无限自启动,后来查文档发现是integer,才解决了这个问题。</p>
+</blockquote>
+<h3 id="部分键值说明"><a href="#部分键值说明" class="headerlink" title="部分键值说明"></a>部分键值说明</h3><ul>
+<li>Label<br> 服务的名称,不可重复,可与当前plist文件名一致</li>
+<li>Program<br>需要启动的程序(可不设置ProgramArguments)</li>
+<li>ProgramArguments<br> -startup开机启动</li>
+<li>StartCalendarInterval<br>此处设置具体时分秒以及工作日等相关信息的设置,注意key值类型相照应,如果不设置会默认任意时间点启动<h3 id="Mac通过launchctl加载plist的相关命令"><a href="#Mac通过launchctl加载plist的相关命令" class="headerlink" title="Mac通过launchctl加载plist的相关命令"></a>Mac通过launchctl加载plist的相关命令</h3></li>
+<li>检查plist语法是否正确</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">plutil ~/Library/LaunchAgents/demo.plist</div></pre></td></tr></table></figure>
+<ul>
+<li>加载配置文件,使配置文件生效</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">launchctl load ~/Library/LaunchAgents/demo.plist</div></pre></td></tr></table></figure>
+<ul>
+<li>取消当前配置文件的进程</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">launchctl unload ~/Library/LaunchAgents/demo.plist</div></pre></td></tr></table></figure>
+<ul>
+<li>查看当前你服务是否加入</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">launchctl list 所有服务</div><div class="line">launchctl list | grep demo 过滤后的服务</div></pre></td></tr></table></figure>
+<ul>
+<li>如果加载服务后,再次修改该服务plist文件,可通过取消当前配置在加载当前配置的方式修改服务</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">launchctl unload</div><div class="line">launchctl load</div></pre></td></tr></table></figure>
+<h2 id="crontab执行脚本文件等"><a href="#crontab执行脚本文件等" class="headerlink" title="crontab执行脚本文件等"></a>crontab执行脚本文件等</h2><p>编辑自定义自己的任务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">crontab -e</div><div class="line">13 15 * * *  /usr/local/bin/python2.7  </div><div class="line">/Users/macprohz/Desktop/Python/WebAppDemo/GY.py</div></pre></td></tr></table></figure>
+<blockquote>
+<p>添加编辑wq保存即可, 以上代表意义:在15:30分启动python脚本GY.py</p>
+</blockquote>
+<p>时间格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">*      *      *     *      *   command</div><div class="line">分     时      日    月     周    命令</div></pre></td></tr></table></figure>
+<blockquote>
+<p>第1列表示分钟1～59 每分钟用或者 /1表示<br>第2列表示小时1～23（0表示0点）<br>第3列表示日期1～31<br>第4列表示月份1～12<br>第5列标识号星期0～6（0表示星期天）<br>5个<em>表示每分钟 
+</em>表示每分钟/时/日/月/周<br><em>/n表示每隔n分钟/时/日/月整/周<br>每个时间位多个数值用逗号隔开：</em> <em> </em> * 0,1,2,3,4,5就表示除了周六以外的每一分钟<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">“*”代表取值范围内的数字,</div><div class="line"></div><div class="line">“/”代表”每”,</div><div class="line"></div><div class="line">“-”代表从某个数字到某个数字,</div><div class="line"></div><div class="line">“,”分开几个离散的数字</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>crontab的一些终端命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ps aux | grep cron :查看服务是否已经运行用 </div><div class="line">crontab -e:编辑当前用户crontab任务，保存退出后自动加到crontab列表中执行 </div><div class="line">crontab -l :查看当前用户所有crontab 列表 </div><div class="line">crontab -r :删除当前用户所有crontab 列表</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>总结:此文仅为记录Mac下的启动方式,防止个人用到时又要无休止的goole,大部分资源还是很早之前的,特此记录(GiantForJade)。</p>
+</blockquote>
+<p>参考文献<br><a href="http://hanks.pub/2016/03/28/mac-launchctl/" target="_blank" rel="noopener">launchctl</a><br><a href="http://blog.csdn.net/py_tester/article/details/78272006" target="_blank" rel="noopener">crontab</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Mac/">Mac</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Mac终端/">Mac终端</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2017/03/06/Mac设置自启动以及定时任务/" data-title="Mac设置开机启动项 | airfight" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/03/23/SSH之Hibernate/" title="Java SSH环境搭建">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Java SSH环境搭建</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2017/03/05/ReactNative/"  title="ReactNative">
+ <strong>下一篇：</strong><br/> 
+ <span>ReactNative
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Mac设置开机启动项"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Mac&#x8BBE;&#x7F6E;&#x5F00;&#x673A;&#x542F;&#x52A8;&#x9879;" class="headerlink" title="Mac&#x8BBE;&#x7F6E;&#x5F00;&#x673A;&#x542F;&#x52A8;&#x9879;"></a>Mac&#x8BBE;&#x7F6E;&#x5F00;&#x673A;&#x542F;&#x52A8;&#x9879;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mac-开机自启动以及定时任务设置方式"><span class="toc-number">2.</span> <span class="toc-text"><a href="#Mac-&#x5F00;&#x673A;&#x81EA;&#x542F;&#x52A8;&#x4EE5;&#x53CA;&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;&#x8BBE;&#x7F6E;&#x65B9;&#x5F0F;" class="headerlink" title="Mac &#x5F00;&#x673A;&#x81EA;&#x542F;&#x52A8;&#x4EE5;&#x53CA;&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;&#x8BBE;&#x7F6E;&#x65B9;&#x5F0F;"></a>Mac &#x5F00;&#x673A;&#x81EA;&#x542F;&#x52A8;&#x4EE5;&#x53CA;&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;&#x8BBE;&#x7F6E;&#x65B9;&#x5F0F;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#launchctl加载plist文件"><span class="toc-number">2.1.</span> <span class="toc-text"><a href="#launchctl&#x52A0;&#x8F7D;plist&#x6587;&#x4EF6;" class="headerlink" title="launchctl&#x52A0;&#x8F7D;plist&#x6587;&#x4EF6;"></a>launchctl&#x52A0;&#x8F7D;plist&#x6587;&#x4EF6;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#部分键值说明"><span class="toc-number">2.1.1.</span> <span class="toc-text"><a href="#&#x90E8;&#x5206;&#x952E;&#x503C;&#x8BF4;&#x660E;" class="headerlink" title="&#x90E8;&#x5206;&#x952E;&#x503C;&#x8BF4;&#x660E;"></a>&#x90E8;&#x5206;&#x952E;&#x503C;&#x8BF4;&#x660E;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mac通过launchctl加载plist的相关命令"><span class="toc-number">2.1.2.</span> <span class="toc-text"><a href="#Mac&#x901A;&#x8FC7;launchctl&#x52A0;&#x8F7D;plist&#x7684;&#x76F8;&#x5173;&#x547D;&#x4EE4;" class="headerlink" title="Mac&#x901A;&#x8FC7;launchctl&#x52A0;&#x8F7D;plist&#x7684;&#x76F8;&#x5173;&#x547D;&#x4EE4;"></a>Mac&#x901A;&#x8FC7;launchctl&#x52A0;&#x8F7D;plist&#x7684;&#x76F8;&#x5173;&#x547D;&#x4EE4;</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#crontab执行脚本文件等"><span class="toc-number">2.2.</span> <span class="toc-text"><a href="#crontab&#x6267;&#x884C;&#x811A;&#x672C;&#x6587;&#x4EF6;&#x7B49;" class="headerlink" title="crontab&#x6267;&#x884C;&#x811A;&#x672C;&#x6587;&#x4EF6;&#x7B49;"></a>crontab&#x6267;&#x884C;&#x811A;&#x672C;&#x6587;&#x4EF6;&#x7B49;</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="airfight" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MQTT/" title="MQTT">MQTT<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/OC/" title="OC">OC<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/cocoaPods/" title="cocoaPods">cocoaPods<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
+		  
+		
+		  
+			<li><a href="/categories/swift/" title="swift">swift<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/书籍/" title="书籍">书籍<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/打包/" title="打包">打包<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/第三方库/" title="第三方库">第三方库<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络/" title="网络">网络<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cocoaPods/" title="cocoaPods">cocoaPods<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Archive/" title="Archive">Archive<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ThirdLibrary/" title="ThirdLibrary">ThirdLibrary<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Runtime/" title="Runtime">Runtime<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac终端/" title="Mac终端">Mac终端<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MQTT/" title="MQTT">MQTT<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/安全/" title="安全">安全<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Swift/" title="Swift">Swift<sup>1</sup></a></li>
+			
+		
+			
+		
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="/github" target="_blank" title="iOS备忘录">iOS备忘录</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=a4cc1066&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Efforts to do my best <br/>
+			Real developers ship.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5824989117" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/airfight" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:GiantForJade@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-sa/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-sa.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="GiantForJade">GiantForJade</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'https-airfight-github-io';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

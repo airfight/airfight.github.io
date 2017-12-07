@@ -12,11 +12,13 @@
 
     
     <meta name="description" content="SDWebImage几乎每个项目都会用到这个强大的第三方网络加载库,在这里记载一下他的常用方法,以后会陆续补充。">
+<meta name="keywords" content="ThirdLibrary">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SDWebImage常用方法">
 <meta property="og:url" content="http://yoursite.com/2014/12/12/SDWebImage常用方法/index.html">
 <meta property="og:site_name" content="airfight">
 <meta property="og:description" content="SDWebImage几乎每个项目都会用到这个强大的第三方网络加载库,在这里记载一下他的常用方法,以后会陆续补充。">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-12-25T09:03:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SDWebImage常用方法">
@@ -96,15 +98,15 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#图片下载"><span class="toc-number">1.</span> <span class="toc-text">图片下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图片存储-SDImageCache类"><span class="toc-number">2.</span> <span class="toc-text">图片存储(SDImageCache类)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取缓存图片的路径"><span class="toc-number">2.1.</span> <span class="toc-text">获取缓存图片的路径</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取缓存图片"><span class="toc-number">3.</span> <span class="toc-text">获取缓存图片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取缓存占用空间"><span class="toc-number">4.</span> <span class="toc-text">获取缓存占用空间</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#图片下载"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x56FE;&#x7247;&#x4E0B;&#x8F7D;" class="headerlink" title="&#x56FE;&#x7247;&#x4E0B;&#x8F7D;"></a>&#x56FE;&#x7247;&#x4E0B;&#x8F7D;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图片存储-SDImageCache类"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x56FE;&#x7247;&#x5B58;&#x50A8;-SDImageCache&#x7C7B;" class="headerlink" title="&#x56FE;&#x7247;&#x5B58;&#x50A8;(SDImageCache&#x7C7B;)"></a>&#x56FE;&#x7247;&#x5B58;&#x50A8;(SDImageCache&#x7C7B;)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取缓存图片的路径"><span class="toc-number">2.1.</span> <span class="toc-text"><a href="#&#x83B7;&#x53D6;&#x7F13;&#x5B58;&#x56FE;&#x7247;&#x7684;&#x8DEF;&#x5F84;" class="headerlink" title="&#x83B7;&#x53D6;&#x7F13;&#x5B58;&#x56FE;&#x7247;&#x7684;&#x8DEF;&#x5F84;"></a>&#x83B7;&#x53D6;&#x7F13;&#x5B58;&#x56FE;&#x7247;&#x7684;&#x8DEF;&#x5F84;</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取缓存图片"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x83B7;&#x53D6;&#x7F13;&#x5B58;&#x56FE;&#x7247;" class="headerlink" title="&#x83B7;&#x53D6;&#x7F13;&#x5B58;&#x56FE;&#x7247;"></a>&#x83B7;&#x53D6;&#x7F13;&#x5B58;&#x56FE;&#x7247;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取缓存占用空间"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x83B7;&#x53D6;&#x7F13;&#x5B58;&#x5360;&#x7528;&#x7A7A;&#x95F4;" class="headerlink" title="&#x83B7;&#x53D6;&#x7F13;&#x5B58;&#x5360;&#x7528;&#x7A7A;&#x95F4;"></a>&#x83B7;&#x53D6;&#x7F13;&#x5B58;&#x5360;&#x7528;&#x7A7A;&#x95F4;</span></a></li></ol>
 		
 		</div>
 		
-		<p>#SDWebImage中那些好用的方法<br><a href="https://github.com/rs/SDWebImage" target="_blank" rel="external">SDWebImage</a>主要作用:</p>
+		<p>#SDWebImage中那些好用的方法<br><a href="https://github.com/rs/SDWebImage" target="_blank" rel="noopener">SDWebImage</a>主要作用:</p>
 <blockquote>
 <p>一个异步下载图片并且支持缓存的UIImageView分类</p>
 </blockquote>
-<p><a href="https://github.com/rs/SDWebImage" target="_blank" rel="external">SDWebImage</a>是iOS开发者几乎都会用到的一个第三方库，Star数量以上万，使用其提供的方法,一句话就能让<code>UIImageView</code>自动去加载并显示网络图片,特别实在<code>UITableViewCell</code>中有需要显示来自网络的图片,进行异步加载<a href="https://github.com/rs/SDWebImage" target="_blank" rel="external">SDWebImage</a>会自动去管理这些图片, 包括缓存到内存和缓存到磁盘等等。包括gif图片的显示也是轻松完成。本文主要分享除了基本方法以外的一些其他给力方法。</p>
+<p><a href="https://github.com/rs/SDWebImage" target="_blank" rel="noopener">SDWebImage</a>是iOS开发者几乎都会用到的一个第三方库，Star数量以上万，使用其提供的方法,一句话就能让<code>UIImageView</code>自动去加载并显示网络图片,特别实在<code>UITableViewCell</code>中有需要显示来自网络的图片,进行异步加载<a href="https://github.com/rs/SDWebImage" target="_blank" rel="noopener">SDWebImage</a>会自动去管理这些图片, 包括缓存到内存和缓存到磁盘等等。包括gif图片的显示也是轻松完成。本文主要分享除了基本方法以外的一些其他给力方法。</p>
 <h2 id="图片下载"><a href="#图片下载" class="headerlink" title="图片下载"></a>图片下载</h2><p>图片下载有两种方式。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// 方法1:</div><div class="line">[[SDWebImageDownloader sharedDownloader] downloadImageWithURL:url options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) &#123;</div><div class="line">// 下载进度block</div><div class="line">&#125; completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) &#123;</div><div class="line">// 下载完成block</div><div class="line">&#125;];</div><div class="line"></div><div class="line">// 方法2:</div><div class="line">[[SDWebImageManager sharedManager] downloadImageWithURL:url options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) &#123;</div><div class="line">// 下载进度block</div><div class="line">&#125; completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) &#123;</div><div class="line">// 下载完成block</div><div class="line">&#125;];</div></pre></td></tr></table></figure>
 <p>以上两个方法可以下载图片，但是肯定是有差别的，都提供下载进度回调和下载完成回调，不同点:</p>
@@ -161,10 +163,10 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/06/02/Sqlit3/" title="Sqlite">
+ <a href="/2015/02/22/ARC/" title="iOS开发ARC内存管理">
   <strong>上一篇：</strong><br/>
   <span>
-  Sqlite</span>
+  iOS开发ARC内存管理</span>
 </a>
 </div>
 
@@ -185,7 +187,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#图片下载"><span class="toc-number">1.</span> <span class="toc-text">图片下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图片存储-SDImageCache类"><span class="toc-number">2.</span> <span class="toc-text">图片存储(SDImageCache类)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取缓存图片的路径"><span class="toc-number">2.1.</span> <span class="toc-text">获取缓存图片的路径</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取缓存图片"><span class="toc-number">3.</span> <span class="toc-text">获取缓存图片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取缓存占用空间"><span class="toc-number">4.</span> <span class="toc-text">获取缓存占用空间</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#图片下载"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x56FE;&#x7247;&#x4E0B;&#x8F7D;" class="headerlink" title="&#x56FE;&#x7247;&#x4E0B;&#x8F7D;"></a>&#x56FE;&#x7247;&#x4E0B;&#x8F7D;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图片存储-SDImageCache类"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x56FE;&#x7247;&#x5B58;&#x50A8;-SDImageCache&#x7C7B;" class="headerlink" title="&#x56FE;&#x7247;&#x5B58;&#x50A8;(SDImageCache&#x7C7B;)"></a>&#x56FE;&#x7247;&#x5B58;&#x50A8;(SDImageCache&#x7C7B;)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取缓存图片的路径"><span class="toc-number">2.1.</span> <span class="toc-text"><a href="#&#x83B7;&#x53D6;&#x7F13;&#x5B58;&#x56FE;&#x7247;&#x7684;&#x8DEF;&#x5F84;" class="headerlink" title="&#x83B7;&#x53D6;&#x7F13;&#x5B58;&#x56FE;&#x7247;&#x7684;&#x8DEF;&#x5F84;"></a>&#x83B7;&#x53D6;&#x7F13;&#x5B58;&#x56FE;&#x7247;&#x7684;&#x8DEF;&#x5F84;</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取缓存图片"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x83B7;&#x53D6;&#x7F13;&#x5B58;&#x56FE;&#x7247;" class="headerlink" title="&#x83B7;&#x53D6;&#x7F13;&#x5B58;&#x56FE;&#x7247;"></a>&#x83B7;&#x53D6;&#x7F13;&#x5B58;&#x56FE;&#x7247;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取缓存占用空间"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x83B7;&#x53D6;&#x7F13;&#x5B58;&#x5360;&#x7528;&#x7A7A;&#x95F4;" class="headerlink" title="&#x83B7;&#x53D6;&#x7F13;&#x5B58;&#x5360;&#x7528;&#x7A7A;&#x95F4;"></a>&#x83B7;&#x53D6;&#x7F13;&#x5B58;&#x5360;&#x7528;&#x7A7A;&#x95F4;</span></a></li></ol>
  
   </div>
 
@@ -217,6 +219,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/OC/" title="OC">OC<sup>2</sup></a></li>
 		  
 		
@@ -225,7 +231,9 @@
 		  
 		
 		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
 		  
 		
 		  
@@ -258,11 +266,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
 			
 		
 			
@@ -274,7 +282,11 @@
 			
 		
 			
-				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
 			
 		
 			
@@ -286,11 +298,11 @@
 			
 		
 			
-				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
 			
 		
 			
@@ -298,11 +310,11 @@
 			
 		
 			
-				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
+				<li><a href="/tags/Mac终端/" title="Mac终端">Mac终端<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
 			
 		
 			
@@ -315,6 +327,10 @@
 		
 			
 				<li><a href="/tags/Swift/" title="Swift">Swift<sup>1</sup></a></li>
+			
+		
+			
+		
 			
 		
 		</ul>

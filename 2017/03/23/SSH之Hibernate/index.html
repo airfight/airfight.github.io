@@ -12,11 +12,13 @@
 
     
     <meta name="description" content="SSH是 struts+spring+hibernate的一个集成框架，是目前比较流行的一种Web应用程序开源框架。">
+<meta name="keywords" content="SSH">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java SSH环境搭建">
 <meta property="og:url" content="http://yoursite.com/2017/03/23/SSH之Hibernate/index.html">
 <meta property="og:site_name" content="airfight">
 <meta property="og:description" content="SSH是 struts+spring+hibernate的一个集成框架，是目前比较流行的一种Web应用程序开源框架。">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-42bd26c82c007760.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-5b1cf62aeef239df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-1db75d2efcf2a2a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -104,7 +106,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SSH环境搭建"><span class="toc-number">1.</span> <span class="toc-text">SSH环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#struts环境搭建"><span class="toc-number">1.1.</span> <span class="toc-text">struts环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建项目"><span class="toc-number">1.1.1.</span> <span class="toc-text">创建项目</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring环境搭建-实现查询数据库表以及简单注入"><span class="toc-number">1.2.</span> <span class="toc-text">spring环境搭建(实现查询数据库表以及简单注入)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hibernate-环境搭建"><span class="toc-number">1.3.</span> <span class="toc-text">Hibernate 环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#附"><span class="toc-number">1.4.</span> <span class="toc-text">附</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SSH环境搭建"><span class="toc-number">1.</span> <span class="toc-text"><a href="#SSH&#x73AF;&#x5883;&#x642D;&#x5EFA;" class="headerlink" title="SSH&#x73AF;&#x5883;&#x642D;&#x5EFA;"></a>SSH&#x73AF;&#x5883;&#x642D;&#x5EFA;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#struts环境搭建"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#struts&#x73AF;&#x5883;&#x642D;&#x5EFA;" class="headerlink" title="struts&#x73AF;&#x5883;&#x642D;&#x5EFA;"></a>struts&#x73AF;&#x5883;&#x642D;&#x5EFA;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建项目"><span class="toc-number">1.1.1.</span> <span class="toc-text"><a href="#&#x521B;&#x5EFA;&#x9879;&#x76EE;" class="headerlink" title="&#x521B;&#x5EFA;&#x9879;&#x76EE;"></a>&#x521B;&#x5EFA;&#x9879;&#x76EE;</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring环境搭建-实现查询数据库表以及简单注入"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#spring&#x73AF;&#x5883;&#x642D;&#x5EFA;-&#x5B9E;&#x73B0;&#x67E5;&#x8BE2;&#x6570;&#x636E;&#x5E93;&#x8868;&#x4EE5;&#x53CA;&#x7B80;&#x5355;&#x6CE8;&#x5165;" class="headerlink" title="spring&#x73AF;&#x5883;&#x642D;&#x5EFA;(&#x5B9E;&#x73B0;&#x67E5;&#x8BE2;&#x6570;&#x636E;&#x5E93;&#x8868;&#x4EE5;&#x53CA;&#x7B80;&#x5355;&#x6CE8;&#x5165;)"></a>spring&#x73AF;&#x5883;&#x642D;&#x5EFA;(&#x5B9E;&#x73B0;&#x67E5;&#x8BE2;&#x6570;&#x636E;&#x5E93;&#x8868;&#x4EE5;&#x53CA;&#x7B80;&#x5355;&#x6CE8;&#x5165;)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hibernate-环境搭建"><span class="toc-number">1.3.</span> <span class="toc-text"><a href="#Hibernate-&#x73AF;&#x5883;&#x642D;&#x5EFA;" class="headerlink" title="Hibernate &#x73AF;&#x5883;&#x642D;&#x5EFA;"></a>Hibernate &#x73AF;&#x5883;&#x642D;&#x5EFA;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#附"><span class="toc-number">1.4.</span> <span class="toc-text"><a href="#&#x9644;" class="headerlink" title="&#x9644;"></a>&#x9644;</span></a></li></ol></li></ol>
 		
 		</div>
 		
@@ -126,9 +128,9 @@ double 64位浮点型-->
 * use estoresystem; (使用数据库use estoresystem;)
 * source + 路径(直接创建数据库表)-->
 <blockquote>
-<p>struts-2.3.30     <a href="http://struts.apache.org/download.cgi#struts252" target="_blank" rel="external">下载地址</a></p>
-<p>spring-framework-4.3.1 <a href="http://repo.spring.io/release/org/springframework/spring/" target="_blank" rel="external">下载地址</a></p>
-<p>hibernate-release-5.2.2 <a href="http://hibernate.org/orm/downloads/" target="_blank" rel="external">下载地址</a></p>
+<p>struts-2.3.30     <a href="http://struts.apache.org/download.cgi#struts252" target="_blank" rel="noopener">下载地址</a></p>
+<p>spring-framework-4.3.1 <a href="http://repo.spring.io/release/org/springframework/spring/" target="_blank" rel="noopener">下载地址</a></p>
+<p>hibernate-release-5.2.2 <a href="http://hibernate.org/orm/downloads/" target="_blank" rel="noopener">下载地址</a></p>
 </blockquote>
 <h2 id="struts环境搭建"><a href="#struts环境搭建" class="headerlink" title="struts环境搭建"></a>struts环境搭建</h2><h3 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h3><ol>
 <li><p>在eclipse中新建一个web工程,新建工程的时同时勾选web.xml文件如下图:<br><img src="http://upload-images.jianshu.io/upload_images/2082481-42bd26c82c007760.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Snip20170322_6.png"></p>
@@ -169,7 +171,7 @@ double 64位浮点型-->
 <ul>
 <li><p>此外我们还需要加入commons-logging.jar包,用来记录程序运行时的活动的日志记录,该文件在struts2中的lib下可找到,一个struts2中的插件包(struts2-spring-plugin-2.3.30.jar)</p>
 </li>
-<li><p>mySql数据库因此还需加入数据库驱动包<a href="https://dev.mysql.com/downloads/connector/j/" target="_blank" rel="external">mysql-connector-java-5.1.39-bin.jar</a></p>
+<li><p>mySql数据库因此还需加入数据库驱动包<a href="https://dev.mysql.com/downloads/connector/j/" target="_blank" rel="noopener">mysql-connector-java-5.1.39-bin.jar</a></p>
 </li>
 </ul>
 <ol>
@@ -194,8 +196,8 @@ double 64位浮点型-->
 <li>配置连接数据库相关信息的hibernate.cfg.xml文件</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;?xml version=&apos;1.0&apos; encoding=&apos;UTF-8&apos;?&gt;</div><div class="line">&lt;!DOCTYPE hibernate-configuration PUBLIC</div><div class="line">          &quot;-//Hibernate/Hibernate Configuration DTD 3.0//EN&quot;</div><div class="line">          &quot;http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd&quot;&gt;</div><div class="line">&lt;hibernate-configuration&gt;</div><div class="line"></div><div class="line">&lt;session-factory&gt;</div><div class="line"></div><div class="line">  &lt;property name=&quot;dialect&quot;&gt;org.hibernate.dialect.MySQLDialect&lt;/property&gt; </div><div class="line">  &lt;property name=&quot;show_sql&quot;&gt;true&lt;/property&gt;</div><div class="line">  &lt;property name=&quot;format_sql&quot;&gt;true&lt;/property&gt;</div><div class="line">  &lt;property name=&quot;connection.pool_size&quot;&gt;5&lt;/property&gt;</div><div class="line"></div><div class="line">  &lt;property name=&quot;connection.username&quot;&gt;root&lt;/property&gt; </div><div class="line">  &lt;property name=&quot;connection.password&quot;&gt;zgy666666&lt;/property&gt; </div><div class="line">  &lt;property name=&quot;connection.driver_class&quot;&gt;com.mysql.jdbc.Driver&lt;/property&gt;</div><div class="line">  &lt;property name=&quot;connection.url&quot;&gt;jdbc:mysql://localhost:3306/mysql&lt;/property&gt; </div><div class="line"></div><div class="line">  &lt;mapping resource=&quot;Students.hbm.xml&quot;/&gt; </div><div class="line">  </div><div class="line">  &lt;/session-factory&gt;</div><div class="line">&lt;/hibernate-configuration&gt;</div></pre></td></tr></table></figure>
-<h2 id="附"><a href="#附" class="headerlink" title="附"></a>附</h2><p><a href="http://www.yiibai.com/hibernate/hibernate_query_language.html" target="_blank" rel="external">易百</a></p>
-<p><a href="https://github.com/GYJava/SSHDemo" target="_blank" rel="external">Demo</a></p>
+<h2 id="附"><a href="#附" class="headerlink" title="附"></a>附</h2><p><a href="http://www.yiibai.com/hibernate/hibernate_query_language.html" target="_blank" rel="noopener">易百</a></p>
+<p><a href="https://github.com/GYJava/SSHDemo" target="_blank" rel="noopener">Demo</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -241,9 +243,9 @@ double 64位浮点型-->
 
 
 <div class="next">
-<a href="/2017/03/06/iOS面试总结/"  title="">
+<a href="/2017/03/06/Mac设置自启动以及定时任务/"  title="Mac设置开机启动项">
  <strong>下一篇：</strong><br/> 
- <span>(no title)
+ <span>Mac设置开机启动项
 </span>
 </a>
 </div>
@@ -264,7 +266,7 @@ double 64位浮点型-->
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SSH环境搭建"><span class="toc-number">1.</span> <span class="toc-text">SSH环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#struts环境搭建"><span class="toc-number">1.1.</span> <span class="toc-text">struts环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建项目"><span class="toc-number">1.1.1.</span> <span class="toc-text">创建项目</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring环境搭建-实现查询数据库表以及简单注入"><span class="toc-number">1.2.</span> <span class="toc-text">spring环境搭建(实现查询数据库表以及简单注入)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hibernate-环境搭建"><span class="toc-number">1.3.</span> <span class="toc-text">Hibernate 环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#附"><span class="toc-number">1.4.</span> <span class="toc-text">附</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SSH环境搭建"><span class="toc-number">1.</span> <span class="toc-text"><a href="#SSH&#x73AF;&#x5883;&#x642D;&#x5EFA;" class="headerlink" title="SSH&#x73AF;&#x5883;&#x642D;&#x5EFA;"></a>SSH&#x73AF;&#x5883;&#x642D;&#x5EFA;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#struts环境搭建"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#struts&#x73AF;&#x5883;&#x642D;&#x5EFA;" class="headerlink" title="struts&#x73AF;&#x5883;&#x642D;&#x5EFA;"></a>struts&#x73AF;&#x5883;&#x642D;&#x5EFA;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建项目"><span class="toc-number">1.1.1.</span> <span class="toc-text"><a href="#&#x521B;&#x5EFA;&#x9879;&#x76EE;" class="headerlink" title="&#x521B;&#x5EFA;&#x9879;&#x76EE;"></a>&#x521B;&#x5EFA;&#x9879;&#x76EE;</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring环境搭建-实现查询数据库表以及简单注入"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#spring&#x73AF;&#x5883;&#x642D;&#x5EFA;-&#x5B9E;&#x73B0;&#x67E5;&#x8BE2;&#x6570;&#x636E;&#x5E93;&#x8868;&#x4EE5;&#x53CA;&#x7B80;&#x5355;&#x6CE8;&#x5165;" class="headerlink" title="spring&#x73AF;&#x5883;&#x642D;&#x5EFA;(&#x5B9E;&#x73B0;&#x67E5;&#x8BE2;&#x6570;&#x636E;&#x5E93;&#x8868;&#x4EE5;&#x53CA;&#x7B80;&#x5355;&#x6CE8;&#x5165;)"></a>spring&#x73AF;&#x5883;&#x642D;&#x5EFA;(&#x5B9E;&#x73B0;&#x67E5;&#x8BE2;&#x6570;&#x636E;&#x5E93;&#x8868;&#x4EE5;&#x53CA;&#x7B80;&#x5355;&#x6CE8;&#x5165;)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hibernate-环境搭建"><span class="toc-number">1.3.</span> <span class="toc-text"><a href="#Hibernate-&#x73AF;&#x5883;&#x642D;&#x5EFA;" class="headerlink" title="Hibernate &#x73AF;&#x5883;&#x642D;&#x5EFA;"></a>Hibernate &#x73AF;&#x5883;&#x642D;&#x5EFA;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#附"><span class="toc-number">1.4.</span> <span class="toc-text"><a href="#&#x9644;" class="headerlink" title="&#x9644;"></a>&#x9644;</span></a></li></ol></li></ol>
  
   </div>
 
@@ -296,6 +298,10 @@ double 64位浮点型-->
 		  
 		
 		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/OC/" title="OC">OC<sup>2</sup></a></li>
 		  
 		
@@ -304,7 +310,9 @@ double 64位浮点型-->
 		  
 		
 		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
 		  
 		
 		  
@@ -337,11 +345,11 @@ double 64位浮点型-->
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
 			
 		
 			
@@ -353,7 +361,11 @@ double 64位浮点型-->
 			
 		
 			
-				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
 			
 		
 			
@@ -365,11 +377,11 @@ double 64位浮点型-->
 			
 		
 			
-				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
 			
 		
 			
@@ -377,11 +389,11 @@ double 64位浮点型-->
 			
 		
 			
-				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
+				<li><a href="/tags/Mac终端/" title="Mac终端">Mac终端<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
 			
 		
 			
@@ -394,6 +406,10 @@ double 64位浮点型-->
 		
 			
 				<li><a href="/tags/Swift/" title="Swift">Swift<sup>1</sup></a></li>
+			
+		
+			
+		
 			
 		
 		</ul>

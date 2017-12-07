@@ -12,14 +12,16 @@
 
     
     <meta name="description" content="Method swizzling 用于改变一个已经存在的 selector 的实现。这项技术使得在运行时通过改变 selector 在类的消息分发列表中的映射从而改变方法的掉用成为可能">
+<meta name="keywords" content="Runtime">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Swift & the Objective-C Runtime">
+<meta property="og:title" content="Swift &amp; the Objective-C Runtime">
 <meta property="og:url" content="http://yoursite.com/2016/12/28/Swift & the Objective-C Runtime/index.html">
 <meta property="og:site_name" content="airfight">
 <meta property="og:description" content="Method swizzling 用于改变一个已经存在的 selector 的实现。这项技术使得在运行时通过改变 selector 在类的消息分发列表中的映射从而改变方法的掉用成为可能">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-12-28T11:39:37.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Swift & the Objective-C Runtime">
+<meta name="twitter:title" content="Swift &amp; the Objective-C Runtime">
 <meta name="twitter:description" content="Method swizzling 用于改变一个已经存在的 selector 的实现。这项技术使得在运行时通过改变 selector 在类的消息分发列表中的映射从而改变方法的掉用成为可能">
 
     
@@ -96,7 +98,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Swift-amp-the-Objective-C-Runtime"><span class="toc-number">1.</span> <span class="toc-text">Swift & the Objective-C Runtime</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Method-Swizzling-方法交叉"><span class="toc-number">1.1.</span> <span class="toc-text">Method Swizzling(方法交叉)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Objective-C"><span class="toc-number">1.1.1.</span> <span class="toc-text">Objective-C</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#load-vc-initialize"><span class="toc-number">1.1.2.</span> <span class="toc-text">+load vc +initialize</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dispatch-once"><span class="toc-number">1.1.3.</span> <span class="toc-text">dispatch_once</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Selectors-Methods-amp-Implementations"><span class="toc-number">1.2.</span> <span class="toc-text">Selectors, Methods, & Implementations</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Associated-Objects-关联对象"><span class="toc-number">1.3.</span> <span class="toc-text">Associated Objects(关联对象)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">1.4.</span> <span class="toc-text">参考资料</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Swift-amp-the-Objective-C-Runtime"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Swift-amp-the-Objective-C-Runtime" class="headerlink" title="Swift &amp; the Objective-C Runtime"></a>Swift &amp; the Objective-C Runtime</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Method-Swizzling-方法交叉"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#Method-Swizzling-&#x65B9;&#x6CD5;&#x4EA4;&#x53C9;" class="headerlink" title="Method Swizzling(&#x65B9;&#x6CD5;&#x4EA4;&#x53C9;)"></a>Method Swizzling(&#x65B9;&#x6CD5;&#x4EA4;&#x53C9;)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Objective-C"><span class="toc-number">1.1.1.</span> <span class="toc-text"><a href="#Objective-C" class="headerlink" title="Objective-C"></a>Objective-C</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#load-vc-initialize"><span class="toc-number">1.1.2.</span> <span class="toc-text"><a href="#load-vc-initialize" class="headerlink" title="+load vc +initialize"></a>+load vc +initialize</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dispatch-once"><span class="toc-number">1.1.3.</span> <span class="toc-text"><a href="#dispatch-once" class="headerlink" title="dispatch_once"></a>dispatch_once</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Selectors-Methods-amp-Implementations"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#Selectors-Methods-amp-Implementations" class="headerlink" title="Selectors, Methods, &amp; Implementations"></a>Selectors, Methods, &amp; Implementations</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Associated-Objects-关联对象"><span class="toc-number">1.3.</span> <span class="toc-text"><a href="#Associated-Objects-&#x5173;&#x8054;&#x5BF9;&#x8C61;" class="headerlink" title="Associated Objects(&#x5173;&#x8054;&#x5BF9;&#x8C61;)"></a>Associated Objects(&#x5173;&#x8054;&#x5BF9;&#x8C61;)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">1.4.</span> <span class="toc-text"><a href="#&#x53C2;&#x8003;&#x8D44;&#x6599;" class="headerlink" title="&#x53C2;&#x8003;&#x8D44;&#x6599;"></a>&#x53C2;&#x8003;&#x8D44;&#x6599;</span></a></li></ol></li></ol>
 		
 		</div>
 		
@@ -107,7 +109,7 @@
 <h3 id="load-vc-initialize"><a href="#load-vc-initialize" class="headerlink" title="+load vc +initialize"></a>+load vc +initialize</h3><p>swizzling应该只在+load中完成，在 Objective-C 的运行时中，每个类有两个方法都会自动调用。+load 是在一个类被初始装载时调用，+initialize 是在应用第一次调用该类的类方法或实例方法前调用的。两个方法都是可选的，并且只有在方法被实现的情况下才会被调用。</p>
 <h3 id="dispatch-once"><a href="#dispatch-once" class="headerlink" title="dispatch_once"></a>dispatch_once</h3><p><strong>swizzling 应该只在 dispatch_once 中完成</strong></p>
 <p>由于 swizzling 改变了全局的状态，所以我们需要确保每个预防措施在运行时都是可用的。原子操作就是这样一个用于确保代码只会被执行一次的预防措施，就算是在不同的线程中也能确保代码只执行一次。Grand Central Dispatch 的 dispatch_once 满足了所需要的需求，并且应该被当做使用 swizzling 的初始化单例方法的标准。</p>
-<h2 id="Selectors-Methods-amp-Implementations"><a href="#Selectors-Methods-amp-Implementations" class="headerlink" title="Selectors, Methods, &amp; Implementations"></a>Selectors, Methods, &amp; Implementations</h2><p>在 Objective-C 的运行时中，selectors, methods, implementations 指代了不同概念，然而我们通常会说在消息发送过程中，这三个概念是可以相互转换的。 下面是苹果 <a href="https://developer.apple.com/reference/objectivec/1657527-objective_c_runtime#//apple_ref/c/func/method_getImplementation" target="_blank" rel="external">Objective-C Runtime Reference</a>中的描述：</p>
+<h2 id="Selectors-Methods-amp-Implementations"><a href="#Selectors-Methods-amp-Implementations" class="headerlink" title="Selectors, Methods, &amp; Implementations"></a>Selectors, Methods, &amp; Implementations</h2><p>在 Objective-C 的运行时中，selectors, methods, implementations 指代了不同概念，然而我们通常会说在消息发送过程中，这三个概念是可以相互转换的。 下面是苹果 <a href="https://developer.apple.com/reference/objectivec/1657527-objective_c_runtime#//apple_ref/c/func/method_getImplementation" target="_blank" rel="noopener">Objective-C Runtime Reference</a>中的描述：</p>
 <blockquote>
 <ul>
 <li>Selector（typedef struct objc_selector *SEL）:在运行时 Selectors 用来代表一个方法的名字。Selector 是一个在运行时被注册（或映射）的C类型字符串。Selector由编译器产生并且在当类被加载进内存时由运行时自动进行名字和实现的映射。</li>
@@ -116,7 +118,7 @@
 </ul>
 </blockquote>
 <p>理解 selector, method, implementation 这三个概念之间关系的最好方式是：在运行时，类（Class）维护了一个消息分发列表来解决消息的正确发送。每一个消息列表的入口是一个方法（Method），这个方法映射了一对键值对，其中键值是这个方法的名字 selector（SEL），值是指向这个方法实现的函数指针 implementation（IMP）。 Method swizzling 修改了类的消息分发列表使得已经存在的 selector 映射了另一个实现 implementation，同时重命名了原生方法的实现为一个新的 selector。</p>
-<h2 id="Associated-Objects-关联对象"><a href="#Associated-Objects-关联对象" class="headerlink" title="Associated Objects(关联对象)"></a>Associated Objects(关联对象)</h2><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>1.<a href="http://nshipster.cn/method-swizzling/" target="_blank" rel="external">nshipster</a><br>2.<a href="https://www.zybuluo.com/pockry/note/329784" target="_blank" rel="external">Swift Runtime动态性分析</a></p>
+<h2 id="Associated-Objects-关联对象"><a href="#Associated-Objects-关联对象" class="headerlink" title="Associated Objects(关联对象)"></a>Associated Objects(关联对象)</h2><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>1.<a href="http://nshipster.cn/method-swizzling/" target="_blank" rel="noopener">nshipster</a><br>2.<a href="https://www.zybuluo.com/pockry/note/329784" target="_blank" rel="noopener">Swift Runtime动态性分析</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -180,7 +182,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Swift-amp-the-Objective-C-Runtime"><span class="toc-number">1.</span> <span class="toc-text">Swift & the Objective-C Runtime</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Method-Swizzling-方法交叉"><span class="toc-number">1.1.</span> <span class="toc-text">Method Swizzling(方法交叉)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Objective-C"><span class="toc-number">1.1.1.</span> <span class="toc-text">Objective-C</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#load-vc-initialize"><span class="toc-number">1.1.2.</span> <span class="toc-text">+load vc +initialize</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dispatch-once"><span class="toc-number">1.1.3.</span> <span class="toc-text">dispatch_once</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Selectors-Methods-amp-Implementations"><span class="toc-number">1.2.</span> <span class="toc-text">Selectors, Methods, & Implementations</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Associated-Objects-关联对象"><span class="toc-number">1.3.</span> <span class="toc-text">Associated Objects(关联对象)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">1.4.</span> <span class="toc-text">参考资料</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Swift-amp-the-Objective-C-Runtime"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Swift-amp-the-Objective-C-Runtime" class="headerlink" title="Swift &amp; the Objective-C Runtime"></a>Swift &amp; the Objective-C Runtime</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Method-Swizzling-方法交叉"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#Method-Swizzling-&#x65B9;&#x6CD5;&#x4EA4;&#x53C9;" class="headerlink" title="Method Swizzling(&#x65B9;&#x6CD5;&#x4EA4;&#x53C9;)"></a>Method Swizzling(&#x65B9;&#x6CD5;&#x4EA4;&#x53C9;)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Objective-C"><span class="toc-number">1.1.1.</span> <span class="toc-text"><a href="#Objective-C" class="headerlink" title="Objective-C"></a>Objective-C</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#load-vc-initialize"><span class="toc-number">1.1.2.</span> <span class="toc-text"><a href="#load-vc-initialize" class="headerlink" title="+load vc +initialize"></a>+load vc +initialize</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dispatch-once"><span class="toc-number">1.1.3.</span> <span class="toc-text"><a href="#dispatch-once" class="headerlink" title="dispatch_once"></a>dispatch_once</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Selectors-Methods-amp-Implementations"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#Selectors-Methods-amp-Implementations" class="headerlink" title="Selectors, Methods, &amp; Implementations"></a>Selectors, Methods, &amp; Implementations</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Associated-Objects-关联对象"><span class="toc-number">1.3.</span> <span class="toc-text"><a href="#Associated-Objects-&#x5173;&#x8054;&#x5BF9;&#x8C61;" class="headerlink" title="Associated Objects(&#x5173;&#x8054;&#x5BF9;&#x8C61;)"></a>Associated Objects(&#x5173;&#x8054;&#x5BF9;&#x8C61;)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">1.4.</span> <span class="toc-text"><a href="#&#x53C2;&#x8003;&#x8D44;&#x6599;" class="headerlink" title="&#x53C2;&#x8003;&#x8D44;&#x6599;"></a>&#x53C2;&#x8003;&#x8D44;&#x6599;</span></a></li></ol></li></ol>
  
   </div>
 
@@ -212,6 +214,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/OC/" title="OC">OC<sup>2</sup></a></li>
 		  
 		
@@ -220,7 +226,9 @@
 		  
 		
 		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
 		  
 		
 		  
@@ -253,11 +261,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
 			
 		
 			
@@ -269,7 +277,11 @@
 			
 		
 			
-				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
 			
 		
 			
@@ -281,11 +293,11 @@
 			
 		
 			
-				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
 			
 		
 			
@@ -293,11 +305,11 @@
 			
 		
 			
-				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
+				<li><a href="/tags/Mac终端/" title="Mac终端">Mac终端<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
 			
 		
 			
@@ -310,6 +322,10 @@
 		
 			
 				<li><a href="/tags/Swift/" title="Swift">Swift<sup>1</sup></a></li>
+			
+		
+			
+		
 			
 		
 		</ul>

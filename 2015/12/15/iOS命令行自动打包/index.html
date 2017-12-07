@@ -12,11 +12,13 @@
 
     
     <meta name="description" content="本文最终实现的是使用脚本打 Ad-hoc 包，并发布测试，当然稍微修改一下脚本参数就可以打其他类型的 ipa 包了。另外该脚本还实现了将生成的 ipa 包上传至蒲公英进行测试分发。">
+<meta name="keywords" content="Archive">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS自动打包并发布脚本">
 <meta property="og:url" content="http://yoursite.com/2015/12/15/iOS命令行自动打包/index.html">
 <meta property="og:site_name" content="airfight">
 <meta property="og:description" content="本文最终实现的是使用脚本打 Ad-hoc 包，并发布测试，当然稍微修改一下脚本参数就可以打其他类型的 ipa 包了。另外该脚本还实现了将生成的 ipa 包上传至蒲公英进行测试分发。">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-12-25T10:44:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS自动打包并发布脚本">
@@ -96,7 +98,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS自动打包并发布脚本"><span class="toc-number">1.</span> <span class="toc-text">iOS自动打包并发布脚本</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#xcodebuild-简介"><span class="toc-number">1.1.</span> <span class="toc-text">xcodebuild 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用xcodebuild和xcrun打包签名"><span class="toc-number">1.2.</span> <span class="toc-text">使用xcodebuild和xcrun打包签名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#将打包过程脚本化"><span class="toc-number">1.3.</span> <span class="toc-text">将打包过程脚本化</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS自动打包并发布脚本"><span class="toc-number">1.</span> <span class="toc-text"><a href="#iOS&#x81EA;&#x52A8;&#x6253;&#x5305;&#x5E76;&#x53D1;&#x5E03;&#x811A;&#x672C;" class="headerlink" title="iOS&#x81EA;&#x52A8;&#x6253;&#x5305;&#x5E76;&#x53D1;&#x5E03;&#x811A;&#x672C;"></a>iOS&#x81EA;&#x52A8;&#x6253;&#x5305;&#x5E76;&#x53D1;&#x5E03;&#x811A;&#x672C;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#xcodebuild-简介"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#xcodebuild-&#x7B80;&#x4ECB;" class="headerlink" title="xcodebuild &#x7B80;&#x4ECB;"></a>xcodebuild &#x7B80;&#x4ECB;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用xcodebuild和xcrun打包签名"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#&#x4F7F;&#x7528;xcodebuild&#x548C;xcrun&#x6253;&#x5305;&#x7B7E;&#x540D;" class="headerlink" title="&#x4F7F;&#x7528;xcodebuild&#x548C;xcrun&#x6253;&#x5305;&#x7B7E;&#x540D;"></a>&#x4F7F;&#x7528;xcodebuild&#x548C;xcrun&#x6253;&#x5305;&#x7B7E;&#x540D;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#将打包过程脚本化"><span class="toc-number">1.3.</span> <span class="toc-text"><a href="#&#x5C06;&#x6253;&#x5305;&#x8FC7;&#x7A0B;&#x811A;&#x672C;&#x5316;" class="headerlink" title="&#x5C06;&#x6253;&#x5305;&#x8FC7;&#x7A0B;&#x811A;&#x672C;&#x5316;"></a>&#x5C06;&#x6253;&#x5305;&#x8FC7;&#x7A0B;&#x811A;&#x672C;&#x5316;</span></a></li></ol></li></ol>
 		
 		</div>
 		
@@ -138,7 +140,7 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">Information about project &quot;NavTabBar&quot;:</div><div class="line">    Targets:</div><div class="line">        NavTabBar</div><div class="line">        NavTabBarTests</div><div class="line">        NavTabBarUITests</div><div class="line"></div><div class="line">    Build Configurations:</div><div class="line">        Debug</div><div class="line">        Release</div><div class="line">        Ad-hoc</div><div class="line"></div><div class="line">    If no build configuration is specified and -scheme is not passed then &quot;Release&quot; is used.</div><div class="line"></div><div class="line">    Schemes:</div><div class="line">        NavTabBar</div></pre></td></tr></table></figure>
 <ul>
-<li><code>xcodebuild [-project name.xcodeproj] [[-target targetname] ... | -alltargets] build</code>: 上述序号1的使用方式，会 build 指定 project，其中 <code>-target</code> 和 <code>-configuration</code> 参数可以使用 <code>xcodebuild -list</code> 获得，<code>-sdk</code> 参数可由 <code>xcodebuild</code> <code>-showsdks</code> 获得，<code>[buildsetting=value ...]</code> 用来覆盖工程中已有的配置。可覆盖的参数参考官方文档 <a href="https://developer.apple.com/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/" target="_blank" rel="external">Xcode Build Setting Reference</a>, <code>action...</code> 的可用选项如下, 打包的话当然用 build，这也是默认选项。</li>
+<li><code>xcodebuild [-project name.xcodeproj] [[-target targetname] ... | -alltargets] build</code>: 上述序号1的使用方式，会 build 指定 project，其中 <code>-target</code> 和 <code>-configuration</code> 参数可以使用 <code>xcodebuild -list</code> 获得，<code>-sdk</code> 参数可由 <code>xcodebuild</code> <code>-showsdks</code> 获得，<code>[buildsetting=value ...]</code> 用来覆盖工程中已有的配置。可覆盖的参数参考官方文档 <a href="https://developer.apple.com/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/" target="_blank" rel="noopener">Xcode Build Setting Reference</a>, <code>action...</code> 的可用选项如下, 打包的话当然用 build，这也是默认选项。</li>
 </ul>
 <blockquote>
 <p>build<br>Build the target in the build root (SYMROOT). This is the default action, and is used if no action is given.</p>
@@ -172,7 +174,7 @@
 <blockquote>
 <p>Warning: –resource-rules has been deprecated in Mac OS X &gt;= 10.10! ResourceRules.plist: cannot read resources</p>
 </blockquote>
-<p>请参考 <a href="http://stackoverflow.com/questions/32504355/error-itms-90339-this-bundle-is-invalid-the-info-plist-contains-an-invalid-ke/32762413#32762413" target="_blank" rel="external">stackoverflow</a></p>
+<p>请参考 <a href="http://stackoverflow.com/questions/32504355/error-itms-90339-this-bundle-is-invalid-the-info-plist-contains-an-invalid-ke/32762413#32762413" target="_blank" rel="noopener">stackoverflow</a></p>
 <h2 id="将打包过程脚本化"><a href="#将打包过程脚本化" class="headerlink" title="将打包过程脚本化"></a>将打包过程脚本化</h2><p>工作中，特别是所做项目进入测试阶段，肯定会经常打 Ad-hoc 包给测试人员进行测试，但是我们肯定不想每次进行打包的时候都要进行一些工程的设置修改，以及一系列的 next 按钮点击操作，现在就让这些操作都交给脚本化吧。</p>
 <p>1.脚本化中使用如下的命令打包:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xcodebuild -project name.xcodeproj -target targetname -configuration Release -sdk iphoneos build CODE_SIGN_IDENTITY=&quot;$(CODE_SIGN_IDENTITY)&quot; PROVISIONING_PROFILE=&quot;$(PROVISIONING_PROFILE)&quot;</div></pre></td></tr></table></figure>
@@ -191,17 +193,17 @@
 <p>其中，<code>CODE_SIGN_IDENTITY</code> 为开发者证书标识，可以在 Keychain Access -&gt; Certificates -&gt; 选中证书右键弹出菜单 -&gt; Get Info -&gt; Common Name 获取，类似 <code>iPhone Distribution: Company name Co. Ltd (xxxxxxxx9A)</code>, 包括括号内的内容。</p>
 <p><code>PROVISIONING_PROFILE</code>: 这个是 mobileprovision 文件的 identifier，获取方式：</p>
 <p>Xcode -&gt; Preferences -&gt; 选中申请开发者证书的 Apple ID -&gt; 选中开发者证书 -&gt; View Details… -&gt; 根据 <code>Provisioning Profiles</code> 的名字选中打包所需的 mobileprovision 文件 -&gt; 右键菜单 -&gt; Show in Finder -&gt; 找到该文件后，除了该文件后缀名的字符串就是 <code>PROVISIONING_PROFILE</code> 字段的内容。</p>
-<p>当然也可以使用脚本获取, 此处参考 命令行获取<a href="https://my.oschina.net/ioslighter/blog/494342" target="_blank" rel="external">mobileprovision文件的UUID</a>:</p>
+<p>当然也可以使用脚本获取, 此处参考 命令行获取<a href="https://my.oschina.net/ioslighter/blog/494342" target="_blank" rel="noopener">mobileprovision文件的UUID</a>:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line">if [ $# -ne 1 ]</div><div class="line">then</div><div class="line">  echo &quot;Usage: getmobileuuid the-mobileprovision-file-path&quot;</div><div class="line">  exit 1</div><div class="line">fi</div><div class="line"></div><div class="line">mobileprovision_uuid=`/usr/libexec/PlistBuddy -c &quot;Print UUID&quot; /dev/stdin &lt;&lt;&lt; $(/usr/bin/security cms -D -i $1)`</div><div class="line">echo &quot;UUID is:&quot;</div><div class="line">echo $&#123;mobileprovision_uuid&#125;</div></pre></td></tr></table></figure>
 <p><code>USER_KEY</code>, <code>API_KEY</code>: 是蒲公英开放 API 的密钥。</p>
 <p>将<code>autobuild.py</code>脚本放在你项目的根目录下，进入根目录，如下使用：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./autobuild.py -w yourname.xcworkspace -s schemename -o ~/Desktop/yourname.ipa</div></pre></td></tr></table></figure>
 <p>或者</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./autobuild.py -p yourname.xcodeproj -t targetname -o ~/Desktop/yourname.ipa</div></pre></td></tr></table></figure>
-<p>该脚本可在<a href="https://github.com/carya/Util" target="_blank" rel="external">github</a>查看，如有任何问题，请留言回复。</p>
+<p>该脚本可在<a href="https://github.com/carya/Util" target="_blank" rel="noopener">github</a>查看，如有任何问题，请留言回复。</p>
 <p>常见问题:<br>1.找不到request module</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">import requests</div><div class="line">ImportError: No module named requests</div></pre></td></tr></table></figure>
-<p>参考<a href="http://stackoverflow.com/questions/17309288/importerror-no-module-named-requests" target="_blank" rel="external">stackoverflow</a>, 使用 <code>$ sudo pip install requests</code>或者<code>sudo easy_install -U requests</code>;</p>
+<p>参考<a href="http://stackoverflow.com/questions/17309288/importerror-no-module-named-requests" target="_blank" rel="noopener">stackoverflow</a>, 使用 <code>$ sudo pip install requests</code>或者<code>sudo easy_install -U requests</code>;</p>
 <p>2.如果使用了上传蒲公英，且安装需要密码，请打开脚本，搜一下脚本里的password，将其值设置为空。</p>
   
 	</div>
@@ -271,7 +273,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS自动打包并发布脚本"><span class="toc-number">1.</span> <span class="toc-text">iOS自动打包并发布脚本</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#xcodebuild-简介"><span class="toc-number">1.1.</span> <span class="toc-text">xcodebuild 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用xcodebuild和xcrun打包签名"><span class="toc-number">1.2.</span> <span class="toc-text">使用xcodebuild和xcrun打包签名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#将打包过程脚本化"><span class="toc-number">1.3.</span> <span class="toc-text">将打包过程脚本化</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS自动打包并发布脚本"><span class="toc-number">1.</span> <span class="toc-text"><a href="#iOS&#x81EA;&#x52A8;&#x6253;&#x5305;&#x5E76;&#x53D1;&#x5E03;&#x811A;&#x672C;" class="headerlink" title="iOS&#x81EA;&#x52A8;&#x6253;&#x5305;&#x5E76;&#x53D1;&#x5E03;&#x811A;&#x672C;"></a>iOS&#x81EA;&#x52A8;&#x6253;&#x5305;&#x5E76;&#x53D1;&#x5E03;&#x811A;&#x672C;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#xcodebuild-简介"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#xcodebuild-&#x7B80;&#x4ECB;" class="headerlink" title="xcodebuild &#x7B80;&#x4ECB;"></a>xcodebuild &#x7B80;&#x4ECB;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用xcodebuild和xcrun打包签名"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#&#x4F7F;&#x7528;xcodebuild&#x548C;xcrun&#x6253;&#x5305;&#x7B7E;&#x540D;" class="headerlink" title="&#x4F7F;&#x7528;xcodebuild&#x548C;xcrun&#x6253;&#x5305;&#x7B7E;&#x540D;"></a>&#x4F7F;&#x7528;xcodebuild&#x548C;xcrun&#x6253;&#x5305;&#x7B7E;&#x540D;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#将打包过程脚本化"><span class="toc-number">1.3.</span> <span class="toc-text"><a href="#&#x5C06;&#x6253;&#x5305;&#x8FC7;&#x7A0B;&#x811A;&#x672C;&#x5316;" class="headerlink" title="&#x5C06;&#x6253;&#x5305;&#x8FC7;&#x7A0B;&#x811A;&#x672C;&#x5316;"></a>&#x5C06;&#x6253;&#x5305;&#x8FC7;&#x7A0B;&#x811A;&#x672C;&#x5316;</span></a></li></ol></li></ol>
  
   </div>
 
@@ -303,6 +305,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/OC/" title="OC">OC<sup>2</sup></a></li>
 		  
 		
@@ -311,7 +317,9 @@
 		  
 		
 		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
 		  
 		
 		  
@@ -344,11 +352,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
 			
 		
 			
@@ -360,7 +368,11 @@
 			
 		
 			
-				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
 			
 		
 			
@@ -372,11 +384,11 @@
 			
 		
 			
-				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
 			
 		
 			
@@ -384,11 +396,11 @@
 			
 		
 			
-				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
+				<li><a href="/tags/Mac终端/" title="Mac终端">Mac终端<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
 			
 		
 			
@@ -401,6 +413,10 @@
 		
 			
 				<li><a href="/tags/Swift/" title="Swift">Swift<sup>1</sup></a></li>
+			
+		
+			
+		
 			
 		
 		</ul>

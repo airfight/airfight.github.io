@@ -12,11 +12,13 @@
 
     
     <meta name="description" content="使用最新Xcode 8.0 打包发布遇到的问题收集。">
+<meta name="keywords" content="Archive">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Xcode 8.0+自动打包并发布脚本">
 <meta property="og:url" content="http://yoursite.com/2016/12/15/iOS打包发布问题/index.html">
 <meta property="og:site_name" content="airfight">
 <meta property="og:description" content="使用最新Xcode 8.0 打包发布遇到的问题收集。">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-6408e609100223da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-09038c7ef07aabe3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-db27f9533f68e919.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -101,7 +103,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Xcode-8-打包发布问题"><span class="toc-number">1.</span> <span class="toc-text">Xcode 8+ 打包发布问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-问题简介"><span class="toc-number">1.1.</span> <span class="toc-text">1.问题简介</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#This-script-loops-through-the-frameworks-embedded-in-the-application-and"><span class="toc-number">2.</span> <span class="toc-text">This script loops through the frameworks embedded in the application and</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#removes-unused-architectures"><span class="toc-number">3.</span> <span class="toc-text">removes unused architectures.</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-问题简介"><span class="toc-number">3.1.</span> <span class="toc-text">2.问题简介</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Xcode-8-打包发布问题"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Xcode-8-&#x6253;&#x5305;&#x53D1;&#x5E03;&#x95EE;&#x9898;" class="headerlink" title="Xcode 8+ &#x6253;&#x5305;&#x53D1;&#x5E03;&#x95EE;&#x9898;"></a>Xcode 8+ &#x6253;&#x5305;&#x53D1;&#x5E03;&#x95EE;&#x9898;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-问题简介"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#1-&#x95EE;&#x9898;&#x7B80;&#x4ECB;" class="headerlink" title="1.&#x95EE;&#x9898;&#x7B80;&#x4ECB;"></a>1.&#x95EE;&#x9898;&#x7B80;&#x4ECB;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#This-script-loops-through-the-frameworks-embedded-in-the-application-and"><span class="toc-number">2.</span> <span class="toc-text"><a href="#This-script-loops-through-the-frameworks-embedded-in-the-application-and" class="headerlink" title="This script loops through the frameworks embedded in the application and"></a>This script loops through the frameworks embedded in the application and</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#removes-unused-architectures"><span class="toc-number">3.</span> <span class="toc-text"><a href="#removes-unused-architectures" class="headerlink" title="removes unused architectures."></a>removes unused architectures.</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-问题简介"><span class="toc-number">3.1.</span> <span class="toc-text"><a href="#2-&#x95EE;&#x9898;&#x7B80;&#x4ECB;" class="headerlink" title="2.&#x95EE;&#x9898;&#x7B80;&#x4ECB;"></a>2.&#x95EE;&#x9898;&#x7B80;&#x4ECB;</span></a></li></ol></li></ol>
 		
 		</div>
 		
@@ -197,7 +199,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Xcode-8-打包发布问题"><span class="toc-number">1.</span> <span class="toc-text">Xcode 8+ 打包发布问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-问题简介"><span class="toc-number">1.1.</span> <span class="toc-text">1.问题简介</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#This-script-loops-through-the-frameworks-embedded-in-the-application-and"><span class="toc-number">2.</span> <span class="toc-text">This script loops through the frameworks embedded in the application and</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#removes-unused-architectures"><span class="toc-number">3.</span> <span class="toc-text">removes unused architectures.</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-问题简介"><span class="toc-number">3.1.</span> <span class="toc-text">2.问题简介</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Xcode-8-打包发布问题"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Xcode-8-&#x6253;&#x5305;&#x53D1;&#x5E03;&#x95EE;&#x9898;" class="headerlink" title="Xcode 8+ &#x6253;&#x5305;&#x53D1;&#x5E03;&#x95EE;&#x9898;"></a>Xcode 8+ &#x6253;&#x5305;&#x53D1;&#x5E03;&#x95EE;&#x9898;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-问题简介"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#1-&#x95EE;&#x9898;&#x7B80;&#x4ECB;" class="headerlink" title="1.&#x95EE;&#x9898;&#x7B80;&#x4ECB;"></a>1.&#x95EE;&#x9898;&#x7B80;&#x4ECB;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#This-script-loops-through-the-frameworks-embedded-in-the-application-and"><span class="toc-number">2.</span> <span class="toc-text"><a href="#This-script-loops-through-the-frameworks-embedded-in-the-application-and" class="headerlink" title="This script loops through the frameworks embedded in the application and"></a>This script loops through the frameworks embedded in the application and</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#removes-unused-architectures"><span class="toc-number">3.</span> <span class="toc-text"><a href="#removes-unused-architectures" class="headerlink" title="removes unused architectures."></a>removes unused architectures.</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-问题简介"><span class="toc-number">3.1.</span> <span class="toc-text"><a href="#2-&#x95EE;&#x9898;&#x7B80;&#x4ECB;" class="headerlink" title="2.&#x95EE;&#x9898;&#x7B80;&#x4ECB;"></a>2.&#x95EE;&#x9898;&#x7B80;&#x4ECB;</span></a></li></ol></li></ol>
  
   </div>
 
@@ -229,6 +231,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/OC/" title="OC">OC<sup>2</sup></a></li>
 		  
 		
@@ -237,7 +243,9 @@
 		  
 		
 		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
 		  
 		
 		  
@@ -270,11 +278,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
 			
 		
 			
@@ -286,7 +294,11 @@
 			
 		
 			
-				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
 			
 		
 			
@@ -298,11 +310,11 @@
 			
 		
 			
-				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
 			
 		
 			
@@ -310,11 +322,11 @@
 			
 		
 			
-				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
+				<li><a href="/tags/Mac终端/" title="Mac终端">Mac终端<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
 			
 		
 			
@@ -327,6 +339,10 @@
 		
 			
 				<li><a href="/tags/Swift/" title="Swift">Swift<sup>1</sup></a></li>
+			
+		
+			
+		
 			
 		
 		</ul>

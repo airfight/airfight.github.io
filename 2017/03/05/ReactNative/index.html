@@ -12,11 +12,13 @@
 
     
     <meta name="description" content="React Native使你能够在Javascript和React的基础上获得完全一致的开发体验，构建世界一流的原生APP。">
+<meta name="keywords" content="ReactNative">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ReactNative">
 <meta property="og:url" content="http://yoursite.com/2017/03/05/ReactNative/index.html">
 <meta property="og:site_name" content="airfight">
 <meta property="og:description" content="React Native使你能够在Javascript和React的基础上获得完全一致的开发体验，构建世界一流的原生APP。">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-11326e2016028ba1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:updated_time" content="2017-03-05T10:59:54.000Z">
 <meta name="twitter:card" content="summary">
@@ -98,7 +100,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ReactNative"><span class="toc-number">1.</span> <span class="toc-text">ReactNative</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#端口占用-providesModule-declaration-with-the-same-name-accross-two-different-files"><span class="toc-number">1.1.</span> <span class="toc-text">端口占用 @providesModule declaration with the same name accross two different files.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组件生命周期"><span class="toc-number">1.2.</span> <span class="toc-text">组件生命周期</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ReactNative"><span class="toc-number">1.</span> <span class="toc-text"><a href="#ReactNative" class="headerlink" title="ReactNative"></a>ReactNative</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#端口占用-providesModule-declaration-with-the-same-name-accross-two-different-files"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#&#x7AEF;&#x53E3;&#x5360;&#x7528;-providesModule-declaration-with-the-same-name-accross-two-different-files" class="headerlink" title="&#x7AEF;&#x53E3;&#x5360;&#x7528; @providesModule declaration with the same name accross two different files."></a>&#x7AEF;&#x53E3;&#x5360;&#x7528; @providesModule declaration with the same name accross two different files.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组件生命周期"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#&#x7EC4;&#x4EF6;&#x751F;&#x547D;&#x5468;&#x671F;" class="headerlink" title="&#x7EC4;&#x4EF6;&#x751F;&#x547D;&#x5468;&#x671F;"></a>&#x7EC4;&#x4EF6;&#x751F;&#x547D;&#x5468;&#x671F;</span></a></li></ol></li></ol>
 		
 		</div>
 		
@@ -140,18 +142,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/03/06/iOS面试总结/" title="">
+ <a href="/2017/03/06/Mac设置自启动以及定时任务/" title="Mac设置开机启动项">
   <strong>上一篇：</strong><br/>
   <span>
-  (no title)</span>
+  Mac设置开机启动项</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/02/16/associatedtype/"  title="">
+<a href="/2017/02/16/如何让自己的框架支持cocoaPods/"  title="如何让自己的框架支持cocoaPods">
  <strong>下一篇：</strong><br/> 
- <span>(no title)
+ <span>如何让自己的框架支持cocoaPods
 </span>
 </a>
 </div>
@@ -172,7 +174,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ReactNative"><span class="toc-number">1.</span> <span class="toc-text">ReactNative</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#端口占用-providesModule-declaration-with-the-same-name-accross-two-different-files"><span class="toc-number">1.1.</span> <span class="toc-text">端口占用 @providesModule declaration with the same name accross two different files.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组件生命周期"><span class="toc-number">1.2.</span> <span class="toc-text">组件生命周期</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ReactNative"><span class="toc-number">1.</span> <span class="toc-text"><a href="#ReactNative" class="headerlink" title="ReactNative"></a>ReactNative</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#端口占用-providesModule-declaration-with-the-same-name-accross-two-different-files"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#&#x7AEF;&#x53E3;&#x5360;&#x7528;-providesModule-declaration-with-the-same-name-accross-two-different-files" class="headerlink" title="&#x7AEF;&#x53E3;&#x5360;&#x7528; @providesModule declaration with the same name accross two different files."></a>&#x7AEF;&#x53E3;&#x5360;&#x7528; @providesModule declaration with the same name accross two different files.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组件生命周期"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#&#x7EC4;&#x4EF6;&#x751F;&#x547D;&#x5468;&#x671F;" class="headerlink" title="&#x7EC4;&#x4EF6;&#x751F;&#x547D;&#x5468;&#x671F;"></a>&#x7EC4;&#x4EF6;&#x751F;&#x547D;&#x5468;&#x671F;</span></a></li></ol></li></ol>
  
   </div>
 
@@ -204,6 +206,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/OC/" title="OC">OC<sup>2</sup></a></li>
 		  
 		
@@ -212,7 +218,9 @@
 		  
 		
 		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
 		  
 		
 		  
@@ -245,11 +253,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
 			
 		
 			
@@ -261,7 +269,11 @@
 			
 		
 			
-				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
 			
 		
 			
@@ -273,11 +285,11 @@
 			
 		
 			
-				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
 			
 		
 			
@@ -285,11 +297,11 @@
 			
 		
 			
-				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
+				<li><a href="/tags/Mac终端/" title="Mac终端">Mac终端<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
 			
 		
 			
@@ -302,6 +314,10 @@
 		
 			
 				<li><a href="/tags/Swift/" title="Swift">Swift<sup>1</sup></a></li>
+			
+		
+			
+		
 			
 		
 		</ul>

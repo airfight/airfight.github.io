@@ -12,11 +12,13 @@
 
     
     <meta name="description" content="MQTT是IBM开源的一种通讯协议，专门针对低带宽和不稳定网络环境的物联网应用设计，为方便查阅和有需要的同仁学习，特记录。">
+<meta name="keywords" content="MQTT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MQTT协议整理">
 <meta property="og:url" content="http://yoursite.com/2017/05/20/MQTT协议整理/index.html">
 <meta property="og:site_name" content="airfight">
 <meta property="og:description" content="MQTT是IBM开源的一种通讯协议，专门针对低带宽和不稳定网络环境的物联网应用设计，为方便查阅和有需要的同仁学习，特记录。">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2017-05-20T04:54:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MQTT协议整理">
@@ -96,7 +98,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MQTT协议"><span class="toc-number">1.</span> <span class="toc-text">MQTT协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MQTT控制报文的类型"><span class="toc-number">1.1.</span> <span class="toc-text">MQTT控制报文的类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CONNECT-连接服务端"><span class="toc-number">1.1.1.</span> <span class="toc-text">CONNECT - 连接服务端</span></a></li></ol></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MQTT协议"><span class="toc-number">1.</span> <span class="toc-text"><a href="#MQTT&#x534F;&#x8BAE;" class="headerlink" title="MQTT&#x534F;&#x8BAE;"></a>MQTT&#x534F;&#x8BAE;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MQTT控制报文的类型"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#MQTT&#x63A7;&#x5236;&#x62A5;&#x6587;&#x7684;&#x7C7B;&#x578B;" class="headerlink" title="MQTT&#x63A7;&#x5236;&#x62A5;&#x6587;&#x7684;&#x7C7B;&#x578B;"></a>MQTT&#x63A7;&#x5236;&#x62A5;&#x6587;&#x7684;&#x7C7B;&#x578B;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CONNECT-连接服务端"><span class="toc-number">1.1.1.</span> <span class="toc-text"><a href="#CONNECT-&#x8FDE;&#x63A5;&#x670D;&#x52A1;&#x7AEF;" class="headerlink" title="CONNECT - &#x8FDE;&#x63A5;&#x670D;&#x52A1;&#x7AEF;"></a>CONNECT - &#x8FDE;&#x63A5;&#x670D;&#x52A1;&#x7AEF;</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
@@ -235,18 +237,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/05/20/Mac下安装maven添加到eclispe并创建项目/" title="Mac下安装maven添加到eclispe并创建maven项目">
+ <a href="/2017/05/20/Sqlit3的副本/" title="Java图书管理系统">
   <strong>上一篇：</strong><br/>
   <span>
-  Mac下安装maven添加到eclispe并创建maven项目</span>
+  Java图书管理系统</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/05/20/Sqlit3的副本/"  title="Java图书管理系统">
+<a href="/2017/05/20/Mac下安装maven添加到eclispe并创建项目/"  title="Mac下安装maven添加到eclispe并创建maven项目">
  <strong>下一篇：</strong><br/> 
- <span>Java图书管理系统
+ <span>Mac下安装maven添加到eclispe并创建maven项目
 </span>
 </a>
 </div>
@@ -267,7 +269,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MQTT协议"><span class="toc-number">1.</span> <span class="toc-text">MQTT协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MQTT控制报文的类型"><span class="toc-number">1.1.</span> <span class="toc-text">MQTT控制报文的类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CONNECT-连接服务端"><span class="toc-number">1.1.1.</span> <span class="toc-text">CONNECT - 连接服务端</span></a></li></ol></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MQTT协议"><span class="toc-number">1.</span> <span class="toc-text"><a href="#MQTT&#x534F;&#x8BAE;" class="headerlink" title="MQTT&#x534F;&#x8BAE;"></a>MQTT&#x534F;&#x8BAE;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MQTT控制报文的类型"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#MQTT&#x63A7;&#x5236;&#x62A5;&#x6587;&#x7684;&#x7C7B;&#x578B;" class="headerlink" title="MQTT&#x63A7;&#x5236;&#x62A5;&#x6587;&#x7684;&#x7C7B;&#x578B;"></a>MQTT&#x63A7;&#x5236;&#x62A5;&#x6587;&#x7684;&#x7C7B;&#x578B;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CONNECT-连接服务端"><span class="toc-number">1.1.1.</span> <span class="toc-text"><a href="#CONNECT-&#x8FDE;&#x63A5;&#x670D;&#x52A1;&#x7AEF;" class="headerlink" title="CONNECT - &#x8FDE;&#x63A5;&#x670D;&#x52A1;&#x7AEF;"></a>CONNECT - &#x8FDE;&#x63A5;&#x670D;&#x52A1;&#x7AEF;</span></a></li></ol></li></ol></li></ol>
  
   </div>
 
@@ -299,6 +301,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/OC/" title="OC">OC<sup>2</sup></a></li>
 		  
 		
@@ -307,7 +313,9 @@
 		  
 		
 		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
 		  
 		
 		  
@@ -340,11 +348,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
 			
 		
 			
@@ -356,7 +364,11 @@
 			
 		
 			
-				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
 			
 		
 			
@@ -368,11 +380,11 @@
 			
 		
 			
-				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
 			
 		
 			
@@ -380,11 +392,11 @@
 			
 		
 			
-				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
+				<li><a href="/tags/Mac终端/" title="Mac终端">Mac终端<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
 			
 		
 			
@@ -397,6 +409,10 @@
 		
 			
 				<li><a href="/tags/Swift/" title="Swift">Swift<sup>1</sup></a></li>
+			
+		
+			
+		
 			
 		
 		</ul>

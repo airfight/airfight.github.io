@@ -12,11 +12,13 @@
 
     
     <meta name="description" content="SQLite是一种小型的轻量级的关系型数据库，在移动设备上使用是非常好的选择，无论是Android还是IOS，都内置了SQLite数据库，现在的版本都是SQLite3。在IOS中使用SQLite如果使用SDK提供的方法，感觉使用很不方便，今天就讲讲一个针对IOS的SQlite API封装的第三方库FMDB，FMDB对SDK中的API做了一层封装，使之使用OC来访问，使用方便而且更熟悉。">
+<meta name="keywords" content="数据库">
 <meta property="og:type" content="article">
 <meta property="og:title" content="FMDB">
 <meta property="og:url" content="http://yoursite.com/2015/10/22/FMDB/index.html">
 <meta property="og:site_name" content="airfight">
 <meta property="og:description" content="SQLite是一种小型的轻量级的关系型数据库，在移动设备上使用是非常好的选择，无论是Android还是IOS，都内置了SQLite数据库，现在的版本都是SQLite3。在IOS中使用SQLite如果使用SDK提供的方法，感觉使用很不方便，今天就讲讲一个针对IOS的SQlite API封装的第三方库FMDB，FMDB对SDK中的API做了一层封装，使之使用OC来访问，使用方便而且更熟悉。">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-12-25T09:12:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FMDB">
@@ -96,11 +98,11 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据持久化-使用第三方库FMDB"><span class="toc-number">1.</span> <span class="toc-text">数据持久化 使用第三方库FMDB</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#相关代码封装"><span class="toc-number">1.0.1.</span> <span class="toc-text">相关代码封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FMDB提供如下多个方法来获取不同类型的数据"><span class="toc-number">1.0.2.</span> <span class="toc-text">FMDB提供如下多个方法来获取不同类型的数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意事项"><span class="toc-number">1.0.3.</span> <span class="toc-text">注意事项</span></a></li></ol></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据持久化-使用第三方库FMDB"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x6570;&#x636E;&#x6301;&#x4E45;&#x5316;-&#x4F7F;&#x7528;&#x7B2C;&#x4E09;&#x65B9;&#x5E93;FMDB" class="headerlink" title="&#x6570;&#x636E;&#x6301;&#x4E45;&#x5316; &#x4F7F;&#x7528;&#x7B2C;&#x4E09;&#x65B9;&#x5E93;FMDB"></a>&#x6570;&#x636E;&#x6301;&#x4E45;&#x5316; &#x4F7F;&#x7528;&#x7B2C;&#x4E09;&#x65B9;&#x5E93;FMDB</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#相关代码封装"><span class="toc-number">1.0.1.</span> <span class="toc-text"><a href="#&#x76F8;&#x5173;&#x4EE3;&#x7801;&#x5C01;&#x88C5;" class="headerlink" title="&#x76F8;&#x5173;&#x4EE3;&#x7801;&#x5C01;&#x88C5;"></a>&#x76F8;&#x5173;&#x4EE3;&#x7801;&#x5C01;&#x88C5;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FMDB提供如下多个方法来获取不同类型的数据"><span class="toc-number">1.0.2.</span> <span class="toc-text"><a href="#FMDB&#x63D0;&#x4F9B;&#x5982;&#x4E0B;&#x591A;&#x4E2A;&#x65B9;&#x6CD5;&#x6765;&#x83B7;&#x53D6;&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x7684;&#x6570;&#x636E;" class="headerlink" title="FMDB&#x63D0;&#x4F9B;&#x5982;&#x4E0B;&#x591A;&#x4E2A;&#x65B9;&#x6CD5;&#x6765;&#x83B7;&#x53D6;&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x7684;&#x6570;&#x636E;"></a>FMDB&#x63D0;&#x4F9B;&#x5982;&#x4E0B;&#x591A;&#x4E2A;&#x65B9;&#x6CD5;&#x6765;&#x83B7;&#x53D6;&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x7684;&#x6570;&#x636E;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意事项"><span class="toc-number">1.0.3.</span> <span class="toc-text"><a href="#&#x6CE8;&#x610F;&#x4E8B;&#x9879;" class="headerlink" title="&#x6CE8;&#x610F;&#x4E8B;&#x9879;"></a>&#x6CE8;&#x610F;&#x4E8B;&#x9879;</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
-		<h1 id="数据持久化-使用第三方库FMDB"><a href="#数据持久化-使用第三方库FMDB" class="headerlink" title="数据持久化 使用第三方库FMDB"></a>数据持久化 使用第三方库FMDB</h1><p><a href="https://github.com/ccgus/fmdb" target="_blank" rel="external">FMDB</a>主要涉及两个类，FMDatabase和FMResultSet 下载完FMDB源码后把文件拖到工程中，并导入SQLite支持        库,libsqlite3.0.dylib</p>
+		<h1 id="数据持久化-使用第三方库FMDB"><a href="#数据持久化-使用第三方库FMDB" class="headerlink" title="数据持久化 使用第三方库FMDB"></a>数据持久化 使用第三方库FMDB</h1><p><a href="https://github.com/ccgus/fmdb" target="_blank" rel="noopener">FMDB</a>主要涉及两个类，FMDatabase和FMResultSet 下载完FMDB源码后把文件拖到工程中，并导入SQLite支持        库,libsqlite3.0.dylib</p>
 <h3 id="相关代码封装"><a href="#相关代码封装" class="headerlink" title="相关代码封装"></a>相关代码封装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div></pre></td><td class="code"><pre><div class="line">#import &quot;GYDataBaseHandle.h&quot;</div><div class="line">#import &quot;FMDB.h&quot;</div><div class="line">#import &quot;HMTPerson.h&quot;</div><div class="line"></div><div class="line"></div><div class="line">@implementation GYDataBaseHandle</div><div class="line"></div><div class="line">static GYDataBaseHandle * _dbHandle = nil;</div><div class="line">+ (GYDataBaseHandle *)shareInstance&#123;</div><div class="line"></div><div class="line">    @synchronized(self)&#123;</div><div class="line"></div><div class="line">        if (!_dbHandle) &#123;</div><div class="line"></div><div class="line">            _dbHandle = [[GYDataBaseHandle alloc]init];</div><div class="line"></div><div class="line">            [_dbHandle openDataBase];</div><div class="line"></div><div class="line">            [_dbHandle createTable];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return _dbHandle;</div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 定义一个 FMDatabase 对象</div><div class="line">static FMDatabase * database = nil;</div><div class="line"></div><div class="line">#pragma mark - 获得沙盒文件下Documents路径</div><div class="line">- (NSString *)getDocumentsPath&#123;</div><div class="line"></div><div class="line">    NSString * documents = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];</div><div class="line"></div><div class="line">    return documents;</div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 打开数据库操作------ databaseWithPath   open</div><div class="line">- (void)openDataBase&#123;</div><div class="line"></div><div class="line">    if (database) &#123;</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    NSString * DataBasePath = [[self getDocumentsPath] stringByAppendingPathComponent:@&quot;test.sqlite&quot;];</div><div class="line"></div><div class="line">    database = [FMDatabase databaseWithPath:DataBasePath];</div><div class="line">    if (![database open]) &#123;</div><div class="line"></div><div class="line">        NSLog(@&quot;打开数据库失败&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 为数据库设置缓存,提高查询效率</div><div class="line">    database.shouldCacheStatements = YES;</div><div class="line"></div><div class="line">    NSLog(@&quot;打开数据库成功&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 关闭数据库操作</div><div class="line">- (void)closeDataBase&#123;</div><div class="line"></div><div class="line">    if (![database close]) &#123;</div><div class="line">        NSLog(@&quot;关闭数据库失败&quot;);</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    database = nil;</div><div class="line">    NSLog(@&quot;关闭数据库成功&quot;);</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 管理创建表的操作</div><div class="line">- (void)createTable&#123;</div><div class="line"></div><div class="line">    [self openDataBase];</div><div class="line"></div><div class="line">    // 判断表是否存在,不存在就创建------ tableExists</div><div class="line">    if (![database tableExists:@&quot;Person&quot;]) &#123;</div><div class="line"></div><div class="line">        [database executeUpdate:@&quot;CREATE TABLE Person(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, age INTEGER)&quot;];</div><div class="line"></div><div class="line">        NSLog(@&quot;创建表成功&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    [self closeDataBase];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - 增加数据操作----- executeUpdate</div><div class="line">- (void)insertIntoDataBase:(HMTPerson *)person&#123;</div><div class="line"></div><div class="line">    [self openDataBase];</div><div class="line"></div><div class="line">    [database executeUpdate:@&quot; INSERT INTO Person (id,name,age) VALUES (?,?,?)&quot;,[NSString stringWithFormat:@&quot;%i&quot;,person.personId],person.personName,[NSString stringWithFormat:@&quot;%i&quot;,person.personAge]];</div><div class="line"></div><div class="line">    [self closeDataBase];</div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 删除数据操作----- executeUpdate</div><div class="line">- (void)deleteDataFromDataBase:(HMTPerson *)person&#123;</div><div class="line"></div><div class="line">    [self openDataBase];</div><div class="line"></div><div class="line">    [database executeUpdate:@&quot; DELETE FROM Person WHERE id = ?&quot;,[NSString stringWithFormat:@&quot;%i&quot;,person.personId]];</div><div class="line"></div><div class="line">    [self closeDataBase];</div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 更新数据操作----- executeUpdate</div><div class="line">- (void)updateFromDataBase:(HMTPerson *)person&#123;</div><div class="line"></div><div class="line">    [self openDataBase];</div><div class="line"></div><div class="line">    [database executeUpdate:@&quot; UPDATE Person SET name = ? WHERE id = ?&quot;,person.personName,[NSString stringWithFormat:@&quot;%i&quot;,person.personId]];</div><div class="line"></div><div class="line">    [self closeDataBase];</div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - 查询数据操作(与其他的都不一样,查询是调用executeQuery,切记切记!!!!!!)</div><div class="line">- (void)selectAllDataFromDataBase&#123;</div><div class="line"></div><div class="line">    [self openDataBase];</div><div class="line"></div><div class="line">    FMResultSet * resultSet = [database executeQuery:@&quot; SELECT * FROM Person&quot;];</div><div class="line">    while ([resultSet next]) &#123;</div><div class="line"></div><div class="line">        int Id = [resultSet intForColumn:@&quot;id&quot;];</div><div class="line">        NSString * name = [resultSet stringForColumn:@&quot;name&quot;];</div><div class="line">        int age = [resultSet intForColumn:@&quot;age&quot;];</div><div class="line"></div><div class="line">        NSLog(@&quot;personId:%i,personName:%@,personAge:%i&quot;,Id,name,age);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    [self closeDataBase];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
 <h3 id="FMDB提供如下多个方法来获取不同类型的数据"><a href="#FMDB提供如下多个方法来获取不同类型的数据" class="headerlink" title="FMDB提供如下多个方法来获取不同类型的数据"></a>FMDB提供如下多个方法来获取不同类型的数据</h3><p>1.intForColumn:<br>2.longForColumn:<br>3.longLongIntForColumn:<br>4.boolForColumn:<br>5.doubleForColumn:<br>6.stringForColumn:<br>7.dateForColumn:<br>8.dataForColumn:<br>9.dataNoCopyForColumn:<br>10.UTF8StringForColumnIndex:<br>11.objectForColumn:</p>
 <h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>如果我们的app需要多线程操作数据库，那么就需要使用FMDatabaseQueue来保证线程安全了。切记不能在多个线程中共同一个FMDatabase对象并且在多个线程中同时使用，这个类本身不是线程安全的，这样使用会造成数据混乱等问题。</p>
@@ -174,7 +176,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据持久化-使用第三方库FMDB"><span class="toc-number">1.</span> <span class="toc-text">数据持久化 使用第三方库FMDB</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#相关代码封装"><span class="toc-number">1.0.1.</span> <span class="toc-text">相关代码封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FMDB提供如下多个方法来获取不同类型的数据"><span class="toc-number">1.0.2.</span> <span class="toc-text">FMDB提供如下多个方法来获取不同类型的数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意事项"><span class="toc-number">1.0.3.</span> <span class="toc-text">注意事项</span></a></li></ol></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据持久化-使用第三方库FMDB"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x6570;&#x636E;&#x6301;&#x4E45;&#x5316;-&#x4F7F;&#x7528;&#x7B2C;&#x4E09;&#x65B9;&#x5E93;FMDB" class="headerlink" title="&#x6570;&#x636E;&#x6301;&#x4E45;&#x5316; &#x4F7F;&#x7528;&#x7B2C;&#x4E09;&#x65B9;&#x5E93;FMDB"></a>&#x6570;&#x636E;&#x6301;&#x4E45;&#x5316; &#x4F7F;&#x7528;&#x7B2C;&#x4E09;&#x65B9;&#x5E93;FMDB</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#相关代码封装"><span class="toc-number">1.0.1.</span> <span class="toc-text"><a href="#&#x76F8;&#x5173;&#x4EE3;&#x7801;&#x5C01;&#x88C5;" class="headerlink" title="&#x76F8;&#x5173;&#x4EE3;&#x7801;&#x5C01;&#x88C5;"></a>&#x76F8;&#x5173;&#x4EE3;&#x7801;&#x5C01;&#x88C5;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FMDB提供如下多个方法来获取不同类型的数据"><span class="toc-number">1.0.2.</span> <span class="toc-text"><a href="#FMDB&#x63D0;&#x4F9B;&#x5982;&#x4E0B;&#x591A;&#x4E2A;&#x65B9;&#x6CD5;&#x6765;&#x83B7;&#x53D6;&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x7684;&#x6570;&#x636E;" class="headerlink" title="FMDB&#x63D0;&#x4F9B;&#x5982;&#x4E0B;&#x591A;&#x4E2A;&#x65B9;&#x6CD5;&#x6765;&#x83B7;&#x53D6;&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x7684;&#x6570;&#x636E;"></a>FMDB&#x63D0;&#x4F9B;&#x5982;&#x4E0B;&#x591A;&#x4E2A;&#x65B9;&#x6CD5;&#x6765;&#x83B7;&#x53D6;&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x7684;&#x6570;&#x636E;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意事项"><span class="toc-number">1.0.3.</span> <span class="toc-text"><a href="#&#x6CE8;&#x610F;&#x4E8B;&#x9879;" class="headerlink" title="&#x6CE8;&#x610F;&#x4E8B;&#x9879;"></a>&#x6CE8;&#x610F;&#x4E8B;&#x9879;</span></a></li></ol></li></ol></li></ol>
  
   </div>
 
@@ -206,6 +208,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/OC/" title="OC">OC<sup>2</sup></a></li>
 		  
 		
@@ -214,7 +220,9 @@
 		  
 		
 		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
 		  
 		
 		  
@@ -247,11 +255,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
 			
 		
 			
@@ -263,7 +271,11 @@
 			
 		
 			
-				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
 			
 		
 			
@@ -275,11 +287,11 @@
 			
 		
 			
-				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
 			
 		
 			
@@ -287,11 +299,11 @@
 			
 		
 			
-				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
+				<li><a href="/tags/Mac终端/" title="Mac终端">Mac终端<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
 			
 		
 			
@@ -304,6 +316,10 @@
 		
 			
 				<li><a href="/tags/Swift/" title="Swift">Swift<sup>1</sup></a></li>
+			
+		
+			
+		
 			
 		
 		</ul>

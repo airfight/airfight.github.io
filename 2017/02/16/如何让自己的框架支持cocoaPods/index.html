@@ -12,11 +12,13 @@
 
     
     <meta name="description" content="制造轮子，为了方便版本管理，一般会让自己的框架支持cocoaPods进行版本管理，加上描述这样可以一目了解，因为之前生成过cocoaPods，可是没有记录，今天特别记录一下，以及框架在生成支持cocoaPods时候遇到的问题。">
+<meta name="keywords" content="cocoaPods">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何让自己的框架支持cocoaPods">
 <meta property="og:url" content="http://yoursite.com/2017/02/16/如何让自己的框架支持cocoaPods/index.html">
 <meta property="og:site_name" content="airfight">
 <meta property="og:description" content="制造轮子，为了方便版本管理，一般会让自己的框架支持cocoaPods进行版本管理，加上描述这样可以一目了解，因为之前生成过cocoaPods，可是没有记录，今天特别记录一下，以及框架在生成支持cocoaPods时候遇到的问题。">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-6a15428e8292325e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:updated_time" content="2017-02-16T13:34:17.000Z">
 <meta name="twitter:card" content="summary">
@@ -98,7 +100,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#如何让自己的框架支持cocoaPods"><span class="toc-number">1.</span> <span class="toc-text">如何让自己的框架支持cocoaPods</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建github新仓库"><span class="toc-number">1.1.</span> <span class="toc-text">创建github新仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git-Tag的使用"><span class="toc-number">1.2.</span> <span class="toc-text">Git Tag的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建podspec文件"><span class="toc-number">1.3.</span> <span class="toc-text">创建podspec文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注册cocoapods账号"><span class="toc-number">1.4.</span> <span class="toc-text">注册cocoapods账号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证Podspec"><span class="toc-number">1.5.</span> <span class="toc-text">验证Podspec</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">1.6.</span> <span class="toc-text">参考资料:</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#如何让自己的框架支持cocoaPods"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x5982;&#x4F55;&#x8BA9;&#x81EA;&#x5DF1;&#x7684;&#x6846;&#x67B6;&#x652F;&#x6301;cocoaPods" class="headerlink" title="&#x5982;&#x4F55;&#x8BA9;&#x81EA;&#x5DF1;&#x7684;&#x6846;&#x67B6;&#x652F;&#x6301;cocoaPods"></a>&#x5982;&#x4F55;&#x8BA9;&#x81EA;&#x5DF1;&#x7684;&#x6846;&#x67B6;&#x652F;&#x6301;cocoaPods</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建github新仓库"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#&#x521B;&#x5EFA;github&#x65B0;&#x4ED3;&#x5E93;" class="headerlink" title="&#x521B;&#x5EFA;github&#x65B0;&#x4ED3;&#x5E93;"></a>&#x521B;&#x5EFA;github&#x65B0;&#x4ED3;&#x5E93;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git-Tag的使用"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#Git-Tag&#x7684;&#x4F7F;&#x7528;" class="headerlink" title="Git Tag&#x7684;&#x4F7F;&#x7528;"></a>Git Tag&#x7684;&#x4F7F;&#x7528;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建podspec文件"><span class="toc-number">1.3.</span> <span class="toc-text"><a href="#&#x521B;&#x5EFA;podspec&#x6587;&#x4EF6;" class="headerlink" title="&#x521B;&#x5EFA;podspec&#x6587;&#x4EF6;"></a>&#x521B;&#x5EFA;podspec&#x6587;&#x4EF6;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注册cocoapods账号"><span class="toc-number">1.4.</span> <span class="toc-text"><a href="#&#x6CE8;&#x518C;cocoapods&#x8D26;&#x53F7;" class="headerlink" title="&#x6CE8;&#x518C;cocoapods&#x8D26;&#x53F7;"></a>&#x6CE8;&#x518C;cocoapods&#x8D26;&#x53F7;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证Podspec"><span class="toc-number">1.5.</span> <span class="toc-text"><a href="#&#x9A8C;&#x8BC1;Podspec" class="headerlink" title="&#x9A8C;&#x8BC1;Podspec"></a>&#x9A8C;&#x8BC1;Podspec</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">1.6.</span> <span class="toc-text"><a href="#&#x53C2;&#x8003;&#x8D44;&#x6599;" class="headerlink" title="&#x53C2;&#x8003;&#x8D44;&#x6599;:"></a>&#x53C2;&#x8003;&#x8D44;&#x6599;:</span></a></li></ol></li></ol>
 		
 		</div>
 		
@@ -149,8 +151,8 @@
 <p>您可输入一下命令进行查看您已成功上传到cocoaPods的框架</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pod trunk me</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">- Name:     xxx</div><div class="line">- Email:    xxx@qq.com</div><div class="line">- Since:    September 24th, 2016 17:27</div><div class="line">- Pods:</div><div class="line">  - SwiftDrawEnum</div><div class="line">  - GYNetWorking</div><div class="line">- Sessions:</div><div class="line">  - September 24th, 2016 17:27 - January 31st, 04:56. IP: 192.155.208.125</div><div class="line">  Description: Draw E</div><div class="line">  - February 6th, 23:44        -    June 15th, 00:20. IP:</div><div class="line">  183.195.156.242</div></pre></td></tr></table></figure>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料:"></a>参考资料:</h2><p><a href="http://blog.csdn.net/keleyundou/article/details/49635589" target="_blank" rel="external">http://blog.csdn.net/keleyundou/article/details/49635589</a></p>
-<p><a href="http://www.jianshu.com/p/f332b2c53280" target="_blank" rel="external">http://www.jianshu.com/p/f332b2c53280</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料:"></a>参考资料:</h2><p><a href="http://blog.csdn.net/keleyundou/article/details/49635589" target="_blank" rel="noopener">http://blog.csdn.net/keleyundou/article/details/49635589</a></p>
+<p><a href="http://www.jianshu.com/p/f332b2c53280" target="_blank" rel="noopener">http://www.jianshu.com/p/f332b2c53280</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -182,10 +184,10 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/02/16/associatedtype/" title="">
+ <a href="/2017/03/05/ReactNative/" title="ReactNative">
   <strong>上一篇：</strong><br/>
   <span>
-  (no title)</span>
+  ReactNative</span>
 </a>
 </div>
 
@@ -214,7 +216,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#如何让自己的框架支持cocoaPods"><span class="toc-number">1.</span> <span class="toc-text">如何让自己的框架支持cocoaPods</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建github新仓库"><span class="toc-number">1.1.</span> <span class="toc-text">创建github新仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git-Tag的使用"><span class="toc-number">1.2.</span> <span class="toc-text">Git Tag的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建podspec文件"><span class="toc-number">1.3.</span> <span class="toc-text">创建podspec文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注册cocoapods账号"><span class="toc-number">1.4.</span> <span class="toc-text">注册cocoapods账号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证Podspec"><span class="toc-number">1.5.</span> <span class="toc-text">验证Podspec</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">1.6.</span> <span class="toc-text">参考资料:</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#如何让自己的框架支持cocoaPods"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x5982;&#x4F55;&#x8BA9;&#x81EA;&#x5DF1;&#x7684;&#x6846;&#x67B6;&#x652F;&#x6301;cocoaPods" class="headerlink" title="&#x5982;&#x4F55;&#x8BA9;&#x81EA;&#x5DF1;&#x7684;&#x6846;&#x67B6;&#x652F;&#x6301;cocoaPods"></a>&#x5982;&#x4F55;&#x8BA9;&#x81EA;&#x5DF1;&#x7684;&#x6846;&#x67B6;&#x652F;&#x6301;cocoaPods</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建github新仓库"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#&#x521B;&#x5EFA;github&#x65B0;&#x4ED3;&#x5E93;" class="headerlink" title="&#x521B;&#x5EFA;github&#x65B0;&#x4ED3;&#x5E93;"></a>&#x521B;&#x5EFA;github&#x65B0;&#x4ED3;&#x5E93;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git-Tag的使用"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#Git-Tag&#x7684;&#x4F7F;&#x7528;" class="headerlink" title="Git Tag&#x7684;&#x4F7F;&#x7528;"></a>Git Tag&#x7684;&#x4F7F;&#x7528;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建podspec文件"><span class="toc-number">1.3.</span> <span class="toc-text"><a href="#&#x521B;&#x5EFA;podspec&#x6587;&#x4EF6;" class="headerlink" title="&#x521B;&#x5EFA;podspec&#x6587;&#x4EF6;"></a>&#x521B;&#x5EFA;podspec&#x6587;&#x4EF6;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注册cocoapods账号"><span class="toc-number">1.4.</span> <span class="toc-text"><a href="#&#x6CE8;&#x518C;cocoapods&#x8D26;&#x53F7;" class="headerlink" title="&#x6CE8;&#x518C;cocoapods&#x8D26;&#x53F7;"></a>&#x6CE8;&#x518C;cocoapods&#x8D26;&#x53F7;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证Podspec"><span class="toc-number">1.5.</span> <span class="toc-text"><a href="#&#x9A8C;&#x8BC1;Podspec" class="headerlink" title="&#x9A8C;&#x8BC1;Podspec"></a>&#x9A8C;&#x8BC1;Podspec</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">1.6.</span> <span class="toc-text"><a href="#&#x53C2;&#x8003;&#x8D44;&#x6599;" class="headerlink" title="&#x53C2;&#x8003;&#x8D44;&#x6599;:"></a>&#x53C2;&#x8003;&#x8D44;&#x6599;:</span></a></li></ol></li></ol>
  
   </div>
 
@@ -246,6 +248,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/OC/" title="OC">OC<sup>2</sup></a></li>
 		  
 		
@@ -254,7 +260,9 @@
 		  
 		
 		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
 		  
 		
 		  
@@ -287,11 +295,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
 			
 		
 			
@@ -303,7 +311,11 @@
 			
 		
 			
-				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
 			
 		
 			
@@ -315,11 +327,11 @@
 			
 		
 			
-				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
 			
 		
 			
@@ -327,11 +339,11 @@
 			
 		
 			
-				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
+				<li><a href="/tags/Mac终端/" title="Mac终端">Mac终端<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
 			
 		
 			
@@ -344,6 +356,10 @@
 		
 			
 				<li><a href="/tags/Swift/" title="Swift">Swift<sup>1</sup></a></li>
+			
+		
+			
+		
 			
 		
 		</ul>

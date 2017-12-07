@@ -4,29 +4,25 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Mac下安装maven添加到eclispe并创建maven项目 | airfight</title>
+    <title>iOS开发ARC内存管理 | airfight</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="GiantForJade">
     
 
     
-    <meta name="description" content="学习并记录安装maven的全过程">
-<meta name="keywords" content="Maven">
+    <meta name="description" content="ARC的学习与总结">
+<meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mac下安装maven添加到eclispe并创建maven项目">
-<meta property="og:url" content="http://yoursite.com/2017/05/20/Mac下安装maven添加到eclispe并创建项目/index.html">
+<meta property="og:title" content="iOS开发ARC内存管理">
+<meta property="og:url" content="http://yoursite.com/2015/02/22/ARC/index.html">
 <meta property="og:site_name" content="airfight">
-<meta property="og:description" content="学习并记录安装maven的全过程">
+<meta property="og:description" content="ARC的学习与总结">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-59e38f7368a1b4ba.png">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-66204a1ecd52423a.png">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-dc496c6b181ba50c.png">
-<meta property="og:updated_time" content="2017-05-20T03:09:41.000Z">
+<meta property="og:updated_time" content="2017-12-07T11:45:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mac下安装maven添加到eclispe并创建maven项目">
-<meta name="twitter:description" content="学习并记录安装maven的全过程">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2082481-59e38f7368a1b4ba.png">
+<meta name="twitter:title" content="iOS开发ARC内存管理">
+<meta name="twitter:description" content="ARC的学习与总结">
 
     
     <link rel="alternative" href="/atom.xml" title="airfight" type="application/atom+xml">
@@ -86,14 +82,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/05/20/Mac下安装maven添加到eclispe并创建项目/" title="Mac下安装maven添加到eclispe并创建maven项目" itemprop="url">Mac下安装maven添加到eclispe并创建maven项目</a>
+      <a href="/2015/02/22/ARC/" title="iOS开发ARC内存管理" itemprop="url">iOS开发ARC内存管理</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="GiantForJade" target="_blank" itemprop="author">GiantForJade</a>
 		
   <p class="article-time">
-    <time datetime="2017-05-20T03:09:41.000Z" itemprop="datePublished"> 发表于 2017-05-20</time>
+    <time datetime="2015-02-22T13:15:16.000Z" itemprop="datePublished"> 发表于 2015-02-22</time>
     
   </p>
 </header>
@@ -102,33 +98,19 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Mac-OS-X-安装Maven"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Mac-OS-X-&#x5B89;&#x88C5;Maven" class="headerlink" title="Mac OS X &#x5B89;&#x88C5;Maven"></a>Mac OS X &#x5B89;&#x88C5;Maven</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置Maven的库"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x914D;&#x7F6E;Maven&#x7684;&#x5E93;" class="headerlink" title="&#x914D;&#x7F6E;Maven&#x7684;&#x5E93;"></a>&#x914D;&#x7F6E;Maven&#x7684;&#x5E93;</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS开发ARC内存管理"><span class="toc-number">1.</span> <span class="toc-text"><a href="#iOS&#x5F00;&#x53D1;ARC&#x5185;&#x5B58;&#x7BA1;&#x7406;" class="headerlink" title="iOS&#x5F00;&#x53D1;ARC&#x5185;&#x5B58;&#x7BA1;&#x7406;"></a>iOS&#x5F00;&#x53D1;ARC&#x5185;&#x5B58;&#x7BA1;&#x7406;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ARC的本质"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#ARC&#x7684;&#x672C;&#x8D28;" class="headerlink" title="ARC&#x7684;&#x672C;&#x8D28;"></a>ARC&#x7684;&#x672C;&#x8D28;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ARC的修饰符"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#ARC&#x7684;&#x4FEE;&#x9970;&#x7B26;" class="headerlink" title="ARC&#x7684;&#x4FEE;&#x9970;&#x7B26;"></a>ARC&#x7684;&#x4FEE;&#x9970;&#x7B26;</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h1 id="Mac-OS-X-安装Maven"><a href="#Mac-OS-X-安装Maven" class="headerlink" title="Mac OS X 安装Maven"></a>Mac OS X 安装Maven</h1><ul>
-<li>下载 <a href="https://maven.apache.org/download.cgi" target="_blank" rel="noopener">Maven</a>, 并解压到某个目录。例如/Users/sh15bg0110/Desktop/JavaService/apache-maven-3.3.9</li>
-<li><p>打开终端,输入以下命令,设置Maven classpath</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ vi ~/.bash_profile</div></pre></td></tr></table></figure>
-</li>
-<li><p>添加下列两行代码，之后保存并退出:</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">M2_HOME=/Users/sh15bg0110/Desktop/JavaService/apache-maven-3.3.9/</div><div class="line">export M2_HOME</div></pre></td></tr></table></figure>
-<p>  <img src="http://upload-images.jianshu.io/upload_images/2082481-59e38f7368a1b4ba.png" alt="1.png"></p>
-</li>
-</ul>
-<p>此处注意路径设置</p>
-<ul>
-<li><p>输入命令以使bash_profile生效</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ source ~/.bash_profile</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<ul>
-<li><p>输入mvn -v查看Maven是否安装成功</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">	Apache Maven 3.3.9 (bb52d8502b132ec0a5a3f4c09453c07478323dc5; 2015-11-11T00:41:47+08:00)</div><div class="line">Maven home: /Users/sh15bg0110/Desktop/JavaService/apache-maven-3.3.9</div><div class="line">Java version: 1.8.0_101, vendor: Oracle Corporation</div><div class="line">Java home: /Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/jre</div><div class="line">Default locale: zh_CN, platform encoding: UTF-8</div><div class="line">OS name: &quot;mac os x&quot;, version: &quot;10.12.2&quot;, arch: &quot;x86_64&quot;, family: &quot;mac&quot;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h1 id="配置Maven的库"><a href="#配置Maven的库" class="headerlink" title="配置Maven的库"></a>配置Maven的库</h1><p><img src="http://upload-images.jianshu.io/upload_images/2082481-66204a1ecd52423a.png" alt="2.png"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2082481-dc496c6b181ba50c.png" alt="3.png"></p>
+		<h1 id="iOS开发ARC内存管理"><a href="#iOS开发ARC内存管理" class="headerlink" title="iOS开发ARC内存管理"></a>iOS开发ARC内存管理</h1><h2 id="ARC的本质"><a href="#ARC的本质" class="headerlink" title="ARC的本质"></a>ARC的本质</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ARC是编译时特性，而不是运行时特性,更不是垃圾回收机制(GC)</div><div class="line">ARC(Automatic Reference Counting) </div><div class="line">[ARC官方文档](http://clang.llvm.org/docs/AutomaticReferenceCounting.html)</div></pre></td></tr></table></figure>
+<p>如果需要对特定文件开启或关闭ARC，可以在工程选项中选择Targets -&gt; Build Phases -&gt; Compile Sources，在里面找到对应文件，添加flag:<br>    •    打开ARC：-fobjc-arc<br>    •    关闭ARC：-fno-objc-arc</p>
+<h2 id="ARC的修饰符"><a href="#ARC的修饰符" class="headerlink" title="ARC的修饰符"></a>ARC的修饰符</h2><p>ARC主要提供了4种修饰符,他们分别是:<strong>strong,</strong>weak,<strong>autorelleasing,</strong>unsafe_unretained</p>
+<p>###__strong<br>表示引用为强引用,对应在定义property时的strong，所有对象只有当没有任何一个强引用指向时，才会被释放</p>
+<p>注意：如果在声明引用时不加修饰符，那么引用将默认是强引用。当需要释放强引用指向的对象时，需要将强引用置nil</p>
+<p>###<strong>weak<br>表示引用为弱引用。对应在定义property时的”weak”.弱引用不会影响对象的释放,即只要对象没有任何强引用指向,即使有1001个弱引用对象指向也无用,该对象依然会被释放。不过好在，对象在被释放的同时，指向它的弱引用会自动被置nil，这个技术叫zeroing weak pointer。这样有效得防止无效指针、野指针的产生。</strong>weak一般用在delegate关系中防止循环引用或者用来修饰指向由Interface Builder编辑与生成的UI控件。</p>
+<p>###__autoreleasing<br>表示在autorelease pool中自动释放对象的引用，和MRC时代autorelease的用法相同。定义property时不能使用这个修饰符，任何一个对象的property都不应该是autorelease型的。<br>一个常见的误解是，在ARC中没有autorelease，因为这样一个“自动释放”看起来好像有点多余。这个误解可能源自于将ARC的“自动”和autorelease“自动”的混淆。其实你只要看一下每个iOS App的main.m文件就能知道，autorelease不仅好好的存在着，并且变得更fashion了：不需要再手工被创建，也不需要再显式得调用[drain]方法释放内存池。</p>
+<p>###__unsafe_unretained<br>ARC是在iOS 5引入的，而这个修饰符主要是为了在ARC刚发布时兼容iOS 4以及版本更低的设备，因为这些版本的设备没有weak pointer system，简单的理解这个系统就是我们上面讲weak时提到的，能够在weak引用指向对象被释放后，把引用值自动设为nil的系统。这个修饰符在定义property时对应的是”unsafe_unretained”，实际可以将它理解为MRC时代的assign：纯粹只是将引用指向对象，没有任何额外的操作，在指向对象被释放时依然原原本本地指向原来被释放的对象（所在的内存区域）。所以非常不安全。<br>现在可以完全忽略掉这个修饰符了，因为iOS 4早已退出历史舞台很多年。</p>
+<p>转自<a href="http://www.cnblogs.com/flyFreeZn/p/4264220.html" target="_blank" rel="noopener">123</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -136,13 +118,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Java/">Java</a>
+  <a class="article-category-link" href="/categories/iOS/">iOS</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Maven/">Maven</a>
+  <span></span> <a href="/tags/iOS/">iOS</a>
   </div>
 
 </div>
@@ -151,7 +133,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2017/05/20/Mac下安装maven添加到eclispe并创建项目/" data-title="Mac下安装maven添加到eclispe并创建maven项目 | airfight" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2015/02/22/ARC/" data-title="iOS开发ARC内存管理 | airfight" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -165,18 +147,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/05/20/MQTT协议整理/" title="MQTT协议整理">
+ <a href="/2015/06/02/Sqlit3/" title="Sqlite">
   <strong>上一篇：</strong><br/>
   <span>
-  MQTT协议整理</span>
+  Sqlite</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/03/27/Java Jersey构建REST服务实战/"  title="Java Jersey构建REST服务实战">
+<a href="/2014/12/12/SDWebImage常用方法/"  title="SDWebImage常用方法">
  <strong>下一篇：</strong><br/> 
- <span>Java Jersey构建REST服务实战
+ <span>SDWebImage常用方法
 </span>
 </a>
 </div>
@@ -197,7 +179,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Mac-OS-X-安装Maven"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Mac-OS-X-&#x5B89;&#x88C5;Maven" class="headerlink" title="Mac OS X &#x5B89;&#x88C5;Maven"></a>Mac OS X &#x5B89;&#x88C5;Maven</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置Maven的库"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x914D;&#x7F6E;Maven&#x7684;&#x5E93;" class="headerlink" title="&#x914D;&#x7F6E;Maven&#x7684;&#x5E93;"></a>&#x914D;&#x7F6E;Maven&#x7684;&#x5E93;</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS开发ARC内存管理"><span class="toc-number">1.</span> <span class="toc-text"><a href="#iOS&#x5F00;&#x53D1;ARC&#x5185;&#x5B58;&#x7BA1;&#x7406;" class="headerlink" title="iOS&#x5F00;&#x53D1;ARC&#x5185;&#x5B58;&#x7BA1;&#x7406;"></a>iOS&#x5F00;&#x53D1;ARC&#x5185;&#x5B58;&#x7BA1;&#x7406;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ARC的本质"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#ARC&#x7684;&#x672C;&#x8D28;" class="headerlink" title="ARC&#x7684;&#x672C;&#x8D28;"></a>ARC&#x7684;&#x672C;&#x8D28;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ARC的修饰符"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#ARC&#x7684;&#x4FEE;&#x9970;&#x7B26;" class="headerlink" title="ARC&#x7684;&#x4FEE;&#x9970;&#x7B26;"></a>ARC&#x7684;&#x4FEE;&#x9970;&#x7B26;</span></a></li></ol></li></ol>
  
   </div>
 

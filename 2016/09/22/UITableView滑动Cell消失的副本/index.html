@@ -4,25 +4,25 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Java图书管理系统 | airfight</title>
+    <title>shell学习 | airfight</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="GiantForJade">
     
 
     
-    <meta name="description" content="Java基础回顾与学习">
-<meta name="keywords" content="Java">
+    <meta name="description" content="学习shell">
+<meta name="keywords" content="终端命令">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java图书管理系统">
-<meta property="og:url" content="http://yoursite.com/2017/05/20/Sqlit3的副本/index.html">
+<meta property="og:title" content="shell学习">
+<meta property="og:url" content="http://yoursite.com/2016/09/22/UITableView滑动Cell消失的副本/index.html">
 <meta property="og:site_name" content="airfight">
-<meta property="og:description" content="Java基础回顾与学习">
+<meta property="og:description" content="学习shell">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-05-20T03:09:41.000Z">
+<meta property="og:updated_time" content="2017-12-07T12:11:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java图书管理系统">
-<meta name="twitter:description" content="Java基础回顾与学习">
+<meta name="twitter:title" content="shell学习">
+<meta name="twitter:description" content="学习shell">
 
     
     <link rel="alternative" href="/atom.xml" title="airfight" type="application/atom+xml">
@@ -82,14 +82,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/05/20/Sqlit3的副本/" title="Java图书管理系统" itemprop="url">Java图书管理系统</a>
+      <a href="/2016/09/22/UITableView滑动Cell消失的副本/" title="shell学习" itemprop="url">shell学习</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="GiantForJade" target="_blank" itemprop="author">GiantForJade</a>
 		
   <p class="article-time">
-    <time datetime="2017-05-20T03:09:41.000Z" itemprop="datePublished"> 发表于 2017-05-20</time>
+    <time datetime="2016-09-22T12:36:16.000Z" itemprop="datePublished"> 发表于 2016-09-22</time>
     
   </p>
 </header>
@@ -98,28 +98,60 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Day-1"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Day-1" class="headerlink" title="Day 1"></a>Day 1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Myql-数据库建立"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#Myql-&#x6570;&#x636E;&#x5E93;&#x5EFA;&#x7ACB;" class="headerlink" title="Myql &#x6570;&#x636E;&#x5E93;&#x5EFA;&#x7ACB;"></a>Myql &#x6570;&#x636E;&#x5E93;&#x5EFA;&#x7ACB;</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#shell学习"><span class="toc-number">1.</span> <span class="toc-text"><a href="#shell&#x5B66;&#x4E60;" class="headerlink" title="shell&#x5B66;&#x4E60;"></a>shell&#x5B66;&#x4E60;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#shell-变量"><span class="toc-number">2.</span> <span class="toc-text"><a href="#shell-&#x53D8;&#x91CF;" class="headerlink" title="shell &#x53D8;&#x91CF;"></a>shell &#x53D8;&#x91CF;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Shell字符串"><span class="toc-number">3.</span> <span class="toc-text"><a href="#Shell&#x5B57;&#x7B26;&#x4E32;" class="headerlink" title="Shell&#x5B57;&#x7B26;&#x4E32;"></a>Shell&#x5B57;&#x7B26;&#x4E32;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Shell数组"><span class="toc-number">4.</span> <span class="toc-text"><a href="#Shell&#x6570;&#x7EC4;" class="headerlink" title="Shell&#x6570;&#x7EC4;"></a>Shell&#x6570;&#x7EC4;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Shell传递参数"><span class="toc-number">5.</span> <span class="toc-text"><a href="#Shell&#x4F20;&#x9012;&#x53C2;&#x6570;" class="headerlink" title="Shell&#x4F20;&#x9012;&#x53C2;&#x6570;"></a>Shell&#x4F20;&#x9012;&#x53C2;&#x6570;</span></a></li></ol>
 		
 		</div>
 		
-		<!--# Java-->
-<!--## 基本数据类型 
-> boolea 
-char 16位
-byte 8位
-short 16位
-int 32位
-long 64位
-float 32位浮点型
-double 64位浮点型-->
-<h1 id="Day-1"><a href="#Day-1" class="headerlink" title="Day 1"></a>Day 1</h1><h2 id="Myql-数据库建立"><a href="#Myql-数据库建立" class="headerlink" title="Myql 数据库建立"></a>Myql 数据库建立</h2><ul>
-<li>mysql.server start(启动数据库)</li>
-<li>mysql -u root -p（打开数据库）</li>
-<li>show databases; （显示已有数据库）</li>
-<li>create database estoresystem;(创建数据库estoresystem)</li>
-<li>use estoresystem; (使用数据库use estoresystem;)</li>
-<li>source + 路径(直接创建数据库表)</li>
-</ul>
+		<h1 id="shell学习"><a href="#shell学习" class="headerlink" title="shell学习"></a>shell学习</h1><p>echo 输出<br>chmod +x file 加上执行权限，否则会提示无执行权限</p>
+<h1 id="shell-变量"><a href="#shell-变量" class="headerlink" title="shell 变量"></a>shell 变量</h1><p>命名规则<br>    变量名与等号之间不能有空格<br>    首个字符必须为字母<br>    中间不能有空格,可以使用下划线<br>    不能使用标点符号<br>    不能属于bash里的关键词(可以help命令查看保留关键字)</p>
+<p>使用规则<br>    使用一个定义过的变量,只要在变量名前面加$符号即可a（已定义的变量可以被重新定义）</p>
+<pre><code>如: my_name=&quot;gy&quot;
+    echo $my_name
+    or echo ${my_name}
+    {}可以理解为Swift中\()
+</code></pre><p>只读变量<br>    my_name=”gY”<br>    readonly my_name<br>删除变量<br>    unset my_name(不能删除制度变量)<br>变量类型<br>    1.局部变量<br>    2.环境变量<br>      所有程序都能访问,包括shell启动的程序.<br>    3.shell变量<br>      shell变量是由程序设置的特殊变量,shell变量中有一部分是环境变量，有一部分是局部变量,这些变        量保证了shell的正常运行</p>
+<h1 id="Shell字符串"><a href="#Shell字符串" class="headerlink" title="Shell字符串"></a>Shell字符串</h1><p>单引号<br>str=’this is a string’<br>单引号字符串的限制:</p>
+<pre><code>* 单引号里的任何字符都会原样输出，单引号字符串中的变量是无效的。
+* 单引号子串中不能出现单引号(转义字符也不可以)
+</code></pre><p>双引号<br>my_name=”GY”<br>双引号的有点:</p>
+<pre><code>* 双引号可以有变量
+* 双引号也可以出现转义字符
+</code></pre><p>获取字符串长度</p>
+<pre><code>echo ${#my_name} （输出2）
+</code></pre><p>提取子字符串</p>
+<pre><code>my_name=&quot;sunwukong&quot;
+echo ${string:1:4}# 输出unwu
+</code></pre><p>查找子字符串:</p>
+<pre><code>echo `expr index &quot;$my_name&quot; un`(Mac中的shell的expr语法是：$((表达式))
+</code></pre><h1 id="Shell数组"><a href="#Shell数组" class="headerlink" title="Shell数组"></a>Shell数组</h1><p>定义数组<br>    在Shell中 用括号来表示数组 空格符号分割开<br>    arry=(1 2 3 4)<br>    arry[0]=0<br>    arry[1]=1</p>
+<p>读取数组</p>
+<pre><code>${arry[i]}
+echo ${arry[@]}(输出数组中的所有元素)
+</code></pre><p>获取数组的长度</p>
+<pre><code>取得数组元素的个数
+length=${#arry[@]} or    
+length=${#arry[*]} 
+取得数组单个元素的长度
+length=${#arry[n]}
+</code></pre><p>字符串截取<br>    假设有变量 var=”<a href="http://www.baidu.com/1" target="_blank" rel="noopener">http://www.baidu.com/1</a>“</p>
+<pre><code>1. #号截取,从左边开始删除第一个//字符及左边的所有字符，保留右边字符
+   echo ${var#*//} (www.baidu.com/1)
+2. ## 号截取,删除最后一个/及左边的所有字符,保留右边字符
+   echo ${var##*/} (1)
+3.%号截取,删除右边字符，保留左边字符
+   echo ${var%/*} (从右边删除第一个/及右边的字符)
+4.%%号截取... 从右边开始 删除最后一个/以及右边的字符
+5.从左边第几个字符开始,及字符的个数
+   echo ${var:0:5}
+6.从左边第几个字符开始,一直到结束
+   echo ${var:7} （包含7）
+7.从右边第几个字符开始,及字符的个数
+   echo ${var:0-7:3}
+8.从右边第几个字符开始,一直到结束
+   echo ${var:0-7}
+</code></pre><h1 id="Shell传递参数"><a href="#Shell传递参数" class="headerlink" title="Shell传递参数"></a>Shell传递参数</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">echo &quot;Shell 传递参数实例！&quot;;</div><div class="line">echo &quot;执行的文件名：$0&quot;;</div><div class="line">echo &quot;第一个参数为：$1&quot;;</div><div class="line">echo &quot;第二个参数为：$2&quot;;</div><div class="line">echo &quot;第三个参数为：$3&quot;;</div></pre></td></tr></table></figure>
+<p>为脚本设置可执行权限,并执行脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ chmod +x test.sh </div><div class="line">$ ./test.sh 1 2 3</div><div class="line">Shell 传递参数实例！</div><div class="line">执行的文件名：./test.sh</div><div class="line">第一个参数为：1</div><div class="line">第二个参数为：2</div><div class="line">第三个参数为：3</div></pre></td></tr></table></figure>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -127,13 +159,13 @@ double 64位浮点型-->
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Java/">Java</a>
+  <a class="article-category-link" href="/categories/Shell/">Shell</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Java/">Java</a>
+  <span></span> <a href="/tags/终端命令/">终端命令</a>
   </div>
 
 </div>
@@ -142,7 +174,7 @@ double 64位浮点型-->
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2017/05/20/Sqlit3的副本/" data-title="Java图书管理系统 | airfight" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/09/22/UITableView滑动Cell消失的副本/" data-title="shell学习 | airfight" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -156,18 +188,18 @@ double 64位浮点型-->
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/12/07/Mac设置自启动以及定时任务/" title="Mac设置开机启动项">
+ <a href="/2016/09/22/Dispatch_once/" title="Dispatch once in Swift 3">
   <strong>上一篇：</strong><br/>
   <span>
-  Mac设置开机启动项</span>
+  Dispatch once in Swift 3</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/05/20/MQTT协议整理/"  title="MQTT协议整理">
+<a href="/2016/05/22/associatedtype/"  title="iOS开发记录">
  <strong>下一篇：</strong><br/> 
- <span>MQTT协议整理
+ <span>iOS开发记录
 </span>
 </a>
 </div>
@@ -188,7 +220,7 @@ double 64位浮点型-->
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Day-1"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Day-1" class="headerlink" title="Day 1"></a>Day 1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Myql-数据库建立"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#Myql-&#x6570;&#x636E;&#x5E93;&#x5EFA;&#x7ACB;" class="headerlink" title="Myql &#x6570;&#x636E;&#x5E93;&#x5EFA;&#x7ACB;"></a>Myql &#x6570;&#x636E;&#x5E93;&#x5EFA;&#x7ACB;</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#shell学习"><span class="toc-number">1.</span> <span class="toc-text"><a href="#shell&#x5B66;&#x4E60;" class="headerlink" title="shell&#x5B66;&#x4E60;"></a>shell&#x5B66;&#x4E60;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#shell-变量"><span class="toc-number">2.</span> <span class="toc-text"><a href="#shell-&#x53D8;&#x91CF;" class="headerlink" title="shell &#x53D8;&#x91CF;"></a>shell &#x53D8;&#x91CF;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Shell字符串"><span class="toc-number">3.</span> <span class="toc-text"><a href="#Shell&#x5B57;&#x7B26;&#x4E32;" class="headerlink" title="Shell&#x5B57;&#x7B26;&#x4E32;"></a>Shell&#x5B57;&#x7B26;&#x4E32;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Shell数组"><span class="toc-number">4.</span> <span class="toc-text"><a href="#Shell&#x6570;&#x7EC4;" class="headerlink" title="Shell&#x6570;&#x7EC4;"></a>Shell&#x6570;&#x7EC4;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Shell传递参数"><span class="toc-number">5.</span> <span class="toc-text"><a href="#Shell&#x4F20;&#x9012;&#x53C2;&#x6570;" class="headerlink" title="Shell&#x4F20;&#x9012;&#x53C2;&#x6570;"></a>Shell&#x4F20;&#x9012;&#x53C2;&#x6570;</span></a></li></ol>
  
   </div>
 

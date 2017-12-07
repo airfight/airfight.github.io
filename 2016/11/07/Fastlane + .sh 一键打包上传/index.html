@@ -4,25 +4,25 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>iOS开发ARC内存管理 | airfight</title>
+    <title>Fastlane + .sh 一键打包上传 | airfight</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="GiantForJade">
     
 
     
-    <meta name="description" content="ARC的学习与总结">
+    <meta name="description" content="本文记录iOS的持续化集成">
 <meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS开发ARC内存管理">
-<meta property="og:url" content="http://yoursite.com/2015/02/22/ARC/index.html">
+<meta property="og:title" content="Fastlane + .sh 一键打包上传">
+<meta property="og:url" content="http://yoursite.com/2016/11/07/Fastlane + .sh 一键打包上传/index.html">
 <meta property="og:site_name" content="airfight">
-<meta property="og:description" content="ARC的学习与总结">
+<meta property="og:description" content="本文记录iOS的持续化集成">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-12-07T11:57:00.000Z">
+<meta property="og:updated_time" content="2017-12-07T12:06:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS开发ARC内存管理">
-<meta name="twitter:description" content="ARC的学习与总结">
+<meta name="twitter:title" content="Fastlane + .sh 一键打包上传">
+<meta name="twitter:description" content="本文记录iOS的持续化集成">
 
     
     <link rel="alternative" href="/atom.xml" title="airfight" type="application/atom+xml">
@@ -82,14 +82,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/02/22/ARC/" title="iOS开发ARC内存管理" itemprop="url">iOS开发ARC内存管理</a>
+      <a href="/2016/11/07/Fastlane + .sh 一键打包上传/" title="Fastlane + .sh 一键打包上传" itemprop="url">Fastlane + .sh 一键打包上传</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="GiantForJade" target="_blank" itemprop="author">GiantForJade</a>
 		
   <p class="article-time">
-    <time datetime="2015-02-22T13:15:16.000Z" itemprop="datePublished"> 发表于 2015-02-22</time>
+    <time datetime="2016-11-07T11:28:16.000Z" itemprop="datePublished"> 发表于 2016-11-07</time>
     
   </p>
 </header>
@@ -98,19 +98,47 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS开发ARC内存管理"><span class="toc-number">1.</span> <span class="toc-text"><a href="#iOS&#x5F00;&#x53D1;ARC&#x5185;&#x5B58;&#x7BA1;&#x7406;" class="headerlink" title="iOS&#x5F00;&#x53D1;ARC&#x5185;&#x5B58;&#x7BA1;&#x7406;"></a>iOS&#x5F00;&#x53D1;ARC&#x5185;&#x5B58;&#x7BA1;&#x7406;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ARC的本质"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#ARC&#x7684;&#x672C;&#x8D28;" class="headerlink" title="ARC&#x7684;&#x672C;&#x8D28;"></a>ARC&#x7684;&#x672C;&#x8D28;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ARC的修饰符"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#ARC&#x7684;&#x4FEE;&#x9970;&#x7B26;" class="headerlink" title="ARC&#x7684;&#x4FEE;&#x9970;&#x7B26;"></a>ARC&#x7684;&#x4FEE;&#x9970;&#x7B26;</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Fastlane-sh-一键打包上传"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Fastlane-sh-&#x4E00;&#x952E;&#x6253;&#x5305;&#x4E0A;&#x4F20;" class="headerlink" title="Fastlane + .sh &#x4E00;&#x952E;&#x6253;&#x5305;&#x4E0A;&#x4F20;"></a>Fastlane + .sh &#x4E00;&#x952E;&#x6253;&#x5305;&#x4E0A;&#x4F20;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Fastlane的安装、使用"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#Fastlane&#x7684;&#x5B89;&#x88C5;&#x3001;&#x4F7F;&#x7528;" class="headerlink" title="Fastlane&#x7684;&#x5B89;&#x88C5;&#x3001;&#x4F7F;&#x7528;"></a>Fastlane&#x7684;&#x5B89;&#x88C5;&#x3001;&#x4F7F;&#x7528;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一键自动化打包并上传到fir-m"><span class="toc-number">1.1.1.</span> <span class="toc-text"><a href="#&#x4E00;&#x952E;&#x81EA;&#x52A8;&#x5316;&#x6253;&#x5305;&#x5E76;&#x4E0A;&#x4F20;&#x5230;fir-m" class="headerlink" title="&#x4E00;&#x952E;&#x81EA;&#x52A8;&#x5316;&#x6253;&#x5305;&#x5E76;&#x4E0A;&#x4F20;&#x5230;fir.m"></a>&#x4E00;&#x952E;&#x81EA;&#x52A8;&#x5316;&#x6253;&#x5305;&#x5E76;&#x4E0A;&#x4F20;&#x5230;fir.m</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
-		<h1 id="iOS开发ARC内存管理"><a href="#iOS开发ARC内存管理" class="headerlink" title="iOS开发ARC内存管理"></a>iOS开发ARC内存管理</h1><h2 id="ARC的本质"><a href="#ARC的本质" class="headerlink" title="ARC的本质"></a>ARC的本质</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ARC是编译时特性，而不是运行时特性,更不是垃圾回收机制(GC)</div><div class="line">ARC(Automatic Reference Counting) </div><div class="line">[ARC官方文档](http://clang.llvm.org/docs/AutomaticReferenceCounting.html)</div></pre></td></tr></table></figure>
-<p>如果需要对特定文件开启或关闭ARC，可以在工程选项中选择Targets -&gt; Build Phases -&gt; Compile Sources，在里面找到对应文件，添加flag:<br>    •    打开ARC：-fobjc-arc<br>    •    关闭ARC：-fno-objc-arc</p>
-<h2 id="ARC的修饰符"><a href="#ARC的修饰符" class="headerlink" title="ARC的修饰符"></a>ARC的修饰符</h2><p>ARC主要提供了4种修饰符,他们分别是:<strong>strong,</strong>weak,<strong>autorelleasing,</strong>unsafe_unretained</p>
-<p>###__strong<br>表示引用为强引用,对应在定义property时的strong，所有对象只有当没有任何一个强引用指向时，才会被释放</p>
-<p>注意：如果在声明引用时不加修饰符，那么引用将默认是强引用。当需要释放强引用指向的对象时，需要将强引用置nil</p>
-<p>###<strong>weak<br>表示引用为弱引用。对应在定义property时的”weak”.弱引用不会影响对象的释放,即只要对象没有任何强引用指向,即使有1001个弱引用对象指向也无用,该对象依然会被释放。不过好在，对象在被释放的同时，指向它的弱引用会自动被置nil，这个技术叫zeroing weak pointer。这样有效得防止无效指针、野指针的产生。</strong>weak一般用在delegate关系中防止循环引用或者用来修饰指向由Interface Builder编辑与生成的UI控件。</p>
-<p>###__autoreleasing<br>表示在autorelease pool中自动释放对象的引用，和MRC时代autorelease的用法相同。定义property时不能使用这个修饰符，任何一个对象的property都不应该是autorelease型的。<br>一个常见的误解是，在ARC中没有autorelease，因为这样一个“自动释放”看起来好像有点多余。这个误解可能源自于将ARC的“自动”和autorelease“自动”的混淆。其实你只要看一下每个iOS App的main.m文件就能知道，autorelease不仅好好的存在着，并且变得更fashion了：不需要再手工被创建，也不需要再显式得调用[drain]方法释放内存池。</p>
-<p>###__unsafe_unretained<br>ARC是在iOS 5引入的，而这个修饰符主要是为了在ARC刚发布时兼容iOS 4以及版本更低的设备，因为这些版本的设备没有weak pointer system，简单的理解这个系统就是我们上面讲weak时提到的，能够在weak引用指向对象被释放后，把引用值自动设为nil的系统。这个修饰符在定义property时对应的是”unsafe_unretained”，实际可以将它理解为MRC时代的assign：纯粹只是将引用指向对象，没有任何额外的操作，在指向对象被释放时依然原原本本地指向原来被释放的对象（所在的内存区域）。所以非常不安全。<br>现在可以完全忽略掉这个修饰符了，因为iOS 4早已退出历史舞台很多年。</p>
-<p>转自<a href="http://www.cnblogs.com/flyFreeZn/p/4264220.html" target="_blank" rel="noopener">123</a></p>
+		<h1 id="Fastlane-sh-一键打包上传"><a href="#Fastlane-sh-一键打包上传" class="headerlink" title="Fastlane + .sh 一键打包上传"></a>Fastlane + .sh 一键打包上传</h1><blockquote>
+<p>一键打包,持续集成</p>
+<h2 id="Fastlane的安装、使用"><a href="#Fastlane的安装、使用" class="headerlink" title="Fastlane的安装、使用"></a>Fastlane的安装、使用</h2></blockquote>
+<ol>
+<li>首先检查是否已经安装最新版的 Xcode 命令行工具，运行 xcode-select –install 命令，根据你的情况进行不同处理。</li>
+<li><p>安装 fastlane ，这里使用 brew cask 管理工具对 fastlane 进行安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ brew cask install fastlane</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>如果没有安装 brew cask ，运行上面命令会先安装 brew cask 工具</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ Creating Caskroom at /usr/local/Caskroom</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>重新安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ brew cask reinstall fastlane</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>在项目目录下，对项目进行初始化。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ fastlane init //在 init 过程中会出现 登录开发者账号，输入密码和选中 Targets 类似的交互</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>重新安装</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ brew cask reinstall fastlane</div></pre></td></tr></table></figure>
+</li>
+<li><p>卸载和安装相对应</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ brew cask uninstall fastlane</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="一键自动化打包并上传到fir-m"><a href="#一键自动化打包并上传到fir-m" class="headerlink" title="一键自动化打包并上传到fir.m"></a>一键自动化打包并上传到fir.m</h3><p>1.安装fir-cil</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gem install fir-cli</div></pre></td></tr></table></figure>
+<p>2.登录<a href="https://fir.im/" target="_blank" rel="noopener">fir.im</a></p>
+<p>登录指令非常简单，只需要fir login API Token，这里面的API Token就是你fir帐号下的API Token，然后通过fir me查看你是否登录成功.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line">终端登录:fir login API Token</div><div class="line">脚本:</div><div class="line">#!/bin/bash</div><div class="line">#设置超时 export </div><div class="line">FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT=120 </div><div class="line"></div><div class="line">#计时 </div><div class="line">SECONDS=0 </div><div class="line"></div><div class="line">#假设脚本放置在与项目相同的路径下 </div><div class="line">project_path=$(pwd) </div><div class="line"></div><div class="line">#取当前时间字符串添加到文件结尾 </div><div class="line">now=$(date +&quot;%Y_%m_%d_%H_%M_%S&quot;) </div><div class="line"></div><div class="line">#指定项目的scheme名称 </div><div class="line">scheme=&quot;Demo&quot; </div><div class="line"></div><div class="line">#指定要打包的配置名 </div><div class="line">configuration=&quot;Adhoc&quot; </div><div class="line"></div><div class="line">#指定打包所使用的输出方式，目前支持app-store, package, ad-hoc, enterprise, development, 和developer-id，即xcodebuild的method参数 </div><div class="line">export_method=&apos;ad-hoc&apos; </div><div class="line"></div><div class="line">#指定项目地址 </div><div class="line">workspace_path=&quot;$project_path/Demo.xcworkspace&quot; </div><div class="line"></div><div class="line">#指定输出路径 </div><div class="line">output_path=&quot;$project_path/IPA&quot; </div><div class="line"></div><div class="line">#指定输出归档文件地址 </div><div class="line">archive_path=&quot;$output_path/Demo_$&#123;now&#125;.xcarchive&quot;</div><div class="line"> </div><div class="line">#指定输出ipa地址 </div><div class="line">ipa_path=&quot;$output_path/Demo_$&#123;now&#125;.ipa&quot;</div><div class="line"></div><div class="line">#指定输出ipa名称 </div><div class="line">ipa_name=&quot;Demo_$&#123;now&#125;.ipa&quot; </div><div class="line"></div><div class="line">#获取执行命令时的commit message</div><div class="line"> commit_msg=&quot;$1&quot; </div><div class="line"> </div><div class="line">#输出设定的变量值 </div><div class="line">echo &quot;===workspace path: $&#123;workspace_path&#125;===&quot; </div><div class="line">echo &quot;===archive path: $&#123;archive_path&#125;===&quot; </div><div class="line">echo &quot;===ipa path: $&#123;ipa_path&#125;===&quot; </div><div class="line">echo &quot;===export method: $&#123;export_method&#125;===&quot; </div><div class="line">echo &quot;===commit msg: $1===&quot; </div><div class="line"></div><div class="line">#先清空前一次build </div><div class="line">fastlane gym --workspace $&#123;workspace_path&#125; --scheme $&#123;scheme&#125; --clean --configuration $&#123;configuration&#125; --archive_path $&#123;archive_path&#125; --export_method $&#123;export_method&#125; --output_directory $&#123;output_path&#125; --output_name $&#123;ipa_name&#125; </div><div class="line"></div><div class="line">#上传到fir </div><div class="line">fir publish $&#123;ipa_path&#125; -T &quot;XXX_YOUR_API_TOKEN_XXX&quot; -c &quot;$&#123;commit_msg&#125;&quot; </div><div class="line"></div><div class="line">#输出总用时 </div><div class="line">echo &quot;===Finished. Total time: $&#123;SECONDS&#125;s===&quot;</div></pre></td></tr></table></figure>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -133,7 +161,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2015/02/22/ARC/" data-title="iOS开发ARC内存管理 | airfight" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/11/07/Fastlane + .sh 一键打包上传/" data-title="Fastlane + .sh 一键打包上传 | airfight" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -147,18 +175,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/06/02/Sqlit3/" title="Sqlite">
+ <a href="/2016/12/15/iOS打包发布问题/" title="Xcode 8.0+自动打包并发布脚本">
   <strong>上一篇：</strong><br/>
   <span>
-  Sqlite</span>
+  Xcode 8.0+自动打包并发布脚本</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2014/12/12/SDWebImage常用方法/"  title="SDWebImage常用方法">
+<a href="/2016/10/22/UITableView滑动Cell消失/"  title="UITableView滑动 cell消失">
  <strong>下一篇：</strong><br/> 
- <span>SDWebImage常用方法
+ <span>UITableView滑动 cell消失
 </span>
 </a>
 </div>
@@ -179,7 +207,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS开发ARC内存管理"><span class="toc-number">1.</span> <span class="toc-text"><a href="#iOS&#x5F00;&#x53D1;ARC&#x5185;&#x5B58;&#x7BA1;&#x7406;" class="headerlink" title="iOS&#x5F00;&#x53D1;ARC&#x5185;&#x5B58;&#x7BA1;&#x7406;"></a>iOS&#x5F00;&#x53D1;ARC&#x5185;&#x5B58;&#x7BA1;&#x7406;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ARC的本质"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#ARC&#x7684;&#x672C;&#x8D28;" class="headerlink" title="ARC&#x7684;&#x672C;&#x8D28;"></a>ARC&#x7684;&#x672C;&#x8D28;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ARC的修饰符"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#ARC&#x7684;&#x4FEE;&#x9970;&#x7B26;" class="headerlink" title="ARC&#x7684;&#x4FEE;&#x9970;&#x7B26;"></a>ARC&#x7684;&#x4FEE;&#x9970;&#x7B26;</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Fastlane-sh-一键打包上传"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Fastlane-sh-&#x4E00;&#x952E;&#x6253;&#x5305;&#x4E0A;&#x4F20;" class="headerlink" title="Fastlane + .sh &#x4E00;&#x952E;&#x6253;&#x5305;&#x4E0A;&#x4F20;"></a>Fastlane + .sh &#x4E00;&#x952E;&#x6253;&#x5305;&#x4E0A;&#x4F20;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Fastlane的安装、使用"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#Fastlane&#x7684;&#x5B89;&#x88C5;&#x3001;&#x4F7F;&#x7528;" class="headerlink" title="Fastlane&#x7684;&#x5B89;&#x88C5;&#x3001;&#x4F7F;&#x7528;"></a>Fastlane&#x7684;&#x5B89;&#x88C5;&#x3001;&#x4F7F;&#x7528;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一键自动化打包并上传到fir-m"><span class="toc-number">1.1.1.</span> <span class="toc-text"><a href="#&#x4E00;&#x952E;&#x81EA;&#x52A8;&#x5316;&#x6253;&#x5305;&#x5E76;&#x4E0A;&#x4F20;&#x5230;fir-m" class="headerlink" title="&#x4E00;&#x952E;&#x81EA;&#x52A8;&#x5316;&#x6253;&#x5305;&#x5E76;&#x4E0A;&#x4F20;&#x5230;fir.m"></a>&#x4E00;&#x952E;&#x81EA;&#x52A8;&#x5316;&#x6253;&#x5305;&#x5E76;&#x4E0A;&#x4F20;&#x5230;fir.m</span></a></li></ol></li></ol></li></ol>
  
   </div>
 

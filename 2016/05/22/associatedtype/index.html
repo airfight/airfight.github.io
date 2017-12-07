@@ -4,25 +4,25 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Dispatch once in Swift 3 | airfight</title>
+    <title>iOS开发记录 | airfight</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="GiantForJade">
     
 
     
-    <meta name="description" content="记录Swift 3.0 中 Dispatch once的修改，这里提供两个类似于此功能的方法">
-<meta name="keywords" content="多线程">
+    <meta name="description" content="iOS的学习与总结">
+<meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dispatch once in Swift 3">
-<meta property="og:url" content="http://yoursite.com/2016/09/22/Dispatch_once/index.html">
+<meta property="og:title" content="iOS开发记录">
+<meta property="og:url" content="http://yoursite.com/2016/05/22/associatedtype/index.html">
 <meta property="og:site_name" content="airfight">
-<meta property="og:description" content="记录Swift 3.0 中 Dispatch once的修改，这里提供两个类似于此功能的方法">
+<meta property="og:description" content="iOS的学习与总结">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2016-12-28T11:36:34.000Z">
+<meta property="og:updated_time" content="2017-12-07T11:58:06.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dispatch once in Swift 3">
-<meta name="twitter:description" content="记录Swift 3.0 中 Dispatch once的修改，这里提供两个类似于此功能的方法">
+<meta name="twitter:title" content="iOS开发记录">
+<meta name="twitter:description" content="iOS的学习与总结">
 
     
     <link rel="alternative" href="/atom.xml" title="airfight" type="application/atom+xml">
@@ -82,14 +82,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/09/22/Dispatch_once/" title="Dispatch once in Swift 3" itemprop="url">Dispatch once in Swift 3</a>
+      <a href="/2016/05/22/associatedtype/" title="iOS开发记录" itemprop="url">iOS开发记录</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="GiantForJade" target="_blank" itemprop="author">GiantForJade</a>
 		
   <p class="article-time">
-    <time datetime="2016-09-22T12:50:16.000Z" itemprop="datePublished"> 发表于 2016-09-22</time>
+    <time datetime="2016-05-22T13:15:16.000Z" itemprop="datePublished"> 发表于 2016-05-22</time>
     
   </p>
 </header>
@@ -98,21 +98,19 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Dispatch-once-in-Swift-3"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Dispatch-once-in-Swift-3" class="headerlink" title="Dispatch once in Swift 3"></a>Dispatch once in Swift 3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Old-Version"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#Old-Version" class="headerlink" title="Old Version"></a>Old Version</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法一"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x65B9;&#x6CD5;&#x4E00;" class="headerlink" title="&#x65B9;&#x6CD5;&#x4E00;"></a>&#x65B9;&#x6CD5;&#x4E00;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#New"><span class="toc-number">2.1.</span> <span class="toc-text"><a href="#New" class="headerlink" title="New"></a>New</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进一步精简化"><span class="toc-number">2.2.</span> <span class="toc-text"><a href="#&#x8FDB;&#x4E00;&#x6B65;&#x7CBE;&#x7B80;&#x5316;" class="headerlink" title="&#x8FDB;&#x4E00;&#x6B65;&#x7CBE;&#x7B80;&#x5316;"></a>&#x8FDB;&#x4E00;&#x6B65;&#x7CBE;&#x7B80;&#x5316;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二"><span class="toc-number">2.3.</span> <span class="toc-text"><a href="#&#x65B9;&#x6CD5;&#x4E8C;" class="headerlink" title="&#x65B9;&#x6CD5;&#x4E8C;"></a>&#x65B9;&#x6CD5;&#x4E8C;</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#associatedtype"><span class="toc-number">1.</span> <span class="toc-text"><a href="#associatedtype" class="headerlink" title="associatedtype"></a>associatedtype</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="Dispatch-once-in-Swift-3"><a href="#Dispatch-once-in-Swift-3" class="headerlink" title="Dispatch once in Swift 3"></a>Dispatch once in Swift 3</h2><h3 id="Old-Version"><a href="#Old-Version" class="headerlink" title="Old Version"></a>Old Version</h3><p>在Swift2.3中,为保证一段代码只被执行一次，可以利用dispatch_once<br>如下代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var onceToken:dispatch_once_t = 0</div><div class="line">func dosomeThing() &#123;</div><div class="line">	dispatch_once(&amp;onceToken)&#123;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>此方法经常用于单利的创建等等,但是在Swift3.0中已被弃用,这里提供两个类似于dispatch_once的功能实现方式</p>
-<h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><h3 id="New"><a href="#New" class="headerlink" title="New"></a>New</h3><p>因为此方法已经被弃用,所以可以利用分类来实现类似于dispatch_once的功能,如下代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">public extension DispatchQueue &#123;</div><div class="line">    </div><div class="line">    public static var _onceTracker = [String]()</div><div class="line">    </div><div class="line">    </div><div class="line">    public class func  once(token: String, block:(Void)-&gt;Void) &#123;</div><div class="line">        </div><div class="line">     objc_sync_enter(self)</div><div class="line">        defer &#123;</div><div class="line">            objc_sync_exit(self)</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        if _onceTracker.contains(token) &#123;</div><div class="line">            return</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        _onceTracker.append(token)</div><div class="line">        block()</div><div class="line">        </div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>此时我们调用此方法只需要</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">DispatchQueue.once(token: &quot;com.gybar.new&quot;) &#123; (_) in</div><div class="line">   //doSomeThing         </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="进一步精简化"><a href="#进一步精简化" class="headerlink" title="进一步精简化"></a>进一步精简化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">public extension DispatchQueue &#123;</div><div class="line">    </div><div class="line">    public static var _onceTracker = [String]()</div><div class="line">    </div><div class="line">    public class func once(file: String = #file, function: String = #function, line: Int = #line, block:(Void)-&gt;Void) &#123;</div><div class="line">        let token = file + &quot;:&quot; + function + &quot;:&quot; + String(line)</div><div class="line">        once(token: token, block: block)</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    public class func  once(token: String, block:(Void)-&gt;Void) &#123;</div><div class="line">        </div><div class="line">     objc_sync_enter(self)</div><div class="line">        defer &#123;</div><div class="line">            objc_sync_exit(self)</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        if _onceTracker.contains(token) &#123;</div><div class="line">            return</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        _onceTracker.append(token)</div><div class="line">        block()</div><div class="line">        </div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>就可以实现类似于dispatch_once的功能</p>
-<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">class Object &#123;</div><div class="line">    static let sharedInstance = Object()</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Global constant.</div><div class="line">let constant = Object()</div><div class="line"></div><div class="line">// Global variable.</div><div class="line">var variable: Object = &#123;</div><div class="line">    let variable = Object()</div><div class="line">    variable.doSomething()</div><div class="line">    return variable</div><div class="line">&#125;()</div></pre></td></tr></table></figure>
-<p><a href="https://gist.github.com/marmelroy/15da0fa6f0936ed6b92392e9df07e235" target="_blank" rel="noopener">参考</a></p>
+		<h1 id="associatedtype"><a href="#associatedtype" class="headerlink" title="associatedtype"></a>associatedtype</h1><p>关联类型:代指变量<br>associatedtype 用于protocol中.<br>associatedtype类型是protoc<br>ol中32代指一个确定类型并要求改类型实现指定方法</p>
+<p>Swift 标准库中有许多 protocols，其中很多看起来貌似很抽象，并且感觉并没有什么卵用，RawRepresentable 就是其中之一，也</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public protocol RawRepresentable &#123;</div><div class="line">    associatedtype RawValue</div><div class="line"></div><div class="line">    public init?(rawValue: Self.RawValue)</div><div class="line"></div><div class="line">    public var rawValue: Self.RawValue &#123; get &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><a href="http://swiftcafe.io/2016/01/15/printable/" target="_blank" rel="noopener">CustomStringConvertible协议</a></p>
+<p><a href="http://www.devtalking.com/articles/swift-access-control/" target="_blank" rel="noopener">internal(set)</a><br><a href="https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/AccessControl.html" target="_blank" rel="noopener">苹果</a><br><a href="http://swifter.tips/property-access/" target="_blank" rel="noopener">Tips</a></p>
+<p><a href="http://artjing.com/2016/05/20/RUNLOOP/" target="_blank" rel="noopener">RunLoop</a></p>
+<p>AFNetworking的做法<br>开启一个不死线程(线程保活)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">AFURLConnectionOperation</div><div class="line">+ (NSThread *)networkRequestThread &#123;</div><div class="line">    static NSThread *_networkRequestThread = nil;</div><div class="line">    static dispatch_once_t oncePredicate;</div><div class="line">    dispatch_once(&amp;oncePredicate, ^&#123;</div><div class="line">        _networkRequestThread = [[NSThread alloc] initWithTarget:self selector:@selector(networkRequestThreadEntryPoint:) object:nil];</div><div class="line">        [_networkRequestThread start];</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    return _networkRequestThread;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">+ (void)networkRequestThreadEntryPoint:(id)__unused object &#123;</div><div class="line">    @autoreleasepool &#123;</div><div class="line">        [[NSThread currentThread] setName:@&quot;AFNetworking&quot;];</div><div class="line"></div><div class="line">        NSRunLoop *runLoop = [NSRunLoop currentRunLoop];</div><div class="line">        [runLoop addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];</div><div class="line">        [runLoop run];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -120,13 +118,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/swift/">swift</a>
+  <a class="article-category-link" href="/categories/iOS/">iOS</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/多线程/">多线程</a>
+  <span></span> <a href="/tags/iOS/">iOS</a>
   </div>
 
 </div>
@@ -135,7 +133,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/09/22/Dispatch_once/" data-title="Dispatch once in Swift 3 | airfight" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/05/22/associatedtype/" data-title="iOS开发记录 | airfight" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -149,18 +147,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/10/22/UITableView滑动Cell消失/" title="UITableView滑动 cell消失">
+ <a href="/2016/09/22/Dispatch_once/" title="Dispatch once in Swift 3">
   <strong>上一篇：</strong><br/>
   <span>
-  UITableView滑动 cell消失</span>
+  Dispatch once in Swift 3</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/05/22/associatedtype/"  title="iOS开发记录">
+<a href="/2016/04/12/读函数式Swift/"  title="读函数式Swift(一)">
  <strong>下一篇：</strong><br/> 
- <span>iOS开发记录
+ <span>读函数式Swift(一)
 </span>
 </a>
 </div>
@@ -181,7 +179,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Dispatch-once-in-Swift-3"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Dispatch-once-in-Swift-3" class="headerlink" title="Dispatch once in Swift 3"></a>Dispatch once in Swift 3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Old-Version"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#Old-Version" class="headerlink" title="Old Version"></a>Old Version</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法一"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x65B9;&#x6CD5;&#x4E00;" class="headerlink" title="&#x65B9;&#x6CD5;&#x4E00;"></a>&#x65B9;&#x6CD5;&#x4E00;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#New"><span class="toc-number">2.1.</span> <span class="toc-text"><a href="#New" class="headerlink" title="New"></a>New</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进一步精简化"><span class="toc-number">2.2.</span> <span class="toc-text"><a href="#&#x8FDB;&#x4E00;&#x6B65;&#x7CBE;&#x7B80;&#x5316;" class="headerlink" title="&#x8FDB;&#x4E00;&#x6B65;&#x7CBE;&#x7B80;&#x5316;"></a>&#x8FDB;&#x4E00;&#x6B65;&#x7CBE;&#x7B80;&#x5316;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二"><span class="toc-number">2.3.</span> <span class="toc-text"><a href="#&#x65B9;&#x6CD5;&#x4E8C;" class="headerlink" title="&#x65B9;&#x6CD5;&#x4E8C;"></a>&#x65B9;&#x6CD5;&#x4E8C;</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#associatedtype"><span class="toc-number">1.</span> <span class="toc-text"><a href="#associatedtype" class="headerlink" title="associatedtype"></a>associatedtype</span></a></li></ol>
  
   </div>
 

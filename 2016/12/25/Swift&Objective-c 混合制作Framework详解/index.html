@@ -4,25 +4,36 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Dispatch once in Swift 3 | airfight</title>
+    <title>Sqlite | airfight</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="GiantForJade">
     
 
     
-    <meta name="description" content="记录Swift 3.0 中 Dispatch once的修改，这里提供两个类似于此功能的方法">
-<meta name="keywords" content="多线程">
+    <meta name="description" content="本章记录如何利用Swift与OC混合开发的SDK制作Framework,记录制作Framework过程中所搜集以及遇到的坑。">
+<meta name="keywords" content="SDK集成">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dispatch once in Swift 3">
-<meta property="og:url" content="http://yoursite.com/2016/09/22/Dispatch_once/index.html">
+<meta property="og:title" content="Sqlite">
+<meta property="og:url" content="http://yoursite.com/2016/12/25/Swift&Objective-c 混合制作Framework详解/index.html">
 <meta property="og:site_name" content="airfight">
-<meta property="og:description" content="记录Swift 3.0 中 Dispatch once的修改，这里提供两个类似于此功能的方法">
+<meta property="og:description" content="本章记录如何利用Swift与OC混合开发的SDK制作Framework,记录制作Framework过程中所搜集以及遇到的坑。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2016-12-28T11:36:34.000Z">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-79521ef671844522.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-a18ae7a4d849be06.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-55506c80c2d4fa51.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-e3917a2b874d15e8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-2c1a87f3aa36043b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-57d4a948bd86c06a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-bd0c1bed5ab9e348.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-79e43afb60287817.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-26d3e534c33f8ffb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2082481-63114f0f40528762.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-01-25T14:28:48.765Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dispatch once in Swift 3">
-<meta name="twitter:description" content="记录Swift 3.0 中 Dispatch once的修改，这里提供两个类似于此功能的方法">
+<meta name="twitter:title" content="Sqlite">
+<meta name="twitter:description" content="本章记录如何利用Swift与OC混合开发的SDK制作Framework,记录制作Framework过程中所搜集以及遇到的坑。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2082481-79521ef671844522.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
     
     <link rel="alternative" href="/atom.xml" title="airfight" type="application/atom+xml">
@@ -82,14 +93,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/09/22/Dispatch_once/" title="Dispatch once in Swift 3" itemprop="url">Dispatch once in Swift 3</a>
+      <a href="/2016/12/25/Swift&Objective-c 混合制作Framework详解/" title="Sqlite" itemprop="url">Sqlite</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="GiantForJade" target="_blank" itemprop="author">GiantForJade</a>
 		
   <p class="article-time">
-    <time datetime="2016-09-22T12:50:16.000Z" itemprop="datePublished"> 发表于 2016-09-22</time>
+    <time datetime="2016-12-25T09:13:04.000Z" itemprop="datePublished"> 发表于 2016-12-25</time>
     
   </p>
 </header>
@@ -98,21 +109,45 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Dispatch-once-in-Swift-3"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Dispatch-once-in-Swift-3" class="headerlink" title="Dispatch once in Swift 3"></a>Dispatch once in Swift 3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Old-Version"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#Old-Version" class="headerlink" title="Old Version"></a>Old Version</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法一"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x65B9;&#x6CD5;&#x4E00;" class="headerlink" title="&#x65B9;&#x6CD5;&#x4E00;"></a>&#x65B9;&#x6CD5;&#x4E00;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#New"><span class="toc-number">2.1.</span> <span class="toc-text"><a href="#New" class="headerlink" title="New"></a>New</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进一步精简化"><span class="toc-number">2.2.</span> <span class="toc-text"><a href="#&#x8FDB;&#x4E00;&#x6B65;&#x7CBE;&#x7B80;&#x5316;" class="headerlink" title="&#x8FDB;&#x4E00;&#x6B65;&#x7CBE;&#x7B80;&#x5316;"></a>&#x8FDB;&#x4E00;&#x6B65;&#x7CBE;&#x7B80;&#x5316;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二"><span class="toc-number">2.3.</span> <span class="toc-text"><a href="#&#x65B9;&#x6CD5;&#x4E8C;" class="headerlink" title="&#x65B9;&#x6CD5;&#x4E8C;"></a>&#x65B9;&#x6CD5;&#x4E8C;</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Swfit-制作Framework"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Swfit-&#x5236;&#x4F5C;Framework" class="headerlink" title="Swfit &#x5236;&#x4F5C;Framework"></a>Swfit &#x5236;&#x4F5C;Framework</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#iOS-Framework简介"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#iOS-Framework&#x7B80;&#x4ECB;" class="headerlink" title="iOS Framework&#x7B80;&#x4ECB;"></a>iOS Framework&#x7B80;&#x4ECB;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Framework制作过程"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#Framework&#x5236;&#x4F5C;&#x8FC7;&#x7A0B;" class="headerlink" title="Framework&#x5236;&#x4F5C;&#x8FC7;&#x7A0B;"></a>Framework&#x5236;&#x4F5C;&#x8FC7;&#x7A0B;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加到所用项目中所遇到的问题"><span class="toc-number">1.3.</span> <span class="toc-text"><a href="#&#x6DFB;&#x52A0;&#x5230;&#x6240;&#x7528;&#x9879;&#x76EE;&#x4E2D;&#x6240;&#x9047;&#x5230;&#x7684;&#x95EE;&#x9898;" class="headerlink" title="&#x6DFB;&#x52A0;&#x5230;&#x6240;&#x7528;&#x9879;&#x76EE;&#x4E2D;&#x6240;&#x9047;&#x5230;&#x7684;&#x95EE;&#x9898;"></a>&#x6DFB;&#x52A0;&#x5230;&#x6240;&#x7528;&#x9879;&#x76EE;&#x4E2D;&#x6240;&#x9047;&#x5230;&#x7684;&#x95EE;&#x9898;</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="Dispatch-once-in-Swift-3"><a href="#Dispatch-once-in-Swift-3" class="headerlink" title="Dispatch once in Swift 3"></a>Dispatch once in Swift 3</h2><h3 id="Old-Version"><a href="#Old-Version" class="headerlink" title="Old Version"></a>Old Version</h3><p>在Swift2.3中,为保证一段代码只被执行一次，可以利用dispatch_once<br>如下代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var onceToken:dispatch_once_t = 0</div><div class="line">func dosomeThing() &#123;</div><div class="line">	dispatch_once(&amp;onceToken)&#123;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>此方法经常用于单利的创建等等,但是在Swift3.0中已被弃用,这里提供两个类似于dispatch_once的功能实现方式</p>
-<h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><h3 id="New"><a href="#New" class="headerlink" title="New"></a>New</h3><p>因为此方法已经被弃用,所以可以利用分类来实现类似于dispatch_once的功能,如下代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">public extension DispatchQueue &#123;</div><div class="line">    </div><div class="line">    public static var _onceTracker = [String]()</div><div class="line">    </div><div class="line">    </div><div class="line">    public class func  once(token: String, block:(Void)-&gt;Void) &#123;</div><div class="line">        </div><div class="line">     objc_sync_enter(self)</div><div class="line">        defer &#123;</div><div class="line">            objc_sync_exit(self)</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        if _onceTracker.contains(token) &#123;</div><div class="line">            return</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        _onceTracker.append(token)</div><div class="line">        block()</div><div class="line">        </div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>此时我们调用此方法只需要</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">DispatchQueue.once(token: &quot;com.gybar.new&quot;) &#123; (_) in</div><div class="line">   //doSomeThing         </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="进一步精简化"><a href="#进一步精简化" class="headerlink" title="进一步精简化"></a>进一步精简化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">public extension DispatchQueue &#123;</div><div class="line">    </div><div class="line">    public static var _onceTracker = [String]()</div><div class="line">    </div><div class="line">    public class func once(file: String = #file, function: String = #function, line: Int = #line, block:(Void)-&gt;Void) &#123;</div><div class="line">        let token = file + &quot;:&quot; + function + &quot;:&quot; + String(line)</div><div class="line">        once(token: token, block: block)</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    public class func  once(token: String, block:(Void)-&gt;Void) &#123;</div><div class="line">        </div><div class="line">     objc_sync_enter(self)</div><div class="line">        defer &#123;</div><div class="line">            objc_sync_exit(self)</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        if _onceTracker.contains(token) &#123;</div><div class="line">            return</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        _onceTracker.append(token)</div><div class="line">        block()</div><div class="line">        </div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>就可以实现类似于dispatch_once的功能</p>
-<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">class Object &#123;</div><div class="line">    static let sharedInstance = Object()</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Global constant.</div><div class="line">let constant = Object()</div><div class="line"></div><div class="line">// Global variable.</div><div class="line">var variable: Object = &#123;</div><div class="line">    let variable = Object()</div><div class="line">    variable.doSomething()</div><div class="line">    return variable</div><div class="line">&#125;()</div></pre></td></tr></table></figure>
-<p><a href="https://gist.github.com/marmelroy/15da0fa6f0936ed6b92392e9df07e235" target="_blank" rel="noopener">参考</a></p>
+		<h1 id="Swfit-制作Framework"><a href="#Swfit-制作Framework" class="headerlink" title="Swfit 制作Framework"></a>Swfit 制作Framework</h1><h2 id="iOS-Framework简介"><a href="#iOS-Framework简介" class="headerlink" title="iOS Framework简介"></a>iOS Framework简介</h2><blockquote>
+<p>Framework是Cocoa/Cocoa Touch程序中使用的一种资源打包方式，可以将代码文件、头文件、资源文件、说明文档等集中在一起，方便开发者使用。一般如果是静态Framework的话，资源打包进Framework是读取不了的。静态Framework和.a文件都是编译进可执行文件里面的。只有动态Framework能在.app下面的Framework文件夹下看到，并读取.framework里的资源文件</p>
+</blockquote>
+<ul>
+<li>Framework类型</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Mach-o Type(Build Settings)</div><div class="line">Dynamic library//因为本篇文章介绍的是以Swift为基础制作Framework（Swift仅支持动态包）</div><div class="line">Static library</div></pre></td></tr></table></figure>
+<h2 id="Framework制作过程"><a href="#Framework制作过程" class="headerlink" title="Framework制作过程"></a>Framework制作过程</h2><ul>
+<li>新建工程</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/2082481-79521ef671844522.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="创建工程.png"></p>
+<ul>
+<li>导入所需要的库文件</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/2082481-a18ae7a4d849be06.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Snip20180125_11.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">此处导入OC文件时不需要建立桥接文件,系统会自动为我们创建</div><div class="line">供外部使用的Swift类文件以及相关属性和方法等需要用Public修饰。</div></pre></td></tr></table></figure>
+<ul>
+<li>利用cocoapods导入所需第三方库</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/2082481-55506c80c2d4fa51.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="cocoapods.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">添加方法与之前项目相同use_frameworks!来告诉pod 生成动态库文件Framework类型</div><div class="line">此处需要注意利用打包Framework之时加入的第三方库，需要通知使用者在项目中也添加，并非已经嵌入了Framework中，此时所做相当于把第三方库链接进了Framework,仍需添加此Framework的项目添加其所用到的第三方库,并且版本需要保持一致</div></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/2082481-e3917a2b874d15e8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Snip20180125_6.png"></p>
+<blockquote>
+<p>1.对外公布的头文件<br>2.Sources文件<br>3.cocoadpos<br>4.command + B编译后生成的Framework(当前真机或模拟器就对应,可将真机与模拟器的Framework合并,可自行百度)</p>
+</blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/2082481-2c1a87f3aa36043b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Snip20180125_10.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">对应打包后自动生成Giant-swift的桥接文件</div></pre></td></tr></table></figure>
+<h2 id="添加到所用项目中所遇到的问题"><a href="#添加到所用项目中所遇到的问题" class="headerlink" title="添加到所用项目中所遇到的问题"></a>添加到所用项目中所遇到的问题</h2><p><img src="http://upload-images.jianshu.io/upload_images/2082481-57d4a948bd86c06a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Snip20180125_14.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2082481-bd0c1bed5ab9e348.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Snip20180125_17.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">此处需要导入General-&gt; Embedded Binaries Giant.framework</div><div class="line">对于之前提到的项目也需要导入cocopods的第三方库Xcode 9.2较为友好的提示了,但是在Xcode 9.0 并无提示</div><div class="line">由于家中电脑Xcode版本与公司不一致,此处不再重现截图</div></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/2082481-79e43afb60287817.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Snip20180125_15.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">制作Framework编译通过，但是在调用结构体的时候报错,是因为创建结构体的时候初始化方法未public 权限有问题,按如下修改,编译即可通过</div></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/2082481-26d3e534c33f8ffb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Snip20180125_9.png"><br><img src="http://upload-images.jianshu.io/upload_images/2082481-63114f0f40528762.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Snip20180125_12.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Framework中读取自身文件的路径</div><div class="line">Bundle.init(for: ViewController.self).resourcePath</div><div class="line">拼接&quot;/文件名.png&quot;即可</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[问题参考](https://www.jianshu.com/p/457c941eae5e)</div></pre></td></tr></table></figure>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -120,13 +155,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/swift/">swift</a>
+  <a class="article-category-link" href="/categories/iOS/">iOS</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/多线程/">多线程</a>
+  <span></span> <a href="/tags/SDK集成/">SDK集成</a>
   </div>
 
 </div>
@@ -135,7 +170,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/09/22/Dispatch_once/" data-title="Dispatch once in Swift 3 | airfight" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/12/25/Swift&Objective-c 混合制作Framework详解/" data-title="Sqlite | airfight" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -149,18 +184,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/10/22/UITableView滑动Cell消失/" title="UITableView滑动 cell消失">
+ <a href="/2016/12/28/Swift & the Objective-C Runtime/" title="Swift &amp; the Objective-C Runtime">
   <strong>上一篇：</strong><br/>
   <span>
-  UITableView滑动 cell消失</span>
+  Swift &amp; the Objective-C Runtime</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/09/22/UITableView滑动Cell消失的副本/"  title="shell学习">
+<a href="/2016/12/25/安全机制/"  title="App安全篇">
  <strong>下一篇：</strong><br/> 
- <span>shell学习
+ <span>App安全篇
 </span>
 </a>
 </div>
@@ -181,7 +216,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Dispatch-once-in-Swift-3"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Dispatch-once-in-Swift-3" class="headerlink" title="Dispatch once in Swift 3"></a>Dispatch once in Swift 3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Old-Version"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#Old-Version" class="headerlink" title="Old Version"></a>Old Version</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法一"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x65B9;&#x6CD5;&#x4E00;" class="headerlink" title="&#x65B9;&#x6CD5;&#x4E00;"></a>&#x65B9;&#x6CD5;&#x4E00;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#New"><span class="toc-number">2.1.</span> <span class="toc-text"><a href="#New" class="headerlink" title="New"></a>New</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进一步精简化"><span class="toc-number">2.2.</span> <span class="toc-text"><a href="#&#x8FDB;&#x4E00;&#x6B65;&#x7CBE;&#x7B80;&#x5316;" class="headerlink" title="&#x8FDB;&#x4E00;&#x6B65;&#x7CBE;&#x7B80;&#x5316;"></a>&#x8FDB;&#x4E00;&#x6B65;&#x7CBE;&#x7B80;&#x5316;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二"><span class="toc-number">2.3.</span> <span class="toc-text"><a href="#&#x65B9;&#x6CD5;&#x4E8C;" class="headerlink" title="&#x65B9;&#x6CD5;&#x4E8C;"></a>&#x65B9;&#x6CD5;&#x4E8C;</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Swfit-制作Framework"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Swfit-&#x5236;&#x4F5C;Framework" class="headerlink" title="Swfit &#x5236;&#x4F5C;Framework"></a>Swfit &#x5236;&#x4F5C;Framework</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#iOS-Framework简介"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#iOS-Framework&#x7B80;&#x4ECB;" class="headerlink" title="iOS Framework&#x7B80;&#x4ECB;"></a>iOS Framework&#x7B80;&#x4ECB;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Framework制作过程"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#Framework&#x5236;&#x4F5C;&#x8FC7;&#x7A0B;" class="headerlink" title="Framework&#x5236;&#x4F5C;&#x8FC7;&#x7A0B;"></a>Framework&#x5236;&#x4F5C;&#x8FC7;&#x7A0B;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加到所用项目中所遇到的问题"><span class="toc-number">1.3.</span> <span class="toc-text"><a href="#&#x6DFB;&#x52A0;&#x5230;&#x6240;&#x7528;&#x9879;&#x76EE;&#x4E2D;&#x6240;&#x9047;&#x5230;&#x7684;&#x95EE;&#x9898;" class="headerlink" title="&#x6DFB;&#x52A0;&#x5230;&#x6240;&#x7528;&#x9879;&#x76EE;&#x4E2D;&#x6240;&#x9047;&#x5230;&#x7684;&#x95EE;&#x9898;"></a>&#x6DFB;&#x52A0;&#x5230;&#x6240;&#x7528;&#x9879;&#x76EE;&#x4E2D;&#x6240;&#x9047;&#x5230;&#x7684;&#x95EE;&#x9898;</span></a></li></ol></li></ol>
  
   </div>
 
